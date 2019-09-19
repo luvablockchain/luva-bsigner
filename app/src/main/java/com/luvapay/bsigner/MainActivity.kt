@@ -1,13 +1,12 @@
-package com.luvapay.multisignature
+package com.luvapay.bsigner
 
 import android.os.Bundle
-import com.luvapay.multisignature.activities.BackupActivity
-import com.luvapay.multisignature.base.BaseActivity
+import com.luvapay.bsigner.activities.BackupActivity
+import com.luvapay.bsigner.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.jetbrains.anko.longToast
 import org.jetbrains.anko.startActivity
 import org.stellar.sdk.FormatException
 import org.stellar.sdk.KeyPair

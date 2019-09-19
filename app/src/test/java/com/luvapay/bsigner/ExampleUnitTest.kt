@@ -1,4 +1,4 @@
-package com.luvapay.multisignature
+package com.luvapay.bsigner
 
 import org.junit.Test
 

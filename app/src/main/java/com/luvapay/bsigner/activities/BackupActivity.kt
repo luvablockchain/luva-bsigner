@@ -1,19 +1,16 @@
-package com.luvapay.multisignature.activities
+package com.luvapay.bsigner.activities
 
 import android.os.Bundle
-import com.luvapay.multisignature.R
-import com.luvapay.multisignature.base.BaseActivity
+import com.luvapay.bsigner.R
+import com.luvapay.bsigner.base.BaseActivity
+import com.luvapay.bsigner.createBip39Seed
+import com.luvapay.bsigner.string
 import com.orhanobut.logger.Logger
 import com.soneso.stellarmnemonics.Wallet
 import com.soneso.stellarmnemonics.derivation.Ed25519Derivation
 import kotlinx.android.synthetic.main.activity_backup.*
 import org.jetbrains.anko.startActivity
 import org.stellar.sdk.KeyPair
-import java.nio.CharBuffer
-import java.nio.charset.Charset
-import java.util.*
-import javax.crypto.SecretKeyFactory
-import javax.crypto.spec.PBEKeySpec
 
 class BackupActivity : BaseActivity() {
 
@@ -67,11 +64,7 @@ class BackupActivity : BaseActivity() {
         return KeyPair.fromSecretSeed(account.privateKey)
     }
 
-    fun createBip39Seed(mnemonic: CharArray, passphrase: ByteArray = "".toByteArray()): ByteArray {
-        val keySpec = PBEKeySpec(mnemonic, "abc".toByteArray(), 2048, 512)
-        val secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512")
-        return secretKeyFactory.generateSecret(keySpec).encoded
-    }
 
-    fun KeyPair.string(): String = "\n$accountId\n${String(secretSeed)}"
+
+
 }

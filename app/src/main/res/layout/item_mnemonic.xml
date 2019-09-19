@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    app:contentPadding="7dp"
+    app:cardBackgroundColor="#FFF"
+    app:cardElevation="0dp">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/itemMnemonic_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+        />
+
+</com.google.android.material.card.MaterialCardView>

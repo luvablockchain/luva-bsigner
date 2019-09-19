@@ -1,9 +1,9 @@
-package com.luvapay.multisignature.base
+package com.luvapay.bsigner.base
 
 import android.os.Bundle
 import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
-import com.luvapay.multisignature.model.InitData
+import com.luvapay.bsigner.model.InitData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel

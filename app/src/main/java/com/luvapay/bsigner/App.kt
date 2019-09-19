@@ -1,12 +1,12 @@
-package com.luvapay.multisignature
+package com.luvapay.bsigner
 
 import android.app.Application
 import com.jakewharton.threetenabp.AndroidThreeTen
-import com.luvapay.multisignature.utils.initPrefs
+import com.luvapay.bsigner.utils.initPrefs
+import com.luvapay.multisignature.MyEventBusIndex
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import com.orhanobut.logger.PrettyFormatStrategy
-import com.parse.Parse
 import org.greenrobot.eventbus.EventBus
 
 class App : Application() {
@@ -21,8 +21,6 @@ class App : Application() {
         AndroidThreeTen.init(this@App)
         //EventBus index
         EventBus.builder().addIndex(MyEventBusIndex()).installDefaultEventBus()
-
-        Parse.initialize(this)
     }
 
     private fun initLogger() {

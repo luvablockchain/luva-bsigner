@@ -5,9 +5,9 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.0"
+    buildToolsVersion "29.0.2"
     defaultConfig {
-        applicationId "com.luvapay.multisignature"
+        applicationId "com.luvapay.bsigner"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
@@ -52,9 +52,10 @@ dependencies {
     implementation "androidx.preference:preference:$androidX"
     implementation "androidx.viewpager2:viewpager2:$viewpager"
     implementation "androidx.recyclerview:recyclerview:$recyclerview"
-    implementation "com.google.android.material:material:$material"
     implementation "androidx.annotation:annotation:$androidX"
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle"
+    implementation "com.google.android.material:material:$material"
+    implementation 'com.google.android:flexbox:1.1.0'
 
     //Fast Adapter
     implementation 'com.mikepenz:fastadapter:4.0.1'

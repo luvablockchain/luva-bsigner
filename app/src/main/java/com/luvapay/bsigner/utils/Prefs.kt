@@ -1,4 +1,4 @@
-package com.luvapay.multisignature.utils
+package com.luvapay.bsigner.utils
 
 import android.content.Context
 import android.content.SharedPreferences

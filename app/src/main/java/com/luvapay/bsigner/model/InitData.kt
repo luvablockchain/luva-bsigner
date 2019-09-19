@@ -1,4 +1,4 @@
-package com.luvapay.multisignature.model
+package com.luvapay.bsigner.model
 
 data class InitData(
     val url: String

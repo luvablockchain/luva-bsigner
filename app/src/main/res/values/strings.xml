@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">Multisignature</string>
+    <string name="app_name">Luva bSigner</string>
+
+    <string name="create">Create</string>
+    <string name="restore">Restore</string>
+
+    <string name="first_time_help_section">First time user? See our Help section</string>
 </resources>

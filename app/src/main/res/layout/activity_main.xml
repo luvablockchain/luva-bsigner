@@ -1,72 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_margin="16dp">
+    android:padding="16dp">
 
-    <ImageView android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/home_titleContainer"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_launcher_background"
-        android:layout_gravity="center"
-        android:layout_marginBottom="12dp"/>
-
-    <TextView android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimary"
-        android:textAppearance="?android:textAppearanceMedium"
-        android:textSize="16sp"
-        android:text="Multiply your security"
-        android:layout_gravity="center"/>
-
-    <LinearLayout android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
         android:orientation="vertical"
-        android:gravity="center">
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnAuthNew"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-            android:text="Create"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:textColor="@android:color/white"
-            android:textSize="14sp"
-            android:textAllCaps="false"/>
-        <Button
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:text="Restore"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnAuthRestore"
-            android:layout_width="match_parent"
-            android:layout_marginTop="8dp"
-            android:textSize="14sp"
-            android:textAllCaps="false"
-            android:textColor="@color/colorPrimary"/>
-
-        <TextView
-            android:id="@+id/tvHelp"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/home_menuContainer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:textColor="@color/colorPrimary"
-            android:gravity="center"
-            android:textSize="12sp"
-            android:linksClickable="false"
-            android:textColorLink="@color/colorPrimary"
-            android:text="First time user? See our Help section"/>
-
+            android:layout_gravity="center_horizontal"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="@string/app_name"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:text="Multiply your security"/>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvTermsAndPrivacyPolicy"
+    <LinearLayout
+        android:id="@+id/home_menuContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimary"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/home_titleContainer"
+        app:layout_constraintBottom_toTopOf="@id/home_termsAndPolicy"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:id="@+id/home_create"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="@string/create"/>
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:id="@+id/home_restore"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="5dp"
+            android:text="@string/restore" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/home_help"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:linksClickable="false"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+            android:textColorLink="@color/colorPrimary"
+            android:text="@string/first_time_help_section"/>
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/home_termsAndPolicy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
         android:gravity="center"
-        android:textSize="12sp"
-        android:textColorLink="@color/colorPrimary"
-        android:text="By registering you agree to our Terms of Service and Privacy Policy"/>
-</LinearLayout>
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
+        android:text="By registering you agree to our Terms of Service and Privacy Policy"
+        app:layout_constraintVertical_bias="1"
+        app:layout_constraintTop_toBottomOf="@id/home_menuContainer"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

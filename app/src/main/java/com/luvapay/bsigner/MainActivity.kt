@@ -70,7 +70,7 @@ class MainActivity : BaseActivity() {
             }
         }
 
-        btnAuthNew.setOnClickListener {
+        home_create.setOnClickListener {
             startActivity<BackupActivity>()
         }
 

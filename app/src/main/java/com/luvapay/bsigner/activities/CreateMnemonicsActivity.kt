@@ -9,10 +9,13 @@ import com.luvapay.bsigner.items.MenemonicItem
 import com.luvapay.bsigner.R
 import com.luvapay.bsigner.base.BaseActivity
 import com.luvapay.bsigner.createBip39Seed
+import com.luvapay.bsigner.utils.MNEMONIC_EXTRA
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import com.soneso.stellarmnemonics.Wallet
+import org.jetbrains.anko.startActivity
 import kotlinx.android.synthetic.main.activity_create_mnemonics.createMnemonic_toolbar as toolbar
 import kotlinx.android.synthetic.main.activity_create_mnemonics.createMnemonic_list as menemonicList
+import kotlinx.android.synthetic.main.activity_create_mnemonics.createMnemonic_next as next
 
 class CreateMnemonicsActivity : BaseActivity() {
 
@@ -34,10 +37,14 @@ class CreateMnemonicsActivity : BaseActivity() {
                 flexWrap = FlexWrap.WRAP
             }
             adapter = FastItemAdapter<MenemonicItem>().apply {
-                add(mnemonics.split(" ").map { MenemonicItem(it) })
+                setHasStableIds(true)
+                add(mnemonics.split(" ").mapIndexed { index, mnemonic -> MenemonicItem(index.toLong(), mnemonic) })
             }
         }
 
+        next.setOnClickListener {
+            startActivity<VerifyMnemonicActivity>(MNEMONIC_EXTRA to mnemonics)
+        }
     }
 
 }

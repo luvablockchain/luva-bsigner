@@ -6,10 +6,11 @@ import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
 import kotlinx.android.synthetic.main.item_mnemonic.view.*
 
-data class MenemonicItem(private val mnemonic: String) : AbstractItem<MenemonicItem.ViewHolder>() {
+data class MenemonicItem(override var identifier: Long, val mnemonic: String, override var isSelectable: Boolean = false) : AbstractItem<MenemonicItem.ViewHolder>() {
 
+    override var isSelected: Boolean = false
     override val type: Int = 0
-    override val layoutRes: Int = R.layout.item_mnemonic
+    override val layoutRes: Int = if (isSelectable) R.layout.item_mnemonic_selectable else R.layout.item_mnemonic
 
     override fun getViewHolder(v: View): ViewHolder =
         ViewHolder(v)

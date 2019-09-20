@@ -15,4 +15,8 @@
     <string name="recovery_phrase_hint">Recovery phrase can help you to recover access to your account in case your phone is lost or stolen.</string>
     <string name="recovery_phrase_save_hint">Write down these 12 words and keep them secure. Don’t email them or screenshot them.</string>
     <string name="recovery_phrase_confirm_next_hint">You will need to confirm recovery phrase on the next screen</string>
+
+    <string name="verify_phrase_title">Verify Recovery Phrase</string>
+    <string name="verify_phrase_hint">Tap the words in correct order</string>
+
 </resources>

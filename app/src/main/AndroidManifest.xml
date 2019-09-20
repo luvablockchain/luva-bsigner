@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.ConfirmMnemonicActivity"></activity>
+        <activity android:name=".activities.VerifyMnemonicActivity"></activity>
         <activity android:name=".activities.CreateMnemonicsActivity" />
         <activity android:name=".activities.BackupActivity" />
         <activity android:name=".MainActivity">

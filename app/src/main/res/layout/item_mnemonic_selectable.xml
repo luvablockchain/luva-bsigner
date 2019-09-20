@@ -8,4 +8,5 @@
     android:padding="5dp"
     android:layout_gravity="center"
     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-    android:background="@drawable/bg_mnemonic_unselectable"/>
+    android:textColor="@color/white"
+    android:background="@drawable/bg_mnemonic"/>

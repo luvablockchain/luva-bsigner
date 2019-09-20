@@ -2,7 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
     <item>
         <shape>
-            <solid android:color="#29346100" />
+            <solid android:color="@color/white" />
             <stroke
                 android:color="#B8346100"
                 android:dashGap="5dp"

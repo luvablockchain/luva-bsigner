@@ -3,22 +3,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/createMnemonic_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        app:title=" "/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="12dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-        android:text="Recovery Phrase"/>
+        android:text="@string/recovery_phrase"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-        android:text="Recovery phrase can help you to recover access to your account in case your phone is lost or stolen."/>
+        android:text="@string/recovery_phrase_hint"/>
 
     <Space
         android:layout_width="wrap_content"
@@ -28,6 +37,8 @@
         android:id="@+id/createMnemonic_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/bg_mnemonic_container"/>
 
     <Space
@@ -38,6 +49,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:gravity="center">
 
         <TextView
@@ -47,7 +60,7 @@
             android:layout_weight="1"
             android:layout_gravity="center_vertical"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:text="Write down these 12 words and keep them secure. Don’t email them or screenshot them."/>
+            android:text="@string/recovery_phrase_save_hint"/>
 
         <com.google.android.material.button.MaterialButton
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -58,7 +71,7 @@
             app:iconTint="@color/colorPrimary"
             android:textColor="@color/colorPrimary"
             app:strokeColor="@color/colorPrimary"
-            android:text="Copy"
+            android:text="@string/copy_menemonic"
             app:icon="@drawable/ic_content_copy"
             android:textAllCaps="false"/>
 
@@ -73,8 +86,10 @@
         android:id="@+id/createMnemonic_next"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:textColor="@android:color/white"
-        android:text="Next"/>
+        android:text="@string/next"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -83,6 +98,6 @@
         android:layout_marginEnd="16dp"
         android:gravity="center"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
-        android:text="You will need to confirm recovery phrase on the next screen"/>
+        android:text="@string/recovery_phrase_confirm_next_hint"/>
 
 </LinearLayout>

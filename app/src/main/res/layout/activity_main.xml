@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="16dp">
 
     <LinearLayout
@@ -28,8 +27,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-            android:text="Multiply your security"/>
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:text="@string/app_name_subtitle"/>
     </LinearLayout>
 
     <LinearLayout
@@ -74,7 +73,7 @@
         android:layout_marginEnd="12dp"
         android:gravity="center"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
-        android:text="By registering you agree to our Terms of Service and Privacy Policy"
+        android:text="@string/agree_with_terms_and_privacy_policy"
         app:layout_constraintVertical_bias="1"
         app:layout_constraintTop_toBottomOf="@id/home_menuContainer"
         app:layout_constraintBottom_toBottomOf="parent"

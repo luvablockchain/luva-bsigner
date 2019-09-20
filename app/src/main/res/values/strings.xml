@@ -1,8 +1,18 @@
 <resources>
     <string name="app_name">Luva bSigner</string>
 
+    <string name="app_name_subtitle">Multiply your security</string>
+
     <string name="create">Create</string>
     <string name="restore">Restore</string>
+    <string name="copy_menemonic">Copy</string>
+    <string name="next">Next</string>
 
     <string name="first_time_help_section">First time user? See our Help section</string>
+    <string name="agree_with_terms_and_privacy_policy">By registering you agree to our Terms of Service and Privacy Policy</string>
+
+    <string name="recovery_phrase">Recovery Phrase</string>
+    <string name="recovery_phrase_hint">Recovery phrase can help you to recover access to your account in case your phone is lost or stolen.</string>
+    <string name="recovery_phrase_save_hint">Write down these 12 words and keep them secure. Don’t email them or screenshot them.</string>
+    <string name="recovery_phrase_confirm_next_hint">You will need to confirm recovery phrase on the next screen</string>
 </resources>

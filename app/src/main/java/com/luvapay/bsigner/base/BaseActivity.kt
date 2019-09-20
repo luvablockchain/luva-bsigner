@@ -3,6 +3,7 @@ package com.luvapay.bsigner.base
 import android.os.Bundle
 import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import com.luvapay.bsigner.model.InitData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
@@ -26,6 +27,12 @@ abstract class BaseActivity : AppCompatActivity(), CoroutineScope by MainScope()
     override fun onPause() {
         super.onPause()
         EventBus.getDefault().unregister(this)
+    }
+
+    fun Toolbar.init() {
+        setSupportActionBar(this)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        this.setNavigationOnClickListener { onBackPressed() }
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND, sticky = true)

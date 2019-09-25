@@ -18,6 +18,8 @@ class App : Application() {
         initPrefs()
         //Threeten
         AndroidThreeTen.init(this@App)
+        //
+        initAppBox()
         //EventBus index
         EventBus.builder().addIndex(MyEventBusIndex()).installDefaultEventBus()
     }
@@ -25,7 +27,7 @@ class App : Application() {
     private fun initLogger() {
         //Logger
         val logFormat = PrettyFormatStrategy.newBuilder()
-            .tag("App")
+            .tag("bsigner")
             .showThreadInfo(false)
             .build()
         Logger.clearLogAdapters()

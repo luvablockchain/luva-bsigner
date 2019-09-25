@@ -1,4 +1,4 @@
-package com.luvapay.bsigner.activities
+package com.luvapay.bsigner.activities.account
 
 import android.os.Bundle
 import com.luvapay.bsigner.R
@@ -10,14 +10,14 @@ import com.soneso.stellarmnemonics.Wallet
 import com.soneso.stellarmnemonics.derivation.Ed25519Derivation
 import org.jetbrains.anko.startActivity
 import org.stellar.sdk.KeyPair
-import kotlinx.android.synthetic.main.activity_backup.backup_nextBtn as nextBtn
-import kotlinx.android.synthetic.main.activity_backup.backup_toolbar as toolbar
+import kotlinx.android.synthetic.main.activity_backup_warning.backup_nextBtn as nextBtn
+import kotlinx.android.synthetic.main.activity_backup_warning.backup_toolbar as toolbar
 
-class BackupActivity : BaseActivity() {
+class BackupWarningActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_backup)
+        setContentView(R.layout.activity_backup_warning)
 
         toolbar.init()
 

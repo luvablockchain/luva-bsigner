@@ -1,15 +1,16 @@
-package com.luvapay.bsigner.activities
+package com.luvapay.bsigner.activities.account
 
 import android.os.Bundle
 import androidx.recyclerview.widget.RecyclerView
 import com.luvapay.bsigner.R
+import com.luvapay.bsigner.activities.HomeActivity
 import com.luvapay.bsigner.base.BaseActivity
 import com.luvapay.bsigner.items.MenemonicItem
 import com.luvapay.bsigner.utils.*
 import com.mikepenz.fastadapter.ISelectionListener
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import com.mikepenz.fastadapter.select.getSelectExtension
-import com.orhanobut.logger.Logger
+import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.startActivity
 import kotlinx.android.synthetic.main.activity_verify_mnemonic.verifyMnemonic_next as nextBtn
 import kotlinx.android.synthetic.main.activity_verify_mnemonic.verifyMnemonic_tapList as tapList
@@ -86,16 +87,14 @@ class VerifyMnemonicActivity : BaseActivity() {
             }
         }
 
-        nextBtn.setOnClickListener {
-            val menemonicArray = mnemonics.replace(" ", "")
-            val verifyArray = verifyAdapter.adapterItems.joinToString(separator = "") { it.mnemonic }
+        nextBtn.setOnClickListener { btn ->
+            val menemonicStr = mnemonics.replace(" ", "")
+            val verifyStr = verifyAdapter.adapterItems.joinToString(separator = "") { it.mnemonic }
 
-            Logger.d("\n${menemonicArray} \n${verifyArray}")
-
-            (menemonicArray == verifyArray) then {
-                startActivity<HomeActivity>()
-            } otherwise {
-                Logger.d("fail")
+            if (menemonicStr == verifyStr) {
+                startActivity<HomeActivity>(MNEMONIC_EXTRA to mnemonics)
+            } else {
+                btn.rootView.snackbar(getString(R.string.verify_does_not_match))
             }
         }
     }

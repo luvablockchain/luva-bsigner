@@ -1,0 +1,44 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:427698105424735860",
+      "lastPropertyId": "4:4927587537342970564",
+      "name": "StellarAccount",
+      "properties": [
+        {
+          "id": "1:3620674997250532602",
+          "name": "objId"
+        },
+        {
+          "id": "2:8821407548864484694",
+          "indexId": "1:8297096507971171783",
+          "name": "publicKey"
+        },
+        {
+          "id": "3:3106345664109165225",
+          "indexId": "2:117517356642646062",
+          "name": "privateKey"
+        },
+        {
+          "id": "4:4927587537342970564",
+          "name": "mnemonic"
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "1:427698105424735860",
+  "lastIndexId": "2:117517356642646062",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 4,
+  "modelVersionParserMinimum": 4,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}

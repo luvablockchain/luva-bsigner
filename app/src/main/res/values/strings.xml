@@ -22,5 +22,6 @@
 
     <string name="verify_phrase_title">Verify Recovery Phrase</string>
     <string name="verify_phrase_hint">Tap the words in correct order</string>
+    <string name="verify_does_not_match">Verify mnemonics don\'t match</string>
 
 </resources>

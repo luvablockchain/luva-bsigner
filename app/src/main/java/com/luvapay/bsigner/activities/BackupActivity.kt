@@ -8,9 +8,10 @@ import com.luvapay.bsigner.string
 import com.orhanobut.logger.Logger
 import com.soneso.stellarmnemonics.Wallet
 import com.soneso.stellarmnemonics.derivation.Ed25519Derivation
-import kotlinx.android.synthetic.main.activity_backup.*
 import org.jetbrains.anko.startActivity
 import org.stellar.sdk.KeyPair
+import kotlinx.android.synthetic.main.activity_backup.backup_nextBtn as nextBtn
+import kotlinx.android.synthetic.main.activity_backup.backup_toolbar as toolbar
 
 class BackupActivity : BaseActivity() {
 
@@ -18,7 +19,9 @@ class BackupActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_backup)
 
-        btnNext.setOnClickListener {
+        toolbar.init()
+
+        nextBtn.setOnClickListener {
             startActivity<CreateMnemonicsActivity>()
             finish()
         }

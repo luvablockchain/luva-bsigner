@@ -3,7 +3,6 @@ package com.luvapay.bsigner
 import android.app.Application
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.luvapay.bsigner.utils.initPrefs
-import com.luvapay.multisignature.MyEventBusIndex
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import com.orhanobut.logger.PrettyFormatStrategy

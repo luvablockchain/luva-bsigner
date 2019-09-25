@@ -8,8 +8,7 @@ import com.luvapay.bsigner.utils.MNEMONIC_EXTRA
 import com.mikepenz.fastadapter.ISelectionListener
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import com.mikepenz.fastadapter.select.getSelectExtension
-import com.orhanobut.logger.Logger
-import kotlinx.android.synthetic.main.activity_verify_mnemonic.verifyMnemonic_next as next
+import kotlinx.android.synthetic.main.activity_verify_mnemonic.verifyMnemonic_next as nextBtn
 import kotlinx.android.synthetic.main.activity_verify_mnemonic.verifyMnemonic_tapList as tapList
 import kotlinx.android.synthetic.main.activity_verify_mnemonic.verifyMnemonic_toolbar as toolbar
 import kotlinx.android.synthetic.main.activity_verify_mnemonic.verifyMnemonic_verifyList as verifyList
@@ -55,7 +54,7 @@ class VerifyMnemonicActivity : BaseActivity() {
 
         tapList.post {
             verifyList.apply {
-                layoutParams.height = tapList.measuredHeight
+                layoutParams.height = (tapList.measuredHeight * 1.72).toInt()
 
                 adapter = verifyAdapter.apply {
                     setHasStableIds(true)
@@ -69,7 +68,7 @@ class VerifyMnemonicActivity : BaseActivity() {
             }
         }
 
-        next.setOnClickListener {
+        nextBtn.setOnClickListener {
 
         }
     }

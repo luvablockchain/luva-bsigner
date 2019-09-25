@@ -10,11 +10,13 @@ import com.luvapay.bsigner.createBip39Seed
 import com.luvapay.bsigner.entities.StellarAccount
 import com.luvapay.bsigner.entities.StellarAccount_
 import com.luvapay.bsigner.items.MenemonicItem
-import com.luvapay.bsigner.utils.*
+import com.luvapay.bsigner.utils.MNEMONIC_EXTRA
+import com.luvapay.bsigner.utils.disable
+import com.luvapay.bsigner.utils.enable
+import com.luvapay.bsigner.utils.ifNull
 import com.mikepenz.fastadapter.ISelectionListener
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import com.mikepenz.fastadapter.select.getSelectExtension
-import com.orhanobut.logger.Logger
 import io.objectbox.kotlin.query
 import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.startActivity
@@ -96,8 +98,6 @@ class VerifyMnemonicActivity : BaseActivity() {
 
         nextBtn.setOnClickListener { btn ->
             val verifyStr = verifyAdapter.adapterItems.joinToString(separator = " ") { it.mnemonic }
-
-            Logger.d("\n[$mnemonics]\n[$verifyStr]")
 
             if (verifyStr == mnemonics) {
                 val keyPair = KeyPair.fromBip39Seed(createBip39Seed(mnemonics.toCharArray()), 0)

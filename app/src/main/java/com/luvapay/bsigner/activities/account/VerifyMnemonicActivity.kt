@@ -2,16 +2,23 @@ package com.luvapay.bsigner.activities.account
 
 import android.os.Bundle
 import androidx.recyclerview.widget.RecyclerView
+import com.luvapay.bsigner.AppBox
 import com.luvapay.bsigner.R
 import com.luvapay.bsigner.activities.HomeActivity
 import com.luvapay.bsigner.base.BaseActivity
+import com.luvapay.bsigner.createBip39Seed
+import com.luvapay.bsigner.entities.StellarAccount
+import com.luvapay.bsigner.entities.StellarAccount_
 import com.luvapay.bsigner.items.MenemonicItem
 import com.luvapay.bsigner.utils.*
 import com.mikepenz.fastadapter.ISelectionListener
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import com.mikepenz.fastadapter.select.getSelectExtension
+import com.orhanobut.logger.Logger
+import io.objectbox.kotlin.query
 import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.startActivity
+import org.stellar.sdk.KeyPair
 import kotlinx.android.synthetic.main.activity_verify_mnemonic.verifyMnemonic_next as nextBtn
 import kotlinx.android.synthetic.main.activity_verify_mnemonic.verifyMnemonic_tapList as tapList
 import kotlinx.android.synthetic.main.activity_verify_mnemonic.verifyMnemonic_toolbar as toolbar
@@ -88,11 +95,20 @@ class VerifyMnemonicActivity : BaseActivity() {
         }
 
         nextBtn.setOnClickListener { btn ->
-            val menemonicStr = mnemonics.replace(" ", "")
-            val verifyStr = verifyAdapter.adapterItems.joinToString(separator = "") { it.mnemonic }
+            val verifyStr = verifyAdapter.adapterItems.joinToString(separator = " ") { it.mnemonic }
 
-            if (menemonicStr == verifyStr) {
-                startActivity<HomeActivity>(MNEMONIC_EXTRA to mnemonics)
+            Logger.d("\n[$mnemonics]\n[$verifyStr]")
+
+            if (verifyStr == mnemonics) {
+                val keyPair = KeyPair.fromBip39Seed(createBip39Seed(mnemonics.toCharArray()), 0)
+                AppBox.accountBox.query {
+                    equal(
+                        StellarAccount_.publicKey, keyPair.accountId
+                    )
+                }.findFirst() ifNull {
+                    AppBox.accountBox.put(StellarAccount(keyPair.accountId, keyPair.secretSeed.toString(), mnemonics))
+                }
+                startActivity<HomeActivity>()
             } else {
                 btn.rootView.snackbar(getString(R.string.verify_does_not_match))
             }

@@ -7,16 +7,12 @@ import com.luvapay.bsigner.utils.MNEMONIC_EXTRA
 
 class HomeActivity : BaseActivity() {
 
-    private val mnemonics by lazy { intent.getStringExtra(MNEMONIC_EXTRA) ?: "" }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        if (mnemonics.isBlank()) {
-            finish()
-            return
-        }
+
     }
 
 }

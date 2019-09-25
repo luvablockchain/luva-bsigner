@@ -1,9 +1,12 @@
-package com.luvapay.bsigner
+package com.luvapay.bsigner.activities
 
 import android.os.Bundle
-import com.luvapay.bsigner.activities.BackupActivity
+import com.luvapay.bsigner.Horizon
+import com.luvapay.bsigner.R
 import com.luvapay.bsigner.base.BaseActivity
-import kotlinx.android.synthetic.main.activity_main.*
+import com.luvapay.bsigner.nativePaymentOperation
+import com.luvapay.bsigner.testnetTransaction
+import kotlinx.android.synthetic.main.activity_auth.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -23,14 +26,14 @@ import java.nio.CharBuffer
 import java.security.MessageDigest
 import java.util.*
 
-class MainActivity : BaseActivity() {
+class AuthActivity : BaseActivity() {
 
     private val key1 = KeyPair.fromSecretSeed("SA44JVCA3B5HCWPDBJO5AZ7VYYOKIFCD77EAB7G5JYIIQ7HZTQAUONZS")
     private val key2 = KeyPair.fromSecretSeed("SAL4AAOMCRYQLXDZQXNYVNHJNCFKBHSF4V7GAIUBW2HK5GTKMDC2V4VK")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_auth)
 
         launch {
             withContext(Dispatchers.IO) {
@@ -43,7 +46,7 @@ class MainActivity : BaseActivity() {
                             "10"
                         )
                     )
-                    .setTimeout(300)
+                        .setTimeout(300)
                 }
 
                 //Logger.d(transaction.toEnvelopeXdrBase64())

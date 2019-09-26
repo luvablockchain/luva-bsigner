@@ -9,14 +9,13 @@ import com.luvapay.bsigner.R
 import com.luvapay.bsigner.base.BaseActivity
 import com.luvapay.bsigner.items.AccountItem
 import com.luvapay.bsigner.unSubscribe
-import com.luvapay.bsigner.utils.MNEMONIC_EXTRA
 import com.luvapay.bsigner.viewmodel.HomeViewModel
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import io.objectbox.android.AndroidScheduler
 import io.objectbox.kotlin.query
 import io.objectbox.reactive.DataSubscription
-import kotlinx.android.synthetic.main.activity_home.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import kotlinx.android.synthetic.main.activity_home.activityHome_accountList as accountList
 
 class HomeActivity : BaseActivity() {
 
@@ -29,7 +28,7 @@ class HomeActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        activityHome_accountList.apply {
+        accountList.apply {
             itemAnimator = DefaultItemAnimator()
             layoutManager = LinearLayoutManager(this@HomeActivity, RecyclerView.VERTICAL, false)
             adapter = accountAdapter.apply {
@@ -40,6 +39,7 @@ class HomeActivity : BaseActivity() {
         accountSub = AppBox.accountBox.query {}.subscribe().on(AndroidScheduler.mainThread()).observer { accounts ->
             accountAdapter.set(accounts.map { AccountItem(it) })
         }
+
     }
 
     override fun onDestroy() {

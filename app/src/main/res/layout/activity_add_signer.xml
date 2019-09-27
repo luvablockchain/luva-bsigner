@@ -4,9 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activities.HomeActivity">
+    tools:context=".AddSignerActivity">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="match_parent"
@@ -15,9 +15,9 @@
         android:layout_marginStart="16dp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
         android:text="@string/signer_list"/>
-    
+
     <FrameLayout
-        android:id="@+id/activityHome_fragmentContainer"
+        android:id="@+id/activityAddSigner_fragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

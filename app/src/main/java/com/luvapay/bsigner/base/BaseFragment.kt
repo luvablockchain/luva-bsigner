@@ -11,12 +11,12 @@ abstract class BaseFragment : Fragment(), CoroutineScope by MainScope() {
 
     override fun onResume() {
         super.onResume()
-        EventBus.getDefault().register(this)
+        //EventBus.getDefault().register(this)
     }
 
     override fun onPause() {
         super.onPause()
-        EventBus.getDefault().unregister(this)
+        //EventBus.getDefault().unregister(this)
     }
 
     override fun onDestroy() {

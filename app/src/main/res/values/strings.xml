@@ -24,4 +24,6 @@
     <string name="verify_phrase_hint">Tap the words in correct order</string>
     <string name="verify_does_not_match">Verify mnemonics don\'t match</string>
 
+    <string name="signer_list">Your signers</string>
+
 </resources>

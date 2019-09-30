@@ -3,15 +3,16 @@ package com.luvapay.bsigner.activities
 import android.os.Bundle
 import androidx.fragment.app.commit
 import com.luvapay.bsigner.R
+import com.luvapay.bsigner.activities.account.BackupWarningActivity
+import com.luvapay.bsigner.activities.account.RestoreAccountActivity
 import com.luvapay.bsigner.base.BaseActivity
 import com.luvapay.bsigner.entities.StellarAccount
 import com.luvapay.bsigner.fragments.AccountFragment
-import com.luvapay.bsigner.items.AccountItem
-import com.luvapay.bsigner.unSubscribe
+import com.luvapay.bsigner.utils.showPopupMenu
 import com.luvapay.bsigner.viewmodel.HomeViewModel
-import com.mikepenz.fastadapter.adapters.FastItemAdapter
-import io.objectbox.reactive.DataSubscription
+import org.jetbrains.anko.startActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import kotlinx.android.synthetic.main.activity_home.activityHome_menuBtn as menuBtn
 
 class HomeActivity : BaseActivity(), AccountFragment.AccountListener {
 
@@ -23,6 +24,15 @@ class HomeActivity : BaseActivity(), AccountFragment.AccountListener {
 
         supportFragmentManager.commit {
             replace(R.id.activityHome_fragmentContainer, AccountFragment())
+        }
+
+        menuBtn.setOnClickListener {
+            showPopupMenu(it, R.menu.menu_home) { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.home_create_account -> startActivity<BackupWarningActivity>()
+                    R.id.home_restore_account -> startActivity<RestoreAccountActivity>()
+                }
+            }
         }
 
     }

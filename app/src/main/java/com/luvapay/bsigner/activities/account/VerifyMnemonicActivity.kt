@@ -109,6 +109,7 @@ class VerifyMnemonicActivity : BaseActivity() {
                     AppBox.accountBox.put(StellarAccount(keyPair.accountId, keyPair.secretSeed.toString(), mnemonics))
                 }
                 startActivity<HomeActivity>()
+                finish()
             } else {
                 btn.rootView.snackbar(getString(R.string.verify_does_not_match))
             }

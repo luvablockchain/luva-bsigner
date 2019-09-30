@@ -3,6 +3,9 @@ package com.luvapay.bsigner.utils
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.view.MenuItem
+import android.view.View
+import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
@@ -44,4 +47,14 @@ infix fun Context.getColorCompat(colorId: Int) = ContextCompat.getColor(this, co
 
 fun Context.copyToClipBoard(label: String, text: String) {
     (getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager).setPrimaryClip(ClipData.newPlainText(label, text))
+}
+
+fun Context.showPopupMenu(anchor: View, menuId: Int, onItemClick: (menuItem: MenuItem) -> Unit) {
+    PopupMenu(this@showPopupMenu, anchor).apply {
+        menuInflater.inflate(menuId, menu)
+        setOnMenuItemClickListener { menuItem ->
+            onItemClick.invoke(menuItem)
+            true
+        }
+    }.show()
 }

@@ -26,7 +26,7 @@
 
         <com.google.android.material.button.MaterialButton
             style="@style/Widget.MaterialComponents.Button.UnelevatedButton.Icon"
-            android:id="@+id/activityAddSigner_addBtn"
+            android:id="@+id/activityHome_menuBtn"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="end|center_vertical"

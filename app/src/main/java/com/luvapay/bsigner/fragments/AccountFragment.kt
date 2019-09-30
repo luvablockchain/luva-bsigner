@@ -83,6 +83,7 @@ class AccountFragment : BaseFragment() {
     }
 
     fun getSelectedAccount() = accountAdapter.getSelectExtension().selectedItems.map { it.account.publicKey }.toList()
+    fun getAccounts() = accountAdapter.adapterItems
 
     interface AccountListener {
         fun onSelectAccount(accounts: MutableList<StellarAccount>)

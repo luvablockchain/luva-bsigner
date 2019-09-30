@@ -10,12 +10,15 @@ import com.luvapay.bsigner.R
 import com.luvapay.bsigner.base.BaseActivity
 import com.luvapay.bsigner.createBip39Seed
 import com.luvapay.bsigner.utils.MNEMONIC_EXTRA
+import com.luvapay.bsigner.utils.copyToClipBoard
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import com.soneso.stellarmnemonics.Wallet
+import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.startActivity
 import kotlinx.android.synthetic.main.activity_create_mnemonics.createMnemonic_toolbar as toolbar
 import kotlinx.android.synthetic.main.activity_create_mnemonics.createMnemonic_list as menemonicList
-import kotlinx.android.synthetic.main.activity_create_mnemonics.createMnemonic_next as next
+import kotlinx.android.synthetic.main.activity_create_mnemonics.createMnemonic_copy as copyBtn
+import kotlinx.android.synthetic.main.activity_create_mnemonics.createMnemonic_next as nextBtn
 
 class CreateMnemonicsActivity : BaseActivity() {
 
@@ -42,7 +45,12 @@ class CreateMnemonicsActivity : BaseActivity() {
             }
         }
 
-        next.setOnClickListener {
+        copyBtn.setOnClickListener {
+            copyToClipBoard("mnemonics", mnemonics)
+            it.rootView.snackbar(getString(R.string.copied_to_clipboard))
+        }
+
+        nextBtn.setOnClickListener {
             startActivity<VerifyMnemonicActivity>(MNEMONIC_EXTRA to mnemonics)
         }
     }

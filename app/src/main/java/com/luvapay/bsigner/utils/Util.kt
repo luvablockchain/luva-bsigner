@@ -1,8 +1,12 @@
 package com.luvapay.bsigner.utils
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
 
@@ -37,3 +41,7 @@ infix fun AppCompatTextView.prefetchText(charSequence: CharSequence) {
 }
 
 infix fun Context.getColorCompat(colorId: Int) = ContextCompat.getColor(this, colorId)
+
+fun Context.copyToClipBoard(label: String, text: String) {
+    (getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager).setPrimaryClip(ClipData.newPlainText(label, text))
+}

@@ -6,6 +6,7 @@
     <string name="create">Create</string>
     <string name="restore">Restore</string>
     <string name="copy_menemonic">Copy</string>
+    <string name="copied_to_clipboard">Copied to clipboard</string>
     <string name="next">Next</string>
     <string name="chose">Chose</string>
 

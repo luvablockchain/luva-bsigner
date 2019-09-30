@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end|center_vertical"
             android:enabled="false"
-            app:cornerRadius="16dp"
+            app:cornerRadius="24dp"
             android:text="@string/chose"/>
 
     </LinearLayout>

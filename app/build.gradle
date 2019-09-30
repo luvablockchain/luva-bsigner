@@ -79,6 +79,7 @@ dependencies {
     //Material Dialog
     implementation "com.afollestad.material-dialogs:core:$materialDialog"
     implementation "com.afollestad.material-dialogs:color:$materialDialog"
+    implementation "com.afollestad.material-dialogs:bottomsheets:$materialDialog"
 
     //Threeten
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.1'

@@ -7,8 +7,7 @@ import androidx.fragment.app.commit
 import com.luvapay.bsigner.base.BaseActivity
 import com.luvapay.bsigner.entities.StellarAccount
 import com.luvapay.bsigner.fragments.AccountFragment
-import com.mikepenz.fastadapter.select.getSelectExtension
-import java.util.ArrayList
+import java.util.*
 import kotlinx.android.synthetic.main.activity_add_signer.activityAddSigner_addBtn as addSignerBtn
 
 class AddSignerActivity : BaseActivity(), AccountFragment.AccountListener {
@@ -16,7 +15,7 @@ class AddSignerActivity : BaseActivity(), AccountFragment.AccountListener {
     private val accountFragment by lazy {
         AccountFragment.init(
             selectable = true,
-            multiSelect = true
+            multiSelect = intent.getBooleanExtra(AccountFragment.MULTI_SELECT, false)
         )
     }
 
@@ -33,8 +32,7 @@ class AddSignerActivity : BaseActivity(), AccountFragment.AccountListener {
 
         addSignerBtn.setOnClickListener {
             val data = Intent().apply {
-                val list = accountFragment.accountAdapter.getSelectExtension().selectedItems.map { it.account.publicKey }.toList()
-                putStringArrayListExtra(ACCOUNT_LIST_KEY, ArrayList(list))
+                putStringArrayListExtra(ACCOUNT_LIST_KEY, ArrayList(accountFragment.getSelectedAccount()))
             }
             setResult(Activity.RESULT_OK, data)
             finish()
@@ -44,7 +42,7 @@ class AddSignerActivity : BaseActivity(), AccountFragment.AccountListener {
 
     override fun onSelectAccount(accounts: MutableList<StellarAccount>) {
         addSignerBtn.apply {
-            isEnabled = accountFragment.accountAdapter.getSelectExtension().selectedItems.size != 0
+            isEnabled = accountFragment.getSelectedAccount().isNotEmpty()
         }
     }
 

@@ -16,7 +16,10 @@ class SplashActivity : BaseActivity() {
 
         launch {
             delay(360)
-            if (AppBox.accountBox.isEmpty) startActivity<AuthActivity>() else startActivity<HomeActivity>()
+            if (AppBox.accountBox.isEmpty) startActivity<AuthActivity>() else {
+                startActivity<HomeActivity>()
+                finish()
+            }
         }
     }
 

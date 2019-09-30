@@ -7,6 +7,7 @@
     <string name="restore">Restore</string>
     <string name="copy_menemonic">Copy</string>
     <string name="next">Next</string>
+    <string name="chose">Chose</string>
 
     <string name="backup_account_title">Backup Your Account</string>
     <string name="backup_account_subtitle">You will be shown a 12 word recovery phrase. It will allow you to recover access to your account in case your phone is lost or stolen.</string>

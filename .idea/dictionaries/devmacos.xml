@@ -2,6 +2,7 @@
   <dictionary name="devmacos">
     <words>
       <w>bsigner</w>
+      <w>coroutine</w>
       <w>luva</w>
       <w>luvapay</w>
       <w>menemonic</w>

@@ -17,7 +17,6 @@ class HomeActivity : BaseActivity(), AccountFragment.AccountListener {
 
     private val vm: HomeViewModel by viewModel()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -28,7 +27,8 @@ class HomeActivity : BaseActivity(), AccountFragment.AccountListener {
 
     }
 
-    override fun onSelectAccount(account: StellarAccount) {
+    override fun onSelectAccount(accounts: MutableList<StellarAccount>) {
 
     }
+
 }

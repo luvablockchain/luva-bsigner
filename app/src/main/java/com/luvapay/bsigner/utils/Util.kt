@@ -1,6 +1,8 @@
 package com.luvapay.bsigner.utils
 
+import android.content.Context
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
 
@@ -33,3 +35,5 @@ infix fun AppCompatTextView.prefetchText(charSequence: CharSequence) {
         )
     )
 }
+
+infix fun Context.getColorCompat(colorId: Int) = ContextCompat.getColor(this, colorId)

@@ -8,13 +8,33 @@
     android:orientation="vertical"
     tools:context=".AddSignerActivity">
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginStart="16dp"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-        android:text="@string/signer_list"/>
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:layout_marginTop="16dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="start|center_vertical"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:text="@string/signer_list"/>
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:id="@+id/activityAddSigner_addBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:enabled="false"
+            app:cornerRadius="16dp"
+            android:text="@string/chose"/>
+
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/activityAddSigner_fragmentContainer"

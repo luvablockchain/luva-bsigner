@@ -12,6 +12,8 @@ class RestoreAccountActivity : BaseActivity() {
         setContentView(R.layout.activity_restore_account)
 
         toolbar.init()
+
+        throw Exception()
     }
 
 }

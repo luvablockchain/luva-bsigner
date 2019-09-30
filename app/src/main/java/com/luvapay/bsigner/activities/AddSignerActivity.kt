@@ -41,6 +41,10 @@ class AddSignerActivity : BaseActivity(), AccountFragment.AccountListener {
                     positiveButton(R.string.ok) {
                         startActivity<BackupWarningActivity>()
                     }
+                    negativeButton(R.string.cancel) {
+                        setResult(Activity.RESULT_CANCELED)
+                        finish()
+                    }
                 }
             }
         }

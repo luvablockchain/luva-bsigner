@@ -7,7 +7,7 @@ import kotlinx.coroutines.cancel
 import org.greenrobot.eventbus.EventBus
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-abstract class BaseFragment : Fragment(), CoroutineScope by MainScope() {
+abstract class BaseFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
@@ -17,11 +17,6 @@ abstract class BaseFragment : Fragment(), CoroutineScope by MainScope() {
     override fun onPause() {
         super.onPause()
         //EventBus.getDefault().unregister(this)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        cancel()
     }
 
 }

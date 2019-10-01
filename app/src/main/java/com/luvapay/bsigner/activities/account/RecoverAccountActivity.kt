@@ -1,26 +1,20 @@
 package com.luvapay.bsigner.activities.account
 
 import android.os.Bundle
-import androidx.core.text.isDigitsOnly
-import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.lifecycleScope
 import com.luvapay.bsigner.AppBox
 import com.luvapay.bsigner.R
 import com.luvapay.bsigner.activities.HomeActivity
 import com.luvapay.bsigner.base.BaseActivity
-import com.luvapay.bsigner.createBip39Seed
 import com.luvapay.bsigner.utils.afterTextChanged
-import com.luvapay.bsigner.utils.textWatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.greenrobot.essentials.StringUtils
 import org.jetbrains.anko.design.longSnackbar
 import org.jetbrains.anko.startActivity
-import java.lang.Exception
-import java.nio.charset.Charset
-import kotlinx.android.synthetic.main.activity_recover_account.activityRecover_toolbar as toolbar
-import kotlinx.android.synthetic.main.activity_recover_account.activityRecover_next as nextBtn
 import kotlinx.android.synthetic.main.activity_recover_account.activityRecover_mnemonicEdt as mnemonicEdt
+import kotlinx.android.synthetic.main.activity_recover_account.activityRecover_next as nextBtn
+import kotlinx.android.synthetic.main.activity_recover_account.activityRecover_toolbar as toolbar
 
 class RecoverAccountActivity : BaseActivity() {
 
@@ -30,16 +24,17 @@ class RecoverAccountActivity : BaseActivity() {
 
         toolbar.init()
 
+        //Validate mnemonics, enable next button if valid
         mnemonicEdt.afterTextChanged { editable ->
-            lifecycle.coroutineScope.launch {
+            lifecycleScope.launch {
                 withContext(Dispatchers.Default) {
                     return@withContext try {
                         editable.toString().isValid()
                     } catch (e: Exception) {
                         false
                     }
-                }.also {
-                    nextBtn.isEnabled = it
+                }.also { isValid ->
+                    nextBtn.isEnabled = isValid
                 }
             }
         }

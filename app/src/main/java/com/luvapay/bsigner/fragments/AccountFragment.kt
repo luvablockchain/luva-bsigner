@@ -67,7 +67,7 @@ class AccountFragment : BaseFragment() {
         //Subscription
         accountSub = AppBox.accountBox.query {}.subscribe().on(AndroidScheduler.mainThread()).observer { accounts ->
             //Coroutine
-            viewLifecycleOwner.lifecycleScope.launch {
+            lifecycleScope.launch {
                 val accountItems = withContext(Dispatchers.Default) {
                     return@withContext accounts.map { AccountItem(it) }
                 }

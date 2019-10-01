@@ -9,7 +9,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-abstract class BaseActivity : AppCompatActivity(), CoroutineScope by MainScope() {
+abstract class BaseActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
@@ -31,22 +31,4 @@ abstract class BaseActivity : AppCompatActivity(), CoroutineScope by MainScope()
     open fun init(initData: InitData) {
 
     }
-
-    fun scopedLaunch(block: CoroutineScope.() -> Unit) {
-        lifecycle.coroutineScope.launch {
-            block()
-        }
-    }
-
-    fun bgCoroutine(block: () -> Unit) {
-        lifecycle.coroutineScope.launch {
-            withContext(Dispatchers.Default) { block() }
-        }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        cancel()
-    }
-
 }

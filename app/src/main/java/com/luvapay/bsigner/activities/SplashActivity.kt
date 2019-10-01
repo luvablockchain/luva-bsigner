@@ -1,6 +1,7 @@
 package com.luvapay.bsigner.activities
 
 import android.os.Bundle
+import androidx.lifecycle.lifecycleScope
 import com.luvapay.bsigner.AppBox
 import com.luvapay.bsigner.R
 import com.luvapay.bsigner.base.BaseActivity
@@ -14,7 +15,7 @@ class SplashActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        launch {
+        lifecycleScope.launch {
             delay(360)
             if (AppBox.accountBox.isEmpty) startActivity<AuthActivity>() else {
                 startActivity<HomeActivity>()

@@ -8,7 +8,6 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.luvapay.bsigner.items.MenemonicItem
 import com.luvapay.bsigner.R
 import com.luvapay.bsigner.base.BaseActivity
-import com.luvapay.bsigner.createBip39Seed
 import com.luvapay.bsigner.utils.MNEMONIC_EXTRA
 import com.luvapay.bsigner.utils.copyToClipBoard
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
@@ -28,10 +27,7 @@ class CreateMnemonicsActivity : BaseActivity() {
 
         toolbar.init()
 
-        //val mnemonics = "bench hurt jump file august wise shallow faculty impulse spring exact slush thunder author capable act festival slice deposit sauce coconut afford frown better"
         val mnemonics = String(Wallet.generate12WordMnemonic())
-
-        val bip39Seed = createBip39Seed(mnemonics.toCharArray())
 
         menemonicList.apply {
             itemAnimator = DefaultItemAnimator()

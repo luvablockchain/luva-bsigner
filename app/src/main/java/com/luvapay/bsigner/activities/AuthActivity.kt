@@ -1,6 +1,7 @@
 package com.luvapay.bsigner.activities
 
 import android.os.Bundle
+import androidx.lifecycle.lifecycleScope
 import com.luvapay.bsigner.Horizon
 import com.luvapay.bsigner.R
 import com.luvapay.bsigner.activities.account.BackupWarningActivity
@@ -37,7 +38,7 @@ class AuthActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth)
 
-        launch {
+        lifecycleScope.launch {
             withContext(Dispatchers.IO) {
                 val sourceAccount = Horizon.server.accounts().account("GDICGWXEFFJJKGBOH7LL45PPPA6ZFVHEG3PCXP4BUAJHAA6FIFIVG4LJ")
 

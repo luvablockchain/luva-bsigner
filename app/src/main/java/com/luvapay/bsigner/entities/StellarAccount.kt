@@ -1,6 +1,7 @@
 package com.luvapay.bsigner.entities
 
 import io.objectbox.annotation.*
+import org.stellar.sdk.KeyPair
 import java.security.PrivateKey
 
 @Entity
@@ -9,13 +10,13 @@ data class StellarAccount(
     @Index(type = IndexType.VALUE)
     var publicKey: String,
     @Unique
+    @Index(type = IndexType.VALUE)
     var privateKey: String,
+    @Index(type = IndexType.VALUE)
     var mnemonic: String
 ) {
     @Id
     var objId: Long = 0
 
-    fun toKeyPair() {
-
-    }
+    fun toKeyPair(): KeyPair = KeyPair.fromSecretSeed(privateKey)
 }

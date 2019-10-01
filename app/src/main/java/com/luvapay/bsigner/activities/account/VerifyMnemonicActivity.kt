@@ -100,14 +100,7 @@ class VerifyMnemonicActivity : BaseActivity() {
             val verifyStr = verifyAdapter.adapterItems.joinToString(separator = " ") { it.mnemonic }
 
             if (verifyStr == mnemonics) {
-                val keyPair = KeyPair.fromBip39Seed(createBip39Seed(mnemonics.toCharArray()), 0)
-                AppBox.accountBox.query {
-                    equal(
-                        StellarAccount_.publicKey, keyPair.accountId
-                    )
-                }.findFirst() ifNull {
-                    AppBox.accountBox.put(StellarAccount(keyPair.accountId, keyPair.secretSeed.toString(), mnemonics))
-                }
+                AppBox.addAccount(mnemonics)
                 startActivity<HomeActivity>()
                 finish()
             } else {

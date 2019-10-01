@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.commit
 import com.luvapay.bsigner.R
 import com.luvapay.bsigner.activities.account.BackupWarningActivity
-import com.luvapay.bsigner.activities.account.RestoreAccountActivity
+import com.luvapay.bsigner.activities.account.RecoverAccountActivity
 import com.luvapay.bsigner.base.BaseActivity
 import com.luvapay.bsigner.entities.StellarAccount
 import com.luvapay.bsigner.fragments.AccountFragment
@@ -30,7 +30,7 @@ class HomeActivity : BaseActivity(), AccountFragment.AccountListener {
             showPopupMenu(it, R.menu.menu_home) { menuItem ->
                 when (menuItem.itemId) {
                     R.id.home_create_account -> startActivity<BackupWarningActivity>()
-                    R.id.home_restore_account -> startActivity<RestoreAccountActivity>()
+                    R.id.home_restore_account -> startActivity<RecoverAccountActivity>()
                 }
             }
         }

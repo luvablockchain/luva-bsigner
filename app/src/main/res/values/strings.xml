@@ -3,36 +3,35 @@
 
     <string name="app_name_subtitle">Multiply your security</string>
 
-    <string name="create">Create</string>
-    <string name="restore">Restore</string>
     <string name="copy_menemonic">Copy</string>
     <string name="copied_to_clipboard">Copied to clipboard</string>
+
     <string name="next">Next</string>
     <string name="chose">Chose</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
 
+    <string name="create_account">Create account</string>
     <string name="backup_account_title">Backup Your Account</string>
     <string name="backup_account_subtitle">You will be shown a 12 word recovery phrase. It will allow you to recover access to your account in case your phone is lost or stolen.</string>
     <string name="backup_understand">I Understand</string>
-
-    <string name="first_time_help_section">First time user? See our Help section</string>
-    <string name="agree_with_terms_and_privacy_policy">By registering you agree to our Terms of Service and Privacy Policy</string>
-
-    <string name="recovery_phrase">Recovery Phrase</string>
-    <string name="recovery_phrase_hint">Recovery phrase can help you to recover access to your account in case your phone is lost or stolen.</string>
-    <string name="recovery_phrase_save_hint">Write down these 12 words and keep them secure. Don’t email them or screenshot them.</string>
-    <string name="recovery_phrase_confirm_next_hint">You will need to confirm recovery phrase on the next screen</string>
 
     <string name="verify_phrase_title">Verify Recovery Phrase</string>
     <string name="verify_phrase_hint">Tap the words in correct order</string>
     <string name="verify_does_not_match">Verify mnemonics don\'t match</string>
 
+    <string name="first_time_help_section">First time user? See our Help section</string>
+    <string name="agree_with_terms_and_privacy_policy">By registering you agree to our Terms of Service and Privacy Policy</string>
+
+    <string name="recover_account">Recover account</string>
+    <string name="recovery_phrase">Recovery Phrase</string>
+    <string name="recovery_phrase_hint">Recovery phrase can help you to recover access to your account in case your phone is lost or stolen.</string>
+    <string name="recovery_phrase_save_hint">Write down these 12 words and keep them secure. Don’t email them or screenshot them.</string>
+    <string name="recovery_phrase_confirm_next_hint">You will need to confirm recovery phrase on the next screen</string>
+    <string name="recover_account_hint">Enter the 12 or 24 recovery words you were given when you created your account</string>
+
     <string name="signer_list">Your signers</string>
 
-    <string name="create_account">Create account</string>
-    <string name="restore_account">Restore account</string>
-    
     <string name="no_accounts_added">No accounts added. Add an account now?</string>
 
 </resources>

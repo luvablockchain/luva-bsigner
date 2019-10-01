@@ -4,7 +4,7 @@ import android.os.Bundle
 import com.luvapay.bsigner.Horizon
 import com.luvapay.bsigner.R
 import com.luvapay.bsigner.activities.account.BackupWarningActivity
-import com.luvapay.bsigner.activities.account.RestoreAccountActivity
+import com.luvapay.bsigner.activities.account.RecoverAccountActivity
 import com.luvapay.bsigner.base.BaseActivity
 import com.luvapay.bsigner.nativePaymentOperation
 import com.luvapay.bsigner.testnetTransaction
@@ -80,7 +80,7 @@ class AuthActivity : BaseActivity() {
         }
 
         home_restore.setOnClickListener {
-            startActivity<RestoreAccountActivity>()
+            startActivity<RecoverAccountActivity>()
         }
 
     }

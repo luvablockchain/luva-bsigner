@@ -32,12 +32,14 @@ class RecoverAccountActivity : BaseActivity() {
 
         mnemonicEdt.afterTextChanged { editable ->
             lifecycle.coroutineScope.launch {
-                nextBtn.isEnabled = withContext(Dispatchers.Default) {
+                withContext(Dispatchers.Default) {
                     return@withContext try {
                         editable.toString().isValid()
                     } catch (e: Exception) {
                         false
                     }
+                }.also {
+                    nextBtn.isEnabled = it
                 }
             }
         }

@@ -33,5 +33,7 @@
     <string name="signer_list">Your signers</string>
 
     <string name="no_accounts_added">No accounts added. Add an account now?</string>
+    <string name="error_account_already_exist">Account already exists</string>
+    <string name="error_undefined">Something went wrong</string>
 
 </resources>

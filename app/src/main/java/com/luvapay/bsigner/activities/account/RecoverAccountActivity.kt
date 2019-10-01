@@ -1,6 +1,7 @@
 package com.luvapay.bsigner.activities.account
 
 import android.os.Bundle
+import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.coroutineScope
 import com.luvapay.bsigner.AppBox
 import com.luvapay.bsigner.R
@@ -12,8 +13,11 @@ import com.luvapay.bsigner.utils.textWatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.greenrobot.essentials.StringUtils
+import org.jetbrains.anko.design.longSnackbar
 import org.jetbrains.anko.startActivity
 import java.lang.Exception
+import java.nio.charset.Charset
 import kotlinx.android.synthetic.main.activity_recover_account.activityRecover_toolbar as toolbar
 import kotlinx.android.synthetic.main.activity_recover_account.activityRecover_next as nextBtn
 import kotlinx.android.synthetic.main.activity_recover_account.activityRecover_mnemonicEdt as mnemonicEdt
@@ -38,23 +42,34 @@ class RecoverAccountActivity : BaseActivity() {
             }
         }
 
-        nextBtn.setOnClickListener {
+        nextBtn.setOnClickListener { view ->
             val mnemonics = mnemonicEdt.editableText.toString()
-            if (AppBox.addAccount(mnemonics)) {
-                startActivity<HomeActivity>()
-                finish()
-            } else {
-
-            }
+            AppBox.addAccount(
+                mnemonics,
+                accountAdded = {
+                    startActivity<HomeActivity>()
+                    finish()
+                },
+                accountExists = {
+                    view.rootView.longSnackbar(getString(R.string.error_account_already_exist))
+                },
+                error = {
+                    view.rootView.longSnackbar(getString(R.string.error_undefined))
+                }
+            )
         }
 
     }
 
+    /**
+     *  Validate mnemonics
+     */
     private fun String.isValid(): Boolean {
-        val menemonic = split(" ")
-        val wordValid = menemonic.all { it.isNotBlank() }
-        val sizeValid = menemonic.size == 12 || menemonic.size == 24
-        return wordValid && sizeValid
+        val mnemonics = split(" ")
+        val characterValid = matches(Regex(pattern = "[a-zA-Z ]*"))
+        val wordNotBlank = mnemonics.all { it.isNotBlank() }
+        val sizeValid = mnemonics.size == 12 || mnemonics.size == 24
+        return characterValid && wordNotBlank && sizeValid
     }
 
 }

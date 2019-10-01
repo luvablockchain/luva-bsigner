@@ -18,6 +18,7 @@ import com.mikepenz.fastadapter.ISelectionListener
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import com.mikepenz.fastadapter.select.getSelectExtension
 import io.objectbox.kotlin.query
+import org.jetbrains.anko.design.longSnackbar
 import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.startActivity
 import org.stellar.sdk.KeyPair
@@ -96,15 +97,25 @@ class VerifyMnemonicActivity : BaseActivity() {
             }
         }
 
-        nextBtn.setOnClickListener { btn ->
+        nextBtn.setOnClickListener { view ->
             val verifyStr = verifyAdapter.adapterItems.joinToString(separator = " ") { it.mnemonic }
 
             if (verifyStr == mnemonics) {
-                AppBox.addAccount(mnemonics)
-                startActivity<HomeActivity>()
-                finish()
+                AppBox.addAccount(
+                    mnemonics,
+                    accountAdded = {
+                        startActivity<HomeActivity>()
+                        finish()
+                    },
+                    accountExists = {
+                        view.rootView.longSnackbar(getString(R.string.error_account_already_exist))
+                    },
+                    error = {
+                        view.rootView.longSnackbar(getString(R.string.error_undefined))
+                    }
+                )
             } else {
-                btn.rootView.snackbar(getString(R.string.verify_does_not_match))
+                view.rootView.snackbar(getString(R.string.verify_does_not_match))
             }
         }
     }

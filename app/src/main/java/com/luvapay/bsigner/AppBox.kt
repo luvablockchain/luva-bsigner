@@ -22,18 +22,28 @@ object AppBox {
         }
     }
 
-    fun addAccount(mnemonics: String, accountNumber: Int = 0): Boolean {
-        val keyPair = KeyPair.fromBip39Seed(createBip39Seed(mnemonics.toCharArray()), accountNumber)
-        val addedAccount = accountBox.query {
-            equal(
-                StellarAccount_.publicKey, keyPair.accountId
-            )
-        }.findFirst()
-        return if (addedAccount != null) {
-            accountBox.put(StellarAccount(keyPair.accountId, keyPair.secretSeed.toString(), mnemonics))
-            true
-        } else {
-            false
+    fun addAccount(mnemonics: String, accountNumber: Int = 0, accountAdded: () -> Unit, accountExists: () -> Unit, error: (throwable: Throwable) -> Unit) {
+        runCatching {
+            val keyPair = KeyPair.fromBip39Seed(createBip39Seed(mnemonics.toCharArray()), accountNumber)
+            val addedAccount = accountBox.query {
+                equal(
+                    StellarAccount_.publicKey, keyPair.accountId
+                )
+            }.findFirst()
+            return@runCatching if (addedAccount != null) {
+                accountBox.put(StellarAccount(keyPair.accountId, keyPair.secretSeed.toString(), mnemonics))
+                Result.success(true)
+            } else {
+                Result.success(false)
+            }
+        }.onSuccess {
+            when (it.getOrThrow()) {
+                true -> accountAdded()
+                false -> accountExists()
+            }
+        }.onFailure {
+            it.printStackTrace()
+            error(it)
         }
     }
 }

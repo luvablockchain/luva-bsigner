@@ -17,7 +17,7 @@ class SplashActivity : BaseActivity() {
 
         lifecycleScope.launch {
             delay(360)
-            if (AppBox.accountBox.isEmpty) startActivity<AuthActivity>() else {
+            if (AppBox.accountBox.isEmpty) startActivity<WelcomeActivity>() else {
                 startActivity<HomeActivity>()
                 finish()
             }

@@ -13,59 +13,65 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activities.passcode.CreatePinActivity"></activity>
         <activity
             android:name=".activities.SplashActivity"
-            android:configChanges="orientation"
+            android:configChanges="locale"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".activities.SignActivity"
-            android:configChanges="orientation"
+            android:configChanges="locale"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.SIGN" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
         <activity
             android:name=".activities.AddSignerActivity"
-            android:configChanges="orientation"
+            android:configChanges="locale"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.ADD_SIGNER" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
         <activity
             android:name=".activities.account.RecoverAccountActivity"
-            android:configChanges="orientation"
+            android:configChanges="locale"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.HomeActivity"
-            android:configChanges="orientation"
+            android:configChanges="locale"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.account.VerifyMnemonicActivity"
-            android:configChanges="orientation"
+            android:configChanges="locale"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.account.CreateMnemonicsActivity"
-            android:configChanges="orientation"
+            android:configChanges="locale"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.account.BackupWarningActivity"
-            android:configChanges="orientation"
+            android:configChanges="locale"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.AuthActivity"
-            android:configChanges="orientation"
+            android:name=".activities.WelcomeActivity"
+            android:configChanges="locale"
             android:screenOrientation="portrait" />
     </application>
 

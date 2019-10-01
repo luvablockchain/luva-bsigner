@@ -13,8 +13,14 @@ object Prefs {
         prefs = PreferenceManager.getDefaultSharedPreferences(context)
     }
 
-    fun edit(block: SharedPreferences.Editor.() -> Unit) {
-        prefs.edit {
+    fun commit(block: SharedPreferences.Editor.() -> Unit) {
+        prefs.edit(true) {
+            this.apply(block)
+        }
+    }
+
+    fun edit(commit: Boolean = false, block: SharedPreferences.Editor.() -> Unit) {
+        prefs.edit(commit) {
             this.apply(block)
         }
     }
@@ -31,4 +37,8 @@ object Prefs {
 
 fun Context.initPrefs() {
     Prefs.init(this)
+}
+
+fun setAppPin(pin: String) {
+    Prefs.commit { putString("APP_PIN", pin) }
 }

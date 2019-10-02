@@ -19,8 +19,8 @@ class CreatePinActivity : BaseActivity() {
 
         val createPinFrag = PFLockScreenFragment()
         val createPinConfig = PFFLockScreenConfiguration.Builder(this)
+            .setTitle(getString(R.string.input_app_pw))
             .setCodeLength(6)
-            .setUseFingerprint(true)
             .setMode(PFFLockScreenConfiguration.MODE_CREATE)
             .setClearCodeOnError(true)
             .setErrorAnimation(true)
@@ -33,8 +33,8 @@ class CreatePinActivity : BaseActivity() {
 
                 val verifyPinFrag = PFLockScreenFragment()
                 val verifyPinConfig = PFFLockScreenConfiguration.Builder(this@CreatePinActivity)
+                    .setTitle(getString(R.string.input_app_pw_again))
                     .setCodeLength(6)
-                    .setUseFingerprint(true)
                     .setMode(PFFLockScreenConfiguration.MODE_AUTH)
                     .setClearCodeOnError(true)
                     .setErrorAnimation(true)
@@ -62,6 +62,10 @@ class CreatePinActivity : BaseActivity() {
                             }
                         }
                     )
+                }
+
+                supportFragmentManager.commit {
+                    replace(R.id.activityCreatePin_root, verifyPinFrag)
                 }
             }
         }

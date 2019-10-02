@@ -1,15 +1,21 @@
 package com.luvapay.bsigner.base
 
+import android.app.Activity
+import android.content.Intent
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.coroutineScope
+import com.luvapay.bsigner.activities.passcode.VerifyPinActivity
 import com.luvapay.bsigner.model.InitData
+import com.luvapay.bsigner.utils.LOGIN_PIN_REQUEST_CODE
+import com.luvapay.bsigner.utils.isAppLocked
 import com.orhanobut.logger.Logger
 import kotlinx.coroutines.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import org.jetbrains.anko.startActivityForResult
 
 abstract class BaseActivity : AppCompatActivity() {
 
@@ -21,6 +27,9 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         EventBus.getDefault().register(this)
+        if (isAppLocked()) {
+            startActivityForResult<VerifyPinActivity>(LOGIN_PIN_REQUEST_CODE)
+        }
     }
 
     override fun onPause() {
@@ -38,4 +47,12 @@ abstract class BaseActivity : AppCompatActivity() {
     open fun init(initData: InitData) {
 
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == LOGIN_PIN_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            
+        }
+    }
+
 }

@@ -11,6 +11,7 @@ import com.luvapay.bsigner.base.BaseActivity
 import com.luvapay.bsigner.utils.MNEMONIC_EXTRA
 import com.luvapay.bsigner.utils.copyToClipBoard
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
+import com.orhanobut.logger.Logger
 import com.soneso.stellarmnemonics.Wallet
 import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.startActivity
@@ -40,6 +41,8 @@ class CreateMnemonicsActivity : BaseActivity() {
                 add(mnemonics.split(" ").mapIndexed { index, mnemonic -> MenemonicItem(index.toLong(), mnemonic) })
             }
         }
+
+        Logger.d("$mnemonics")
 
         copyBtn.setOnClickListener {
             copyToClipBoard("mnemonics", mnemonics)

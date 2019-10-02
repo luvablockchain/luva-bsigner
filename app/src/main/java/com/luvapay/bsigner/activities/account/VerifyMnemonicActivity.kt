@@ -5,12 +5,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.luvapay.bsigner.AppBox
 import com.luvapay.bsigner.R
 import com.luvapay.bsigner.activities.HomeActivity
+import com.luvapay.bsigner.activities.passcode.CreatePinActivity
 import com.luvapay.bsigner.base.BaseActivity
 import com.luvapay.bsigner.items.MenemonicItem
-import com.luvapay.bsigner.utils.MNEMONIC_EXTRA
-import com.luvapay.bsigner.utils.disable
-import com.luvapay.bsigner.utils.enable
-import com.luvapay.bsigner.utils.selectionListener
+import com.luvapay.bsigner.utils.*
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import com.mikepenz.fastadapter.select.getSelectExtension
 import org.jetbrains.anko.design.longSnackbar
@@ -94,7 +92,7 @@ class VerifyMnemonicActivity : BaseActivity() {
                 AppBox.addAccount(
                     mnemonics,
                     accountAdded = {
-                        startActivity<HomeActivity>()
+                        if (getAppPin().isBlank()) startActivity<CreatePinActivity>() else startActivity<HomeActivity>()
                         finish()
                     },
                     accountExists = {

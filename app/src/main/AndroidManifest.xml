@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.passcode.CreatePinActivity"></activity>
+        <activity android:name=".activities.passcode.VerifyPinActivity" />
+        <activity android:name=".activities.passcode.CreatePinActivity" />
         <activity
             android:name=".activities.SplashActivity"
             android:configChanges="locale"

@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
+import com.luvapay.bsigner.utils.Prefs.PREF_APP_LOCKED
+import com.luvapay.bsigner.utils.Prefs.PREF_APP_PIN_KEY
 
 object Prefs {
 
@@ -19,8 +21,8 @@ object Prefs {
         }
     }
 
-    fun edit(commit: Boolean = false, block: SharedPreferences.Editor.() -> Unit) {
-        prefs.edit(commit) {
+    fun apply(block: SharedPreferences.Editor.() -> Unit) {
+        prefs.edit {
             this.apply(block)
         }
     }
@@ -33,6 +35,9 @@ object Prefs {
     fun getFloat(key: String, fallback: Float = -1f): Float = prefs.getFloat(key, fallback)
     fun getLong(key: String, fallback: Long = -1): Long = prefs.getLong(key, fallback)
 
+
+    const val PREF_APP_PIN_KEY = "PREF_APP_PIN_KEY"
+    const val PREF_APP_LOCKED = "PREF_APP_LOCKED"
 }
 
 fun Context.initPrefs() {
@@ -40,5 +45,17 @@ fun Context.initPrefs() {
 }
 
 fun setAppPin(pin: String) {
-    Prefs.commit { putString("APP_PIN", pin) }
+    Prefs.commit { putString(PREF_APP_PIN_KEY, pin) }
+}
+
+fun getAppPin(): String = Prefs.getString(PREF_APP_PIN_KEY)
+
+fun isAppLocked(): Boolean = Prefs.getBoolean(PREF_APP_LOCKED)
+
+fun openAppLock() {
+    Prefs.commit { putBoolean(PREF_APP_LOCKED, false) }
+}
+
+fun lockApp() {
+    Prefs.commit { putBoolean(PREF_APP_LOCKED, true) }
 }

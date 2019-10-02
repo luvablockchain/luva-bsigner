@@ -9,6 +9,7 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.jakewharton.threetenabp.AndroidThreeTen
+import com.luvapay.bsigner.utils.getAppPin
 import com.luvapay.bsigner.utils.initPrefs
 import com.luvapay.bsigner.utils.lockApp
 import com.luvapay.bsigner.viewmodel.HomeViewModel
@@ -50,7 +51,7 @@ class App : Application(), LifecycleObserver {
             )
         }
 
-        lockApp()
+        if (getAppPin().isNotBlank()) lockApp()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)

@@ -6,6 +6,7 @@ import java.security.PrivateKey
 
 @Entity
 data class StellarAccount(
+    var name: String = "",
     @Unique
     @Index(type = IndexType.VALUE)
     var publicKey: String,

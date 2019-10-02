@@ -37,10 +37,10 @@
     <string name="error_account_already_exist">Account already exists</string>
     <string name="error_undefined">Something went wrong</string>
 
-    <string name="input_app_pw">Enter the lock code</string>
-    <string name="input_app_pw_again">Re-enter the lock code</string>
-    <string name="input_app_pw_login">Please enter the lock code</string>
-    <string name="input_app_pw_continue">Continue</string>
+    <string name="pin_create_hint">Setup a PIN</string>
+    <string name="pin_again_hint">Confirm your PIN</string>
+    <string name="pin_enter_hint">Enter your PIN</string>
+    <string name="pin_continue">Continue</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

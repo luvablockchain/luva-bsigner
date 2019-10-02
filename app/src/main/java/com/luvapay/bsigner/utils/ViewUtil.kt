@@ -2,11 +2,15 @@ package com.luvapay.bsigner.utils
 
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.EditText
 import com.google.android.material.button.MaterialButton
 
 fun MaterialButton.enable() { isEnabled = true }
 fun MaterialButton.disable() { isEnabled = false }
+
+fun View.visible() { visibility = View.VISIBLE }
+fun View.gone() { visibility = View.GONE }
 
 fun EditText.textWatcher(
     beforeTextChanged: ((charSequence: CharSequence, start: Int, count: Int, after: Int) -> Unit) = {_: CharSequence, _: Int, _: Int, _: Int -> },

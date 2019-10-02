@@ -7,11 +7,8 @@ import androidx.fragment.app.commit
 import com.beautycoder.pflockscreen.PFFLockScreenConfiguration
 import com.beautycoder.pflockscreen.fragments.PFLockScreenFragment
 import com.luvapay.bsigner.R
-import com.luvapay.bsigner.activities.HomeActivity
 import com.luvapay.bsigner.utils.getAppPin
 import com.luvapay.bsigner.utils.openAppLock
-import com.luvapay.bsigner.utils.setAppPin
-import org.jetbrains.anko.startActivity
 
 class VerifyPinActivity : AppCompatActivity() {
 
@@ -21,7 +18,7 @@ class VerifyPinActivity : AppCompatActivity() {
 
         val verifyPinFrag = PFLockScreenFragment()
         val verifyPinConfig = PFFLockScreenConfiguration.Builder(this@VerifyPinActivity)
-            .setTitle(getString(R.string.input_app_pw_login))
+            .setTitle(getString(R.string.pin_enter_hint))
             .setCodeLength(6)
             .setUseFingerprint(true)
             .setMode(PFFLockScreenConfiguration.MODE_AUTH)

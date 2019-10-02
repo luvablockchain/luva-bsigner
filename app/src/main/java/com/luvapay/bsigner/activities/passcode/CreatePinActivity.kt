@@ -7,7 +7,6 @@ import com.beautycoder.pflockscreen.fragments.PFLockScreenFragment
 import com.luvapay.bsigner.R
 import com.luvapay.bsigner.activities.HomeActivity
 import com.luvapay.bsigner.base.BaseActivity
-import com.luvapay.bsigner.utils.Prefs
 import com.luvapay.bsigner.utils.setAppPin
 import org.jetbrains.anko.startActivity
 
@@ -19,7 +18,7 @@ class CreatePinActivity : BaseActivity() {
 
         val createPinFrag = PFLockScreenFragment()
         val createPinConfig = PFFLockScreenConfiguration.Builder(this)
-            .setTitle(getString(R.string.input_app_pw))
+            .setTitle(getString(R.string.pin_create_hint))
             .setCodeLength(6)
             .setMode(PFFLockScreenConfiguration.MODE_CREATE)
             .setClearCodeOnError(true)
@@ -33,7 +32,7 @@ class CreatePinActivity : BaseActivity() {
 
                 val verifyPinFrag = PFLockScreenFragment()
                 val verifyPinConfig = PFFLockScreenConfiguration.Builder(this@CreatePinActivity)
-                    .setTitle(getString(R.string.input_app_pw_again))
+                    .setTitle(getString(R.string.pin_again_hint))
                     .setCodeLength(6)
                     .setMode(PFFLockScreenConfiguration.MODE_AUTH)
                     .setClearCodeOnError(true)

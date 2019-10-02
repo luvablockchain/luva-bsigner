@@ -28,7 +28,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.SignActivity"
+            android:name=".activities.multisign.SignActivity"
             android:configChanges="locale"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -40,7 +40,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.AddSignerActivity"
+            android:name=".activities.multisign.AddSignerActivity"
             android:configChanges="locale"
             android:screenOrientation="portrait">
             <intent-filter>

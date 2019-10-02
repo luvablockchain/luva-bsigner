@@ -1,4 +1,4 @@
-package com.luvapay.bsigner.activities
+package com.luvapay.bsigner.activities.multisign
 
 import android.app.Activity
 import android.content.Intent

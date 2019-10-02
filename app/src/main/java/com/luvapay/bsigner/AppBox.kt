@@ -31,7 +31,13 @@ object AppBox {
                 )
             }.findFirst()
             return@runCatching if (addedAccount == null) {
-                accountBox.put(StellarAccount(keyPair.accountId, keyPair.secretSeed.toString(), mnemonics))
+                accountBox.put(
+                    StellarAccount(
+                        publicKey = keyPair.accountId,
+                        privateKey = keyPair.secretSeed.toString(),
+                        mnemonic = mnemonics
+                    )
+                )
                 Result.success(true)
             } else {
                 Result.success(false)

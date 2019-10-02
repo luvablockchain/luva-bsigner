@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.commit
 import com.afollestad.materialdialogs.MaterialDialog
+import com.luvapay.bsigner.AppBox
 import com.luvapay.bsigner.R
 import com.luvapay.bsigner.activities.account.BackupWarningActivity
 import com.luvapay.bsigner.base.BaseActivity
@@ -14,7 +15,7 @@ import org.jetbrains.anko.startActivity
 import java.util.*
 import kotlinx.android.synthetic.main.activity_add_signer.activityAddSigner_addBtn as addSignerBtn
 
-class AddSignerActivity : BaseActivity(), AccountFragment.AccountListener {
+class AddSignerActivity : BaseActivity(), AccountFragment.AccountSelectListener {
 
     private val accountFragment by lazy {
         AccountFragment.init(
@@ -35,7 +36,7 @@ class AddSignerActivity : BaseActivity(), AccountFragment.AccountListener {
         }
 
         runCatching {
-            if (accountFragment.getAccounts().isEmpty()) {
+            if (AppBox.accountBox.isEmpty) {
                 MaterialDialog(this@AddSignerActivity).show {
                     message(R.string.no_accounts_added)
                     positiveButton(R.string.ok) {
@@ -59,7 +60,7 @@ class AddSignerActivity : BaseActivity(), AccountFragment.AccountListener {
 
     }
 
-    override fun onSelectAccount(accounts: MutableList<StellarAccount>) {
+    override fun onAccountSelected(accounts: MutableList<StellarAccount>) {
         addSignerBtn.apply {
             isEnabled = accountFragment.getSelectedAccount().isNotEmpty()
         }

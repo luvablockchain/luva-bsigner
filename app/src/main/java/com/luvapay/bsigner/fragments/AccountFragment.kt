@@ -28,12 +28,11 @@ import kotlinx.android.synthetic.main.fragment_account.view.fragmentAccount_acco
 
 class AccountFragment : BaseFragment() {
 
-    //val vm: HomeViewModel by sharedViewModel()
-
     private val accountAdapter by lazy { FastItemAdapter<AccountItem>() }
     private lateinit var accountSub: DataSubscription
 
-    private var accountListener: AccountListener? = null
+    private var accountSelectListener: AccountSelectListener? = null
+    private var accountClickListener: AccountClickListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,22 +47,33 @@ class AccountFragment : BaseFragment() {
             adapter = accountAdapter
         }
 
-        accountAdapter.getSelectExtension().apply {
-            isSelectable = arguments?.getBoolean(SELECTABLE) ?: false
-            multiSelect = arguments?.getBoolean(MULTI_SELECT) ?: false
-            selectOnLongClick = false
-            selectWithItemUpdate = true
+        if (arguments?.getBoolean(SELECTABLE) == true) {
+            accountAdapter.getSelectExtension().apply {
+                isSelectable = arguments?.getBoolean(SELECTABLE) ?: false
+                multiSelect = arguments?.getBoolean(MULTI_SELECT) ?: false
+                selectOnLongClick = false
+                selectWithItemUpdate = true
 
-            selectionListener = selectionListener { item, _ ->
-                accountListener?.onSelectAccount(mutableListOf(item.account))
+                selectionListener = selectionListener { item, _ ->
+                    accountSelectListener?.onAccountSelected(mutableListOf(item.account))
+                }
+            }
+        } else {
+            accountAdapter.onClickListener = { _, _, item, _ ->
+                accountClickListener?.onAccountClicked(item.account)
+                true
             }
         }
+
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        //Listener
-        if (context is AccountListener) accountListener = context
+        //Listeners
+        when (context) {
+            is AccountSelectListener -> accountSelectListener = context
+            is AccountClickListener-> accountClickListener = context
+        }
         //Subscription
         accountSub = AppBox.accountBox.query {}.subscribe().on(AndroidScheduler.mainThread()).observer { accounts ->
             //Coroutine
@@ -78,15 +88,20 @@ class AccountFragment : BaseFragment() {
 
     override fun onDetach() {
         super.onDetach()
-        accountListener = null
+        accountSelectListener = null
+        accountClickListener = null
         accountSub.unSubscribe()
     }
 
     fun getSelectedAccount() = accountAdapter.getSelectExtension().selectedItems.map { it.account.publicKey }.toList()
     fun getAccounts() = accountAdapter.adapterItems
 
-    interface AccountListener {
-        fun onSelectAccount(accounts: MutableList<StellarAccount>)
+    interface AccountSelectListener {
+        fun onAccountSelected(accounts: MutableList<StellarAccount>)
+    }
+
+    interface AccountClickListener {
+        fun onAccountClicked(account: StellarAccount)
     }
 
     companion object {

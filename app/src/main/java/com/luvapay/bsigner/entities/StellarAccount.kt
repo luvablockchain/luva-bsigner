@@ -19,4 +19,9 @@ data class StellarAccount(
     var objId: Long = 0
 
     fun toKeyPair(): KeyPair = KeyPair.fromSecretSeed(privateKey)
+
+    companion object {
+        const val OBJ_ID = "OBJ_ID"
+    }
+
 }

@@ -92,8 +92,7 @@ class VerifyMnemonicActivity : BaseActivity() {
                 AppBox.addAccount(
                     mnemonics,
                     accountAdded = {
-                        startActivity<HomeActivity>()
-                        //if (getAppPin().isBlank()) startActivity<CreatePinActivity>() else startActivity<HomeActivity>()
+                        if (getAppPin().isBlank()) startActivity<CreatePinActivity>() else startActivity<HomeActivity>()
                         finish()
                     },
                     accountExists = {

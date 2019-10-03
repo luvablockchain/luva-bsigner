@@ -105,6 +105,7 @@ class AccountFragment : BaseFragment() {
     }
 
     companion object {
+        @JvmStatic
         fun init(selectable: Boolean = false, multiSelect: Boolean = false): AccountFragment {
             val args = Bundle().apply {
                 putBoolean(SELECTABLE, selectable)

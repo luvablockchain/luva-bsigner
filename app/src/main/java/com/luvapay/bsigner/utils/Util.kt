@@ -3,6 +3,7 @@ package com.luvapay.bsigner.utils
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.os.Build
 import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
@@ -12,6 +13,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
+import com.sonhvp.kryptographer.Kryptographer
+import com.sonhvp.kryptographer.key.CryptographicKey
 
 infix fun Boolean.then(block: () -> Unit): Boolean {
     if (this) block()
@@ -20,16 +23,6 @@ infix fun Boolean.then(block: () -> Unit): Boolean {
 
 infix fun Boolean.otherwise(block: () -> Unit): Boolean {
     if (!this) block()
-    return this
-}
-
-infix fun Any?.ifNull(block: () -> Unit): Any? {
-    if (this == null) block()
-    return this
-}
-
-infix fun Any?.notNull(block: () -> Unit): Any? {
-    if (this != null) block()
     return this
 }
 
@@ -58,3 +51,12 @@ fun Context.showPopupMenu(anchor: View, menuId: Int, onItemClick: (menuItem: Men
         }
     }.show()
 }
+
+fun getCryptKey(): CryptographicKey = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+    Kryptographer.defaultSymmetricKey()
+} else {
+    Kryptographer.defaultAsymmetricKey()
+}
+
+fun String.encrypt(): String = getCryptKey().encrypt(this)
+fun String.decrypt(): String = getCryptKey().decrypt(this)

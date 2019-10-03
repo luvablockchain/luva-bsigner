@@ -1,6 +1,5 @@
 package com.luvapay.bsigner.items
 
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.view.View
 import com.luvapay.bsigner.R
@@ -9,7 +8,6 @@ import com.luvapay.bsigner.utils.getColorCompat
 import com.luvapay.bsigner.utils.prefetchText
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
-import com.orhanobut.logger.Logger
 import kotlinx.android.synthetic.main.item_account.view.*
 
 data class AccountItem(val account: StellarAccount) : AbstractItem<AccountItem.ViewHolder>() {

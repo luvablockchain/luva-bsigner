@@ -1,10 +1,14 @@
 package com.luvapay.bsigner
 
 import android.app.Application
+import android.os.Build
 import com.luvapay.bsigner.entities.MyObjectBox
 import com.luvapay.bsigner.entities.StellarAccount
 import com.luvapay.bsigner.entities.StellarAccount_
-import com.luvapay.bsigner.utils.ifNull
+import com.luvapay.bsigner.utils.encrypt
+import com.luvapay.bsigner.utils.getCryptKey
+import com.orhanobut.logger.Logger
+import com.sonhvp.kryptographer.Kryptographer
 import io.objectbox.Box
 import io.objectbox.BoxStore
 import io.objectbox.kotlin.boxFor
@@ -31,13 +35,17 @@ object AppBox {
                 )
             }.findFirst()
             return@runCatching if (addedAccount == null) {
-                accountBox.put(
-                    StellarAccount(
-                        publicKey = keyPair.accountId,
-                        privateKey = keyPair.secretSeed.toString(),
-                        mnemonic = mnemonics
-                    )
+                val account = StellarAccount(
+                    publicKey = keyPair.accountId,
+                    privateKey = keyPair.secretSeed.toString(),
+                    mnemonic = mnemonics
                 )
+                Logger.d("${account.publicKey}")
+                accountBox.put(
+                    account
+                ).also {
+                    Logger.d("${accountBox[it].publicKey}")
+                }
                 Result.success(true)
             } else {
                 Result.success(false)

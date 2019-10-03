@@ -10,6 +10,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.luvapay.bsigner.utils.getAppPin
+import com.luvapay.bsigner.utils.getCryptKey
 import com.luvapay.bsigner.utils.initPrefs
 import com.luvapay.bsigner.utils.lockApp
 import com.luvapay.bsigner.viewmodel.HomeViewModel
@@ -17,6 +18,7 @@ import com.luvapay.bsigner.workers.AppLockWorker
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import com.orhanobut.logger.PrettyFormatStrategy
+import com.sonhvp.kryptographer.Kryptographer
 import org.greenrobot.eventbus.EventBus
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -37,6 +39,8 @@ class App : Application(), LifecycleObserver {
         initPrefs()
         //Threeten
         AndroidThreeTen.init(this@App)
+        //
+        Kryptographer.initWithDefaultKeys(this@App)
         //
         initAppBox()
         //EventBus index

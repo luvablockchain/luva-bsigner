@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +18,7 @@ import com.luvapay.bsigner.activities.account.AccountDetailActivity
 import com.luvapay.bsigner.entities.StellarAccount
 import com.luvapay.bsigner.items.AccountItem
 import com.luvapay.bsigner.unSubscribe
+import com.luvapay.bsigner.viewmodel.HomeViewModel
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import io.objectbox.android.AndroidScheduler
 import io.objectbox.kotlin.query
@@ -25,9 +27,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jetbrains.anko.startActivity
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlinx.android.synthetic.main.fragment_home.view.fragmentHome_accountList as accountList
 
 class HomeFragment : Fragment() {
+
+    private val vm: HomeViewModel by sharedViewModel()
 
     private val accountAdapter by lazy { FastItemAdapter<AccountItem>() }
     private lateinit var accountSub: DataSubscription
@@ -60,11 +66,16 @@ class HomeFragment : Fragment() {
             //Coroutine
             lifecycleScope.launch {
                 val accountItems = withContext(Dispatchers.Default) {
-                    return@withContext accounts.map { AccountItem(it) }
+                    return@withContext accounts.map { AccountItem(it).apply { canModify = vm.canModify.value ?: false } }
                 }
                 accountAdapter.set(accountItems)
             }
         }
+
+        vm.canModify.observe(this, Observer { canModify ->
+            accountAdapter.adapterItems.forEach { it.canModify = canModify }
+            accountAdapter.notifyDataSetChanged()
+        })
     }
 
     override fun onDetach() {

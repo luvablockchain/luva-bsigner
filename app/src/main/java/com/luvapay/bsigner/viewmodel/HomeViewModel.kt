@@ -6,6 +6,10 @@ import androidx.lifecycle.MutableLiveData
 
 class HomeViewModel (app: Application) : AndroidViewModel(app) {
 
-    var networkConnected: MutableLiveData<Boolean> = MutableLiveData()
+    var canModify: MutableLiveData<Boolean> = MutableLiveData()
+
+    init {
+        canModify.value = false
+    }
 
 }

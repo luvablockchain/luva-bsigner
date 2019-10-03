@@ -81,6 +81,7 @@ dependencies {
 
     //Material Dialog
     implementation "com.afollestad.material-dialogs:core:$materialDialog"
+    implementation 'com.afollestad.material-dialogs:input:3.1.1'
     implementation "com.afollestad.material-dialogs:color:$materialDialog"
     implementation "com.afollestad.material-dialogs:bottomsheets:$materialDialog"
 

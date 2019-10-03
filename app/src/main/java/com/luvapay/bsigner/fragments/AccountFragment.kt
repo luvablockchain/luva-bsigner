@@ -13,7 +13,7 @@ import com.luvapay.bsigner.AppBox
 import com.luvapay.bsigner.R
 import com.luvapay.bsigner.base.BaseFragment
 import com.luvapay.bsigner.entities.StellarAccount
-import com.luvapay.bsigner.items.AccountItem
+import com.luvapay.bsigner.items.AccountSelectItem
 import com.luvapay.bsigner.unSubscribe
 import com.luvapay.bsigner.utils.selectionListener
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
@@ -28,7 +28,7 @@ import kotlinx.android.synthetic.main.fragment_account.view.fragmentAccount_acco
 
 class AccountFragment : BaseFragment() {
 
-    private val accountAdapter by lazy { FastItemAdapter<AccountItem>() }
+    private val accountAdapter by lazy { FastItemAdapter<AccountSelectItem>() }
     private lateinit var accountSub: DataSubscription
 
     private var accountSelectListener: AccountSelectListener? = null
@@ -79,7 +79,7 @@ class AccountFragment : BaseFragment() {
             //Coroutine
             lifecycleScope.launch {
                 val accountItems = withContext(Dispatchers.Default) {
-                    return@withContext accounts.map { AccountItem(it) }
+                    return@withContext accounts.map { AccountSelectItem(it) }
                 }
                 accountAdapter.set(accountItems)
             }

@@ -28,8 +28,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jetbrains.anko.startActivity
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import kotlinx.android.synthetic.main.fragment_home.view.fragmentHome_accountList as accountList
+import kotlinx.android.synthetic.main.fragment_home_account.view.fragmentHome_accountList as accountList
 
 class HomeFragment : Fragment() {
 
@@ -42,7 +41,7 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View?
-        = inflater.inflate(R.layout.fragment_home, container, false)
+        = inflater.inflate(R.layout.fragment_home_account, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

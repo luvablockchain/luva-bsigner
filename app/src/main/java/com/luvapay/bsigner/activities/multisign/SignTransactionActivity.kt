@@ -10,7 +10,7 @@ import com.luvapay.bsigner.R
 import com.luvapay.bsigner.nativePaymentOperation
 import com.luvapay.bsigner.testnetTransaction
 import com.orhanobut.logger.Logger
-import kotlinx.android.synthetic.main.activity_sign.*
+import kotlinx.android.synthetic.main.activity_multisign_sign_transaction.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -29,14 +29,14 @@ import java.nio.CharBuffer
 import java.security.MessageDigest
 import java.util.*
 
-class SignActivity : AppCompatActivity() {
+class SignTransactionActivity : AppCompatActivity() {
 
     private val key1 = KeyPair.fromSecretSeed("SA44JVCA3B5HCWPDBJO5AZ7VYYOKIFCD77EAB7G5JYIIQ7HZTQAUONZS")
     private val key2 = KeyPair.fromSecretSeed("SAL4AAOMCRYQLXDZQXNYVNHJNCFKBHSF4V7GAIUBW2HK5GTKMDC2V4VK")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sign)
+        setContentView(R.layout.activity_multisign_sign_transaction)
 
         if (intent == null) return
 

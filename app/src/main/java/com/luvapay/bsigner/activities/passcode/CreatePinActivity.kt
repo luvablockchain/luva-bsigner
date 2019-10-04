@@ -14,7 +14,7 @@ class CreatePinActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_create_pin)
+        setContentView(R.layout.activity_pin_create)
 
         val createPinFrag = PFLockScreenFragment()
         val createPinConfig = PFFLockScreenConfiguration.Builder(this)

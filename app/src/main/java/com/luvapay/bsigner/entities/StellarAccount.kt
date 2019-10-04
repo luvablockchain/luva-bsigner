@@ -12,7 +12,7 @@ class StellarAccount(
     var name: String = "",
     @Unique
     @Index(type = IndexType.VALUE)
-    var publicKey: String = "",
+    var publicKey: String,
     @Unique
     @Index(type = IndexType.VALUE)
     @Convert(converter = SecurityConverter::class, dbType = String::class)

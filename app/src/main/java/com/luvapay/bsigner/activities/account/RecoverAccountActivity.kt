@@ -14,15 +14,15 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jetbrains.anko.design.longSnackbar
 import org.jetbrains.anko.startActivity
-import kotlinx.android.synthetic.main.activity_recover_account.activityRecover_mnemonicEdt as mnemonicEdt
-import kotlinx.android.synthetic.main.activity_recover_account.activityRecover_next as nextBtn
-import kotlinx.android.synthetic.main.activity_recover_account.activityRecover_toolbar as toolbar
+import kotlinx.android.synthetic.main.activity_account_recover.activityRecover_mnemonicEdt as mnemonicEdt
+import kotlinx.android.synthetic.main.activity_account_recover.activityRecover_next as nextBtn
+import kotlinx.android.synthetic.main.activity_account_recover.activityRecover_toolbar as toolbar
 
 class RecoverAccountActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_recover_account)
+        setContentView(R.layout.activity_account_recover)
 
         toolbar.init()
 

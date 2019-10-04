@@ -24,7 +24,7 @@ import io.objectbox.reactive.DataSubscription
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.android.synthetic.main.fragment_account.view.fragmentAccount_accountList as accountList
+import kotlinx.android.synthetic.main.fragment_external_account_select.view.fragmentAccount_accountList as accountList
 
 class AccountFragment : BaseFragment() {
 
@@ -39,7 +39,7 @@ class AccountFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View?
-        = inflater.inflate(R.layout.fragment_account, container, false).apply {
+        = inflater.inflate(R.layout.fragment_external_account_select, container, false).apply {
 
         accountList.apply {
             itemAnimator = DefaultItemAnimator()

@@ -13,7 +13,7 @@ import com.luvapay.bsigner.entities.StellarAccount
 import com.luvapay.bsigner.fragments.AccountFragment
 import org.jetbrains.anko.startActivity
 import java.util.*
-import kotlinx.android.synthetic.main.activity_add_signer.activityAddSigner_addBtn as addSignerBtn
+import kotlinx.android.synthetic.main.activity_multisign_add_signer.activityAddSigner_addBtn as addSignerBtn
 
 class AddSignerActivity : BaseActivity(), AccountFragment.AccountSelectListener {
 
@@ -26,7 +26,7 @@ class AddSignerActivity : BaseActivity(), AccountFragment.AccountSelectListener 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_signer)
+        setContentView(R.layout.activity_multisign_add_signer)
 
         supportFragmentManager.commit {
             replace(

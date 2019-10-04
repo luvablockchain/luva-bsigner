@@ -14,10 +14,10 @@ import com.mikepenz.fastadapter.select.getSelectExtension
 import org.jetbrains.anko.design.longSnackbar
 import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.startActivity
-import kotlinx.android.synthetic.main.activity_verify_mnemonic.verifyMnemonic_next as nextBtn
-import kotlinx.android.synthetic.main.activity_verify_mnemonic.verifyMnemonic_tapList as tapList
-import kotlinx.android.synthetic.main.activity_verify_mnemonic.verifyMnemonic_toolbar as toolbar
-import kotlinx.android.synthetic.main.activity_verify_mnemonic.verifyMnemonic_verifyList as verifyList
+import kotlinx.android.synthetic.main.activity_mnemonic_verify.verifyMnemonic_next as nextBtn
+import kotlinx.android.synthetic.main.activity_mnemonic_verify.verifyMnemonic_tapList as tapList
+import kotlinx.android.synthetic.main.activity_mnemonic_verify.verifyMnemonic_toolbar as toolbar
+import kotlinx.android.synthetic.main.activity_mnemonic_verify.verifyMnemonic_verifyList as verifyList
 
 class VerifyMnemonicActivity : BaseActivity() {
 
@@ -28,7 +28,7 @@ class VerifyMnemonicActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_verify_mnemonic)
+        setContentView(R.layout.activity_mnemonic_verify)
 
         if (mnemonics.isBlank()) {
             finish()

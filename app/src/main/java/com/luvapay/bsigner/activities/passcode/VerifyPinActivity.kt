@@ -14,7 +14,7 @@ class VerifyPinActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_verify_pin)
+        setContentView(R.layout.activity_pin_verify)
 
         val verifyPinFrag = PFLockScreenFragment()
         val verifyPinConfig = PFFLockScreenConfiguration.Builder(this@VerifyPinActivity)

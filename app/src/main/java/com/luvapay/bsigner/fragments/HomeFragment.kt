@@ -1,7 +1,6 @@
 package com.luvapay.bsigner.fragments
 
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,10 +14,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.luvapay.bsigner.AppBox
 import com.luvapay.bsigner.R
 import com.luvapay.bsigner.activities.account.AccountDetailActivity
+import com.luvapay.bsigner.activities.account.BackupWarningActivity
+import com.luvapay.bsigner.activities.account.RecoverAccountActivity
 import com.luvapay.bsigner.entities.StellarAccount
 import com.luvapay.bsigner.items.AccountItem
 import com.luvapay.bsigner.unSubscribe
 import com.luvapay.bsigner.utils.getColorCompat
+import com.luvapay.bsigner.utils.gone
+import com.luvapay.bsigner.utils.visible
 import com.luvapay.bsigner.viewmodel.HomeViewModel
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import io.objectbox.android.AndroidScheduler
@@ -30,7 +33,10 @@ import kotlinx.coroutines.withContext
 import org.jetbrains.anko.startActivity
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import kotlinx.android.synthetic.main.fragment_home_account.view.fragmentHomeAccount_accountList as accountList
-import kotlinx.android.synthetic.main.fragment_home_account.view.fragmentHomeAccount_menuBtn as modifyBtn
+import kotlinx.android.synthetic.main.fragment_home_account.view.fragmentHomeAccount_modifyBtn as modifyBtn
+import kotlinx.android.synthetic.main.fragment_home_account.view.fragmentHomeAccount_createBtn as createAccountBtn
+import kotlinx.android.synthetic.main.fragment_home_account.view.fragmentHomeAccount_recoverBtn as recoverAccountBtn
+import kotlinx.android.synthetic.main.fragment_home_account.view.fragmentHomeAccount_menuContainer as menuContainer
 
 class HomeFragment : Fragment() {
 
@@ -47,34 +53,47 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         view.accountList.apply {
             itemAnimator = DefaultItemAnimator()
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-            adapter = accountAdapter
-        }
-
-        accountAdapter.onClickListener = { _, _, item, _ ->
-            context?.startActivity<AccountDetailActivity>(StellarAccount.OBJ_ID to item.account.objId)
-            true
+            //Adapter
+            adapter = accountAdapter.apply {
+                onClickListener = { _, _, item, _ ->
+                    context?.startActivity<AccountDetailActivity>(StellarAccount.OBJ_ID to item.account.objId)
+                    true
+                }
+            }
         }
 
         view.modifyBtn.setOnClickListener {
             vm.canModify.value = !(vm.canModify.value ?: true)
         }
 
-        vm.canModify.observe(this, Observer {
-            if (it) {
-                view.modifyBtn.apply {
-                    setBackgroundColor(context.getColorCompat(R.color.colorPrimary))
-                    icon = context.getDrawable(R.drawable.ic_check)
-                }
-            } else {
-                view.modifyBtn.apply {
-                    setBackgroundColor(context.getColorCompat(R.color.colorAccent))
-                    icon = context.getDrawable(R.drawable.ic_edit)
-                }
+        view.createAccountBtn.setOnClickListener {
+            context?.startActivity<BackupWarningActivity>()
+        }
+
+        view.recoverAccountBtn.setOnClickListener {
+            context?.startActivity<RecoverAccountActivity>()
+        }
+
+        vm.canModify.observe(this, Observer { canModify ->
+            //Modify Button
+            view.modifyBtn.apply {
+                setBackgroundColor(
+                    context.getColorCompat(if (canModify) R.color.colorPrimary else R.color.colorAccent)
+                )
+                icon = context.getDrawable(
+                    if (canModify) R.drawable.ic_check else R.drawable.ic_edit
+                )
+            }
+            //Account menu
+            view.menuContainer.apply {
+                if (canModify) visible() else gone()
             }
         })
+
     }
 
     override fun onAttach(context: Context) {
@@ -99,10 +118,6 @@ class HomeFragment : Fragment() {
     override fun onDetach() {
         super.onDetach()
         accountSub.unSubscribe()
-    }
-
-    interface OnFragmentInteractionListener {
-        fun onFragmentInteraction(uri: Uri)
     }
 
 }

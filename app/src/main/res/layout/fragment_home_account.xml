@@ -26,7 +26,7 @@
 
         <com.google.android.material.button.MaterialButton
             style="@style/Widget.MaterialComponents.Button.UnelevatedButton.Icon"
-            android:id="@+id/fragmentHomeAccount_menuBtn"
+            android:id="@+id/fragmentHomeAccount_modifyBtn"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="end|center_vertical"
@@ -39,6 +39,31 @@
             android:insetLeft="0dp"
             android:insetRight="0dp"
             app:cornerRadius="24dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/fragmentHomeAccount_menuContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="48dp"
+        android:paddingEnd="48dp"
+        android:paddingTop="16dp"
+        android:orientation="vertical">
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:id="@+id/fragmentHomeAccount_createBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/create_account"/>
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:id="@+id/fragmentHomeAccount_recoverBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/recover_account"/>
 
     </LinearLayout>
     

@@ -6,9 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activities.HomeActivity">
+    tools:context=".activities.MainActivity">
 
-    <LinearLayout
+    <!--<LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
 
         <com.google.android.material.button.MaterialButton
             style="@style/Widget.MaterialComponents.Button.UnelevatedButton.Icon"
-            android:id="@+id/activityHome_menuBtn"
+            android:id="@+id/activityMain_menuBtn"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="end|center_vertical"
@@ -40,10 +40,10 @@
             android:insetRight="0dp"
             app:cornerRadius="24dp"/>
 
-    </LinearLayout>
+    </LinearLayout>-->
 
     <FrameLayout
-        android:id="@+id/activityHome_fragmentContainer"
+        android:id="@+id/activityMain_fragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"/>

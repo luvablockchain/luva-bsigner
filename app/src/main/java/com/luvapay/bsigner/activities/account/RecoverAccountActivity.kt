@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import com.luvapay.bsigner.AppBox
 import com.luvapay.bsigner.R
-import com.luvapay.bsigner.activities.HomeActivity
+import com.luvapay.bsigner.activities.MainActivity
 import com.luvapay.bsigner.activities.passcode.CreatePinActivity
 import com.luvapay.bsigner.base.BaseActivity
 import com.luvapay.bsigner.utils.afterTextChanged
@@ -46,7 +46,7 @@ class RecoverAccountActivity : BaseActivity() {
             AppBox.addAccount(
                 mnemonics,
                 accountAdded = {
-                    if (getAppPin().isBlank()) startActivity<CreatePinActivity>() else startActivity<HomeActivity>()
+                    if (getAppPin().isBlank()) startActivity<CreatePinActivity>() else startActivity<MainActivity>()
                     finish()
                 },
                 accountExists = {

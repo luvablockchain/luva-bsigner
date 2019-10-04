@@ -20,7 +20,7 @@ class SplashActivity : AppCompatActivity() {
             if (AppBox.accountBox.isEmpty) {
                 startActivity<WelcomeActivity>()
             } else {
-                startActivity<HomeActivity>()
+                startActivity<MainActivity>()
             }
             finish()
         }

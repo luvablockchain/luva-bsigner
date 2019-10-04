@@ -10,17 +10,17 @@ import com.luvapay.bsigner.R
 import com.luvapay.bsigner.activities.account.BackupWarningActivity
 import com.luvapay.bsigner.base.BaseActivity
 import com.luvapay.bsigner.entities.StellarAccount
-import com.luvapay.bsigner.fragments.AccountFragment
+import com.luvapay.bsigner.fragments.SelectAccountFragment
 import org.jetbrains.anko.startActivity
 import java.util.*
 import kotlinx.android.synthetic.main.activity_multisign_add_signer.activityAddSigner_addBtn as addSignerBtn
 
-class AddSignerActivity : BaseActivity(), AccountFragment.AccountSelectListener {
+class AddSignerActivity : BaseActivity(), SelectAccountFragment.AccountSelectListener {
 
     private val accountFragment by lazy {
-        AccountFragment.init(
+        SelectAccountFragment.init(
             selectable = true,
-            multiSelect = intent.getBooleanExtra(AccountFragment.MULTI_SELECT, false)
+            multiSelect = intent.getBooleanExtra(SelectAccountFragment.MULTI_SELECT, false)
         )
     }
 

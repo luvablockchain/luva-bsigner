@@ -18,6 +18,7 @@ import com.luvapay.bsigner.activities.account.AccountDetailActivity
 import com.luvapay.bsigner.entities.StellarAccount
 import com.luvapay.bsigner.items.AccountItem
 import com.luvapay.bsigner.unSubscribe
+import com.luvapay.bsigner.utils.getColorCompat
 import com.luvapay.bsigner.viewmodel.HomeViewModel
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import io.objectbox.android.AndroidScheduler
@@ -28,7 +29,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jetbrains.anko.startActivity
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import kotlinx.android.synthetic.main.fragment_home_account.view.fragmentHome_accountList as accountList
+import kotlinx.android.synthetic.main.fragment_home_account.view.fragmentHomeAccount_accountList as accountList
+import kotlinx.android.synthetic.main.fragment_home_account.view.fragmentHomeAccount_menuBtn as modifyBtn
 
 class HomeFragment : Fragment() {
 
@@ -56,6 +58,23 @@ class HomeFragment : Fragment() {
             true
         }
 
+        view.modifyBtn.setOnClickListener {
+            vm.canModify.value = !(vm.canModify.value ?: true)
+        }
+
+        vm.canModify.observe(this, Observer {
+            if (it) {
+                view.modifyBtn.apply {
+                    setBackgroundColor(context.getColorCompat(R.color.colorPrimary))
+                    icon = context.getDrawable(R.drawable.ic_check)
+                }
+            } else {
+                view.modifyBtn.apply {
+                    setBackgroundColor(context.getColorCompat(R.color.colorAccent))
+                    icon = context.getDrawable(R.drawable.ic_edit)
+                }
+            }
+        })
     }
 
     override fun onAttach(context: Context) {

@@ -5,7 +5,7 @@ import androidx.fragment.app.commit
 import com.beautycoder.pflockscreen.PFFLockScreenConfiguration
 import com.beautycoder.pflockscreen.fragments.PFLockScreenFragment
 import com.luvapay.bsigner.R
-import com.luvapay.bsigner.activities.HomeActivity
+import com.luvapay.bsigner.activities.MainActivity
 import com.luvapay.bsigner.base.BaseActivity
 import com.luvapay.bsigner.utils.setAppPin
 import org.jetbrains.anko.startActivity
@@ -56,7 +56,7 @@ class CreatePinActivity : BaseActivity() {
                             }
                             override fun onCodeInputSuccessful() {
                                 setAppPin(encodedCode)
-                                startActivity<HomeActivity>()
+                                startActivity<MainActivity>()
                                 finish()
                             }
                         }

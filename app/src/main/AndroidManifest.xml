@@ -56,7 +56,7 @@
             android:configChanges="locale"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.HomeActivity"
+            android:name=".activities.MainActivity"
             android:configChanges="locale"
             android:screenOrientation="portrait" />
         <activity

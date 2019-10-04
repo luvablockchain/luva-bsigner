@@ -26,7 +26,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.android.synthetic.main.fragment_external_account_select.view.fragmentAccount_accountList as accountList
 
-class AccountFragment : BaseFragment() {
+class SelectAccountFragment : BaseFragment() {
 
     private val accountAdapter by lazy { FastItemAdapter<AccountSelectItem>() }
     private lateinit var accountSub: DataSubscription
@@ -106,12 +106,12 @@ class AccountFragment : BaseFragment() {
 
     companion object {
         @JvmStatic
-        fun init(selectable: Boolean = false, multiSelect: Boolean = false): AccountFragment {
+        fun init(selectable: Boolean = false, multiSelect: Boolean = false): SelectAccountFragment {
             val args = Bundle().apply {
                 putBoolean(SELECTABLE, selectable)
                 putBoolean(MULTI_SELECT, multiSelect)
             }
-            return AccountFragment().apply { arguments = args }
+            return SelectAccountFragment().apply { arguments = args }
         }
 
         private const val SELECTABLE =  "SELECTABLE"

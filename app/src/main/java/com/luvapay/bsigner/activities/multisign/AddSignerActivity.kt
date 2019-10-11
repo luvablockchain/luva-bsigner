@@ -11,6 +11,7 @@ import com.luvapay.bsigner.activities.account.BackupWarningActivity
 import com.luvapay.bsigner.base.BaseActivity
 import com.luvapay.bsigner.entities.StellarAccount
 import com.luvapay.bsigner.fragments.SelectAccountFragment
+import com.orhanobut.logger.Logger
 import org.jetbrains.anko.startActivity
 import java.util.*
 import kotlinx.android.synthetic.main.activity_multisign_add_signer.activityAddSigner_addBtn as addSignerBtn
@@ -52,8 +53,9 @@ class AddSignerActivity : BaseActivity(), SelectAccountFragment.AccountSelectLis
 
         addSignerBtn.setOnClickListener {
             val data = Intent().apply {
-                putStringArrayListExtra(ACCOUNT_LIST_KEY, ArrayList(accountFragment.getSelectedAccount()))
+                putStringArrayListExtra(EXTRA_SIGNERS, ArrayList(accountFragment.getSelectedAccount()))
             }
+            Logger.d(accountFragment.getSelectedAccount())
             setResult(Activity.RESULT_OK, data)
             finish()
         }
@@ -67,7 +69,7 @@ class AddSignerActivity : BaseActivity(), SelectAccountFragment.AccountSelectLis
     }
 
     companion object {
-        const val ACCOUNT_LIST_KEY = "ACCOUNT_LIST_KEY"
+        const val EXTRA_SIGNERS = "EXTRA_SIGNERS"
     }
 
 }

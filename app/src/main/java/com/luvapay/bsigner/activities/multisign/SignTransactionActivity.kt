@@ -5,11 +5,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
-import com.luvapay.bsigner.Horizon
-import com.luvapay.bsigner.R
-import com.luvapay.bsigner.nativePaymentOperation
-import com.luvapay.bsigner.testnetTransaction
+import com.luvapay.bsigner.*
 import com.orhanobut.logger.Logger
+import io.objectbox.kotlin.query
 import kotlinx.android.synthetic.main.activity_multisign_sign_transaction.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -44,15 +42,17 @@ class SignTransactionActivity : AppCompatActivity() {
             return
         }
 
-        val signers = intent.getStringArrayListExtra(PickSignerActivity.EXTRA_SIGNERS)?.toMutableList() ?: mutableListOf()
+        val signerObjIds = intent.getLongArrayExtra(PickSignerActivity.EXTRA_SIGNER_OBJ_IDS)?.toMutableList() ?: mutableListOf()
 
-        if (signers.isEmpty()) {
+        if (signerObjIds.isEmpty()) {
             setResult(Activity.RESULT_CANCELED)
             finish()
             return
         }
 
+        val signers = AppBox.accountBox.get(signerObjIds).toMutableList()
 
+        Logger.d(signers)
 
         test.setOnClickListener {
             setResult(Activity.RESULT_OK, Intent().apply { putExtra("signature", "testSignature") })

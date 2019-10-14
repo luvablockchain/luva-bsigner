@@ -93,7 +93,7 @@ class SelectAccountFragment : BaseFragment() {
         accountSub.unSubscribe()
     }
 
-    fun getSelectedAccount() = accountAdapter.getSelectExtension().selectedItems.map { it.account.publicKey }.toList()
+    fun getSelectedAccount() = accountAdapter.getSelectExtension().selectedItems.map { it.account }.toList()
     fun getAccounts() = accountAdapter.adapterItems
 
     interface AccountSelectListener {

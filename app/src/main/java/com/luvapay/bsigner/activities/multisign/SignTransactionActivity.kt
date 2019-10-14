@@ -38,18 +38,28 @@ class SignTransactionActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_multisign_sign_transaction)
 
-        if (intent == null) return
-
-        if (intent.type == "text/plain") {
-            Logger.d(" ${intent.getStringExtra("transaction")}")
+        if (intent == null) {
+            setResult(Activity.RESULT_CANCELED)
+            finish()
+            return
         }
+
+        val signers = intent.getStringArrayListExtra(PickSignerActivity.EXTRA_SIGNERS)?.toMutableList() ?: mutableListOf()
+
+        if (signers.isEmpty()) {
+            setResult(Activity.RESULT_CANCELED)
+            finish()
+            return
+        }
+
+
 
         test.setOnClickListener {
             setResult(Activity.RESULT_OK, Intent().apply { putExtra("signature", "testSignature") })
             finish()
         }
 
-        lifecycleScope.launch {
+        /*lifecycleScope.launch {
             withContext(Dispatchers.IO) {
                 val sourceAccount = Horizon.server.accounts().account("GDICGWXEFFJJKGBOH7LL45PPPA6ZFVHEG3PCXP4BUAJHAA6FIFIVG4LJ")
 
@@ -85,7 +95,7 @@ class SignTransactionActivity : AppCompatActivity() {
                     e.printStackTrace()
                 }
             }
-        }
+        }*/
     }
 
     fun Transaction.toBase64XDR() {

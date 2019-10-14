@@ -13,9 +13,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.account.AccountDetailActivity"></activity>
-        <activity android:name=".activities.passcode.VerifyPinActivity" />
-        <activity android:name=".activities.passcode.CreatePinActivity" />
+        <activity
+            android:name=".activities.account.AccountDetailActivity"
+            android:configChanges="locale"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activities.passcode.VerifyPinActivity"
+            android:configChanges="locale"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activities.passcode.CreatePinActivity"
+            android:configChanges="locale"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.SplashActivity"
             android:configChanges="locale"
@@ -40,14 +49,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.multisign.AddSignerActivity"
+            android:name=".activities.multisign.PickSignerActivity"
             android:configChanges="locale"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.ADD_SIGNER" />
-
                 <category android:name="android.intent.category.DEFAULT" />
-
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SIGN_TRANSACTION" />
+                <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>

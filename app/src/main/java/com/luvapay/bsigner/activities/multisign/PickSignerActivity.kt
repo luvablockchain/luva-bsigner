@@ -13,10 +13,11 @@ import com.luvapay.bsigner.entities.StellarAccount
 import com.luvapay.bsigner.fragments.SelectAccountFragment
 import com.orhanobut.logger.Logger
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.startActivityForResult
 import java.util.*
-import kotlinx.android.synthetic.main.activity_multisign_add_signer.activityAddSigner_addBtn as addSignerBtn
+import kotlinx.android.synthetic.main.activity_multisign_pick_signer.activityPickSigner_addBtn as pickSignerBtn
 
-class AddSignerActivity : BaseActivity(), SelectAccountFragment.AccountSelectListener {
+class PickSignerActivity : BaseActivity(), SelectAccountFragment.AccountSelectListener {
 
     private val accountFragment by lazy {
         SelectAccountFragment.init(
@@ -25,20 +26,32 @@ class AddSignerActivity : BaseActivity(), SelectAccountFragment.AccountSelectLis
         )
     }
 
+    private lateinit var activityAction: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_multisign_add_signer)
+        setContentView(R.layout.activity_multisign_pick_signer)
+
+        //Get action for this activity
+        when (val intentAction = intent.action) {
+            ACTION_ADD_SIGNER, ACTION_SIGN_TRANSACTION -> activityAction = intentAction
+            else -> {
+                setResult(Activity.RESULT_CANCELED)
+                finish()
+                return
+            }
+        }
 
         supportFragmentManager.commit {
             replace(
-                R.id.activityAddSigner_fragmentContainer,
+                R.id.activityPickSigner_fragmentContainer,
                 accountFragment
             )
         }
 
         runCatching {
             if (AppBox.accountBox.isEmpty) {
-                MaterialDialog(this@AddSignerActivity).show {
+                MaterialDialog(this@PickSignerActivity).show {
                     message(R.string.no_accounts_added)
                     positiveButton(R.string.ok) {
                         startActivity<BackupWarningActivity>()
@@ -51,25 +64,39 @@ class AddSignerActivity : BaseActivity(), SelectAccountFragment.AccountSelectLis
             }
         }
 
-        addSignerBtn.setOnClickListener {
-            val data = Intent().apply {
-                putStringArrayListExtra(EXTRA_SIGNERS, ArrayList(accountFragment.getSelectedAccount()))
+        pickSignerBtn.setOnClickListener {
+            val selectedSigners = ArrayList(accountFragment.getSelectedAccount())
+            when (activityAction) {
+                ACTION_ADD_SIGNER -> {
+                    val data = Intent().apply {
+                        putStringArrayListExtra(EXTRA_SIGNERS, selectedSigners)
+                    }
+                    setResult(Activity.RESULT_OK, data)
+                    finish()
+                }
+                ACTION_SIGN_TRANSACTION -> {
+                    startActivityForResult<SignTransactionActivity>(0, EXTRA_SIGNERS to selectedSigners)
+                }
             }
-            Logger.d(accountFragment.getSelectedAccount())
-            setResult(Activity.RESULT_OK, data)
-            finish()
         }
 
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+    }
+
     override fun onAccountSelected(accounts: MutableList<StellarAccount>) {
-        addSignerBtn.apply {
+        pickSignerBtn.apply {
             isEnabled = accountFragment.getSelectedAccount().isNotEmpty()
         }
     }
 
     companion object {
         const val EXTRA_SIGNERS = "EXTRA_SIGNERS"
+        const val ACTION_ADD_SIGNER = "android.intent.action.ADD_SIGNER"
+        const val ACTION_SIGN_TRANSACTION = "android.intent.action.SIGN_TRANSACTION"
     }
 
 }

@@ -11,24 +11,24 @@ import com.luvapay.bsigner.utils.prefetchText
 import com.luvapay.bsigner.utils.visible
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
-import kotlinx.android.synthetic.main.item_account.view.itemAccount_nameTv as nameTv
-import kotlinx.android.synthetic.main.item_account.view.itemAccount_publicKeyTv as publicKeyTv
-import kotlinx.android.synthetic.main.item_account.view.itemAccount_editBtn as editBtn
-import kotlinx.android.synthetic.main.item_account.view.itemAccount_removeBtn as removeBtn
+import kotlinx.android.synthetic.main.item_signer.view.itemAccount_nameTv as nameTv
+import kotlinx.android.synthetic.main.item_signer.view.itemAccount_publicKeyTv as publicKeyTv
+import kotlinx.android.synthetic.main.item_signer.view.itemAccount_editBtn as editBtn
+import kotlinx.android.synthetic.main.item_signer.view.itemAccount_removeBtn as removeBtn
 
-data class AccountItem(val account: Ed25519Signer) : AbstractItem<AccountItem.ViewHolder>() {
+data class SignerItem(val account: Ed25519Signer) : AbstractItem<SignerItem.ViewHolder>() {
 
     override var identifier: Long = account.objId
-    override val layoutRes: Int = R.layout.item_account
+    override val layoutRes: Int = R.layout.item_signer
     override val type: Int = 0
 
     var canModify = false
 
     override fun getViewHolder(v: View): ViewHolder = ViewHolder(v)
 
-    class ViewHolder(itemView: View) : FastAdapter.ViewHolder<AccountItem>(itemView) {
+    class ViewHolder(itemView: View) : FastAdapter.ViewHolder<SignerItem>(itemView) {
 
-        override fun bindView(item: AccountItem, payloads: MutableList<Any>) {
+        override fun bindView(item: SignerItem, payloads: MutableList<Any>) {
             itemView.nameTv prefetchText item.account.name
             itemView.publicKeyTv prefetchText item.account.publicKey
 
@@ -62,7 +62,7 @@ data class AccountItem(val account: Ed25519Signer) : AbstractItem<AccountItem.Vi
             }
         }
 
-        override fun unbindView(item: AccountItem) {
+        override fun unbindView(item: SignerItem) {
             itemView.nameTv.text = null
             itemView.publicKeyTv.text = null
         }

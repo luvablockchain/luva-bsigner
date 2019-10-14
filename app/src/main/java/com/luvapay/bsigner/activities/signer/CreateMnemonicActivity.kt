@@ -1,4 +1,4 @@
-package com.luvapay.bsigner.activities.account
+package com.luvapay.bsigner.activities.signer
 
 import android.os.Bundle
 import androidx.recyclerview.widget.DefaultItemAnimator

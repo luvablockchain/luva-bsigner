@@ -13,11 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.luvapay.bsigner.AppBox
 import com.luvapay.bsigner.R
-import com.luvapay.bsigner.activities.account.AccountDetailActivity
-import com.luvapay.bsigner.activities.account.BackupWarningActivity
-import com.luvapay.bsigner.activities.account.RecoverAccountActivity
+import com.luvapay.bsigner.activities.signer.SignerDetailActivity
+import com.luvapay.bsigner.activities.signer.BackupWarningActivity
+import com.luvapay.bsigner.activities.signer.RecoverSignerActivity
 import com.luvapay.bsigner.entities.Ed25519Signer
-import com.luvapay.bsigner.items.AccountItem
+import com.luvapay.bsigner.items.SignerItem
 import com.luvapay.bsigner.unSubscribe
 import com.luvapay.bsigner.utils.getColorCompat
 import com.luvapay.bsigner.utils.gone
@@ -32,24 +32,24 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jetbrains.anko.startActivity
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import kotlinx.android.synthetic.main.fragment_home_account.view.fragmentHomeAccount_accountList as accountList
-import kotlinx.android.synthetic.main.fragment_home_account.view.fragmentHomeAccount_modifyBtn as modifyBtn
-import kotlinx.android.synthetic.main.fragment_home_account.view.fragmentHomeAccount_createBtn as createAccountBtn
-import kotlinx.android.synthetic.main.fragment_home_account.view.fragmentHomeAccount_recoverBtn as recoverAccountBtn
-import kotlinx.android.synthetic.main.fragment_home_account.view.fragmentHomeAccount_menuContainer as menuContainer
+import kotlinx.android.synthetic.main.fragment_home_signer.view.fragmentHomeAccount_accountList as accountList
+import kotlinx.android.synthetic.main.fragment_home_signer.view.fragmentHomeAccount_modifyBtn as modifyBtn
+import kotlinx.android.synthetic.main.fragment_home_signer.view.fragmentHomeAccount_createBtn as createAccountBtn
+import kotlinx.android.synthetic.main.fragment_home_signer.view.fragmentHomeAccount_recoverBtn as recoverAccountBtn
+import kotlinx.android.synthetic.main.fragment_home_signer.view.fragmentHomeAccount_menuContainer as menuContainer
 
 class HomeFragment : Fragment() {
 
     private val vm: HomeViewModel by sharedViewModel()
 
-    private val accountAdapter by lazy { FastItemAdapter<AccountItem>() }
+    private val accountAdapter by lazy { FastItemAdapter<SignerItem>() }
     private lateinit var accountSub: DataSubscription
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View?
-        = inflater.inflate(R.layout.fragment_home_account, container, false)
+        = inflater.inflate(R.layout.fragment_home_signer, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -60,7 +60,7 @@ class HomeFragment : Fragment() {
             //Adapter
             adapter = accountAdapter.apply {
                 onClickListener = { _, _, item, _ ->
-                    context?.startActivity<AccountDetailActivity>(Ed25519Signer.OBJ_ID to item.account.objId)
+                    context?.startActivity<SignerDetailActivity>(Ed25519Signer.OBJ_ID to item.account.objId)
                     true
                 }
             }
@@ -75,7 +75,7 @@ class HomeFragment : Fragment() {
         }
 
         view.recoverAccountBtn.setOnClickListener {
-            context?.startActivity<RecoverAccountActivity>()
+            context?.startActivity<RecoverSignerActivity>()
         }
 
         vm.canModify.observe(this, Observer { canModify ->
@@ -103,7 +103,7 @@ class HomeFragment : Fragment() {
             //Coroutine
             lifecycleScope.launch {
                 val accountItems = withContext(Dispatchers.Default) {
-                    return@withContext accounts.map { AccountItem(it).apply { canModify = vm.canModify.value ?: false } }
+                    return@withContext accounts.map { SignerItem(it).apply { canModify = vm.canModify.value ?: false } }
                 }
                 accountAdapter.set(accountItems)
             }

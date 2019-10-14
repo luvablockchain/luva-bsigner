@@ -1,4 +1,4 @@
-package com.luvapay.bsigner.activities.account
+package com.luvapay.bsigner.activities.signer
 
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
@@ -14,15 +14,15 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jetbrains.anko.design.longSnackbar
 import org.jetbrains.anko.startActivity
-import kotlinx.android.synthetic.main.activity_account_recover.activityRecover_mnemonicEdt as mnemonicEdt
-import kotlinx.android.synthetic.main.activity_account_recover.activityRecover_next as nextBtn
-import kotlinx.android.synthetic.main.activity_account_recover.activityRecover_toolbar as toolbar
+import kotlinx.android.synthetic.main.activity_signer_recover.activityRecover_mnemonicEdt as mnemonicEdt
+import kotlinx.android.synthetic.main.activity_signer_recover.activityRecover_next as nextBtn
+import kotlinx.android.synthetic.main.activity_signer_recover.activityRecover_toolbar as toolbar
 
-class RecoverAccountActivity : BaseActivity() {
+class RecoverSignerActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_account_recover)
+        setContentView(R.layout.activity_signer_recover)
 
         toolbar.init()
 

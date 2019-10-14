@@ -13,7 +13,7 @@ import com.luvapay.bsigner.AppBox
 import com.luvapay.bsigner.R
 import com.luvapay.bsigner.base.BaseFragment
 import com.luvapay.bsigner.entities.Ed25519Signer
-import com.luvapay.bsigner.items.AccountSelectItem
+import com.luvapay.bsigner.items.SignerSelectItem
 import com.luvapay.bsigner.unSubscribe
 import com.luvapay.bsigner.utils.selectionListener
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
@@ -24,11 +24,11 @@ import io.objectbox.reactive.DataSubscription
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.android.synthetic.main.fragment_external_account_select.view.fragmentAccount_accountList as accountList
+import kotlinx.android.synthetic.main.fragment_external_signer_select.view.fragmentAccount_accountList as accountList
 
-class SelectAccountFragment : BaseFragment() {
+class SelectSignerFragment : BaseFragment() {
 
-    private val accountAdapter by lazy { FastItemAdapter<AccountSelectItem>() }
+    private val accountAdapter by lazy { FastItemAdapter<SignerSelectItem>() }
     private lateinit var accountSub: DataSubscription
 
     private var accountSelectListener: AccountSelectListener? = null
@@ -39,7 +39,7 @@ class SelectAccountFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View?
-        = inflater.inflate(R.layout.fragment_external_account_select, container, false).apply {
+        = inflater.inflate(R.layout.fragment_external_signer_select, container, false).apply {
 
         accountList.apply {
             itemAnimator = DefaultItemAnimator()
@@ -79,7 +79,7 @@ class SelectAccountFragment : BaseFragment() {
             //Coroutine
             lifecycleScope.launch {
                 val accountItems = withContext(Dispatchers.Default) {
-                    return@withContext accounts.map { AccountSelectItem(it) }
+                    return@withContext accounts.map { SignerSelectItem(it) }
                 }
                 accountAdapter.set(accountItems)
             }
@@ -106,12 +106,12 @@ class SelectAccountFragment : BaseFragment() {
 
     companion object {
         @JvmStatic
-        fun init(selectable: Boolean = false, multiSelect: Boolean = false): SelectAccountFragment {
+        fun init(selectable: Boolean = false, multiSelect: Boolean = false): SelectSignerFragment {
             val args = Bundle().apply {
                 putBoolean(SELECTABLE, selectable)
                 putBoolean(MULTI_SELECT, multiSelect)
             }
-            return SelectAccountFragment().apply { arguments = args }
+            return SelectSignerFragment().apply { arguments = args }
         }
 
         private const val SELECTABLE =  "SELECTABLE"

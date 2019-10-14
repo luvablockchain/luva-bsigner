@@ -7,21 +7,21 @@ import androidx.fragment.app.commit
 import com.afollestad.materialdialogs.MaterialDialog
 import com.luvapay.bsigner.AppBox
 import com.luvapay.bsigner.R
-import com.luvapay.bsigner.activities.account.BackupWarningActivity
+import com.luvapay.bsigner.activities.signer.BackupWarningActivity
 import com.luvapay.bsigner.base.BaseActivity
 import com.luvapay.bsigner.entities.Ed25519Signer
-import com.luvapay.bsigner.fragments.SelectAccountFragment
+import com.luvapay.bsigner.fragments.SelectSignerFragment
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.startActivity
 import kotlin.collections.ArrayList
 import kotlinx.android.synthetic.main.activity_multisign_pick_signer.activityPickSigner_addBtn as pickSignerBtn
 
-class PickSignerActivity : BaseActivity(), SelectAccountFragment.AccountSelectListener {
+class PickSignerActivity : BaseActivity(), SelectSignerFragment.AccountSelectListener {
 
     private val accountFragment by lazy {
-        SelectAccountFragment.init(
+        SelectSignerFragment.init(
             selectable = true,
-            multiSelect = intent.getBooleanExtra(SelectAccountFragment.MULTI_SELECT, false)
+            multiSelect = intent.getBooleanExtra(SelectSignerFragment.MULTI_SELECT, false)
         )
     }
 

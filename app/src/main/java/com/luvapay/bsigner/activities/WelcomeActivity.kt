@@ -2,8 +2,8 @@ package com.luvapay.bsigner.activities
 
 import android.os.Bundle
 import com.luvapay.bsigner.R
-import com.luvapay.bsigner.activities.account.BackupWarningActivity
-import com.luvapay.bsigner.activities.account.RecoverAccountActivity
+import com.luvapay.bsigner.activities.signer.BackupWarningActivity
+import com.luvapay.bsigner.activities.signer.RecoverSignerActivity
 import com.luvapay.bsigner.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_home_welcome.*
 import org.jetbrains.anko.startActivity
@@ -19,7 +19,7 @@ class WelcomeActivity : BaseActivity() {
         }
 
         home_restore.setOnClickListener {
-            startActivity<RecoverAccountActivity>()
+            startActivity<RecoverSignerActivity>()
         }
 
     }

@@ -22,7 +22,7 @@ ext {
     appcompat = "1.1.0"
     androidX = '1.1.0'
     anko_version = "0.10.8"
-    material = "1.1.0-alpha10"
+    material = "1.1.0-beta01"
     materialDialog = "3.1.1"
     recyclerview = "1.1.0-beta04"
     viewpager = "1.0.0-beta04"

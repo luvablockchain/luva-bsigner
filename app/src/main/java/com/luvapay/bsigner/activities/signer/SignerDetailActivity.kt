@@ -1,4 +1,4 @@
-package com.luvapay.bsigner.activities.account
+package com.luvapay.bsigner.activities.signer
 
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -13,18 +13,18 @@ import com.luvapay.bsigner.utils.visible
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.android.synthetic.main.activity_account_detail.activityAccountDetail_toolbar as toolbar
-import kotlinx.android.synthetic.main.activity_account_detail.activityAccountDetail_publicTv as accountTv
-import kotlinx.android.synthetic.main.activity_account_detail.activityAccountDetail_nameTv as nameTv
-import kotlinx.android.synthetic.main.activity_account_detail.activityAccountDetail_qrCodeImg as qrCodeImg
+import kotlinx.android.synthetic.main.activity_signer_detail.activityAccountDetail_toolbar as toolbar
+import kotlinx.android.synthetic.main.activity_signer_detail.activityAccountDetail_publicTv as accountTv
+import kotlinx.android.synthetic.main.activity_signer_detail.activityAccountDetail_nameTv as nameTv
+import kotlinx.android.synthetic.main.activity_signer_detail.activityAccountDetail_qrCodeImg as qrCodeImg
 
-class AccountDetailActivity : BaseActivity() {
+class SignerDetailActivity : BaseActivity() {
 
     private lateinit var qrCode: Bitmap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_account_detail)
+        setContentView(R.layout.activity_signer_detail)
 
         val objId = intent.getLongExtra(Ed25519Signer.OBJ_ID, -2)
 

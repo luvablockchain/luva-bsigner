@@ -1,29 +1,15 @@
 package com.luvapay.bsigner.activities.multisign
 
 import android.app.Activity
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.luvapay.bsigner.*
 import com.orhanobut.logger.Logger
-import kotlinx.android.synthetic.main.activity_multisign_sign_transaction.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.stellar.sdk.FormatException
 import org.stellar.sdk.KeyPair
-import org.stellar.sdk.Transaction
-import org.stellar.sdk.xdr.XdrDataOutputStream
-import shadow.com.google.common.io.BaseEncoding
-import shadow.net.i2p.crypto.eddsa.EdDSAEngine
-import shadow.net.i2p.crypto.eddsa.EdDSAPrivateKey
-import shadow.net.i2p.crypto.eddsa.spec.EdDSANamedCurveTable
-import shadow.net.i2p.crypto.eddsa.spec.EdDSAPrivateKeySpec
-import java.io.ByteArrayOutputStream
-import java.nio.CharBuffer
-import java.security.MessageDigest
-import java.util.*
 
 class SignTransactionActivity : AppCompatActivity() {
 
@@ -48,13 +34,7 @@ class SignTransactionActivity : AppCompatActivity() {
 
         val ed25519Signers = AppBox.ed25519SignerBox.get(signerObjIds).toMutableList()
 
-
         Logger.d(ed25519Signers.map { it.privateKey })
-
-        test.setOnClickListener {
-            setResult(Activity.RESULT_OK, Intent().apply { putExtra("signature", "testSignature") })
-            finish()
-        }
 
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
@@ -67,7 +47,7 @@ class SignTransactionActivity : AppCompatActivity() {
                             "10"
                         )
                     )
-                        .setTimeout(300)
+                    .setTimeout(300)
                 }
 
                 //Receive xdr convert to Transaction Object and hash

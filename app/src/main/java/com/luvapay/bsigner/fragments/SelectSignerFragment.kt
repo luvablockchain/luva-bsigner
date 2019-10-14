@@ -24,7 +24,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.android.synthetic.main.fragment_signer_select.view.fragmentSignerSelect_signerList as signerList
 
-class SelectSignerFragment : BaseFragment() {
+/**
+ * Fragment display signer list
+ */
+class SelectSignerFragment private constructor(): BaseFragment() {
 
     override val layout: Int = R.layout.fragment_signer_select
 

@@ -52,6 +52,9 @@
     <string name="enter_account_name">Enter your account name</string>
     <string name="warning_delete">This action cannot revert, continue to delete this account?</string>
 
+    <string name="sign_transaction_title">Sign Transaction</string>
+    <string name="sign_transaction_subtitle">Subtitle</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

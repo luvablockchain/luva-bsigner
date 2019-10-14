@@ -2,10 +2,7 @@ package com.luvapay.bsigner.fragments
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -16,6 +13,7 @@ import com.luvapay.bsigner.R
 import com.luvapay.bsigner.activities.signer.SignerDetailActivity
 import com.luvapay.bsigner.activities.signer.BackupWarningActivity
 import com.luvapay.bsigner.activities.signer.RecoverSignerActivity
+import com.luvapay.bsigner.base.BaseFragment
 import com.luvapay.bsigner.entities.Ed25519Signer
 import com.luvapay.bsigner.items.SignerItem
 import com.luvapay.bsigner.unSubscribe
@@ -38,18 +36,14 @@ import kotlinx.android.synthetic.main.fragment_home_signer.view.fragmentHomeAcco
 import kotlinx.android.synthetic.main.fragment_home_signer.view.fragmentHomeAccount_recoverBtn as recoverAccountBtn
 import kotlinx.android.synthetic.main.fragment_home_signer.view.fragmentHomeAccount_menuContainer as menuContainer
 
-class HomeFragment : Fragment() {
+class HomeFragment : BaseFragment() {
+
+    override val layout: Int = R.layout.fragment_home_signer
 
     private val vm: HomeViewModel by sharedViewModel()
 
-    private val accountAdapter by lazy { FastItemAdapter<SignerItem>() }
+    private val signerAdapter by lazy { FastItemAdapter<SignerItem>() }
     private lateinit var accountSub: DataSubscription
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View?
-        = inflater.inflate(R.layout.fragment_home_signer, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -58,7 +52,7 @@ class HomeFragment : Fragment() {
             itemAnimator = DefaultItemAnimator()
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             //Adapter
-            adapter = accountAdapter.apply {
+            adapter = signerAdapter.apply {
                 onClickListener = { _, _, item, _ ->
                     context?.startActivity<SignerDetailActivity>(Ed25519Signer.OBJ_ID to item.account.objId)
                     true
@@ -105,13 +99,13 @@ class HomeFragment : Fragment() {
                 val accountItems = withContext(Dispatchers.Default) {
                     return@withContext accounts.map { SignerItem(it).apply { canModify = vm.canModify.value ?: false } }
                 }
-                accountAdapter.set(accountItems)
+                signerAdapter.set(accountItems)
             }
         }
 
         vm.canModify.observe(this, Observer { canModify ->
-            accountAdapter.adapterItems.forEach { it.canModify = canModify }
-            accountAdapter.notifyDataSetChanged()
+            signerAdapter.adapterItems.forEach { it.canModify = canModify }
+            signerAdapter.notifyDataSetChanged()
         })
     }
 

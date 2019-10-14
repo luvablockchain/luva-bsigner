@@ -32,7 +32,7 @@ object AppBox {
             return@runCatching if (addedAccount == null) {
                 val account = Ed25519Signer(
                     publicKey = keyPair.accountId,
-                    privateKey = keyPair.secretSeed.toString(),
+                    privateKey = String(keyPair.secretSeed),
                     mnemonic = mnemonics
                 )
                 ed25519SignerBox.put(

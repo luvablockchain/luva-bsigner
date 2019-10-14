@@ -97,6 +97,7 @@ class PickSignerActivity : BaseActivity(), SelectAccountFragment.AccountSelectLi
     companion object {
         const val EXTRA_SIGNER_KEYS = "EXTRA_SIGNER_KEYS"
         const val EXTRA_SIGNER_OBJ_IDS = "EXTRA_SIGNER_OBJ_IDS"
+        const val EXTRA_TRANSACTION_XDR = "EXTRA_TRANSACTION_XDR"
         const val ACTION_ADD_SIGNER = "android.intent.action.ADD_SIGNER"
         const val ACTION_SIGN_TRANSACTION = "android.intent.action.SIGN_TRANSACTION"
 

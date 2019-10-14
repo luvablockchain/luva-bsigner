@@ -17,7 +17,6 @@ data class Ed25519Signer(
     @Index(type = IndexType.VALUE)
     @Convert(converter = SecurityConverter::class, dbType = String::class)
     var privateKey: String,
-    @Index(type = IndexType.VALUE)
     @Convert(converter = SecurityConverter::class, dbType = String::class)
     var mnemonic: String
 ) {
@@ -33,11 +32,12 @@ data class Ed25519Signer(
 
         class SecurityConverter : PropertyConverter<String, String> {
             override fun convertToDatabaseValue(entityProperty: String?): String {
+                //Logger.d(entityProperty)
                 return (entityProperty ?: "").encrypt()
             }
 
             override fun convertToEntityProperty(databaseValue: String?): String {
-                Logger.d(databaseValue)
+                //Logger.d(databaseValue)
                 return (databaseValue ?: "").decrypt()
             }
         }

@@ -4,14 +4,9 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.lifecycle.lifecycleScope
 import com.luvapay.bsigner.*
 import com.orhanobut.logger.Logger
-import io.objectbox.kotlin.query
 import kotlinx.android.synthetic.main.activity_multisign_sign_transaction.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.stellar.sdk.FormatException
 import org.stellar.sdk.KeyPair
 import org.stellar.sdk.Transaction
@@ -22,7 +17,6 @@ import shadow.net.i2p.crypto.eddsa.EdDSAPrivateKey
 import shadow.net.i2p.crypto.eddsa.spec.EdDSANamedCurveTable
 import shadow.net.i2p.crypto.eddsa.spec.EdDSAPrivateKeySpec
 import java.io.ByteArrayOutputStream
-import java.lang.Exception
 import java.nio.CharBuffer
 import java.security.MessageDigest
 import java.util.*
@@ -50,7 +44,7 @@ class SignTransactionActivity : AppCompatActivity() {
             return
         }
 
-        val signers = AppBox.accountBox.get(signerObjIds).toMutableList()
+        val signers = AppBox.ed25519SignerBox.get(signerObjIds).toMutableList()
 
         Logger.d(signers)
 

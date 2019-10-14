@@ -17,7 +17,7 @@ class SplashActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             delay(360)
-            if (AppBox.accountBox.isEmpty) {
+            if (AppBox.ed25519SignerBox.isEmpty) {
                 startActivity<WelcomeActivity>()
             } else {
                 startActivity<MainActivity>()

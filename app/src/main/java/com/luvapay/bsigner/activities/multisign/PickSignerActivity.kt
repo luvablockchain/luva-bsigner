@@ -16,7 +16,7 @@ import org.jetbrains.anko.startActivity
 import kotlin.collections.ArrayList
 import kotlinx.android.synthetic.main.activity_multisign_pick_signer.activityPickSigner_addBtn as pickSignerBtn
 
-class PickSignerActivity : BaseActivity(), SelectSignerFragment.AccountSelectListener {
+class PickSignerActivity : BaseActivity(), SelectSignerFragment.SignerSelectListener {
 
     private val accountFragment by lazy {
         SelectSignerFragment.init(
@@ -60,7 +60,7 @@ class PickSignerActivity : BaseActivity(), SelectSignerFragment.AccountSelectLis
         }
 
         pickSignerBtn.setOnClickListener {
-            val selectedSigners = accountFragment.getSelectedAccount()
+            val selectedSigners = accountFragment.getSelectedSigner()
             when (activityAction) {
                 ACTION_ADD_SIGNER -> {
                     val data = Intent().apply {
@@ -88,9 +88,9 @@ class PickSignerActivity : BaseActivity(), SelectSignerFragment.AccountSelectLis
         }
     }*/
 
-    override fun onAccountSelected(accounts: MutableList<Ed25519Signer>) {
+    override fun onSignerSelected(accounts: MutableList<Ed25519Signer>) {
         pickSignerBtn.apply {
-            isEnabled = accountFragment.getSelectedAccount().isNotEmpty()
+            isEnabled = accountFragment.getSelectedSigner().isNotEmpty()
         }
     }
 

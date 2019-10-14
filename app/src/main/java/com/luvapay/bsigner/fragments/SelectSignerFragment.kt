@@ -2,9 +2,7 @@ package com.luvapay.bsigner.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,55 +22,52 @@ import io.objectbox.reactive.DataSubscription
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.android.synthetic.main.fragment_external_signer_select.view.fragmentAccount_accountList as accountList
+import kotlinx.android.synthetic.main.fragment_signer_select.view.fragmentSignerSelect_signerList as signerList
 
 class SelectSignerFragment : BaseFragment() {
 
-    private val accountAdapter by lazy { FastItemAdapter<SignerSelectItem>() }
+    override val layout: Int = R.layout.fragment_signer_select
+
+    private val signerAdapter by lazy { FastItemAdapter<SignerSelectItem>() }
     private lateinit var accountSub: DataSubscription
 
-    private var accountSelectListener: AccountSelectListener? = null
-    private var accountClickListener: AccountClickListener? = null
+    private var signerSelectListener: SignerSelectListener? = null
+    private var signerClickListener: SignerClickListener? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View?
-        = inflater.inflate(R.layout.fragment_external_signer_select, container, false).apply {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        accountList.apply {
+        view.signerList.apply {
             itemAnimator = DefaultItemAnimator()
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-            adapter = accountAdapter
+            adapter = signerAdapter
         }
 
         if (arguments?.getBoolean(SELECTABLE) == true) {
-            accountAdapter.getSelectExtension().apply {
+            signerAdapter.getSelectExtension().apply {
                 isSelectable = arguments?.getBoolean(SELECTABLE) ?: false
                 multiSelect = arguments?.getBoolean(MULTI_SELECT) ?: false
                 selectOnLongClick = false
                 selectWithItemUpdate = true
 
                 selectionListener = selectionListener { item, _ ->
-                    accountSelectListener?.onAccountSelected(mutableListOf(item.account))
+                    signerSelectListener?.onSignerSelected(mutableListOf(item.account))
                 }
             }
         } else {
-            accountAdapter.onClickListener = { _, _, item, _ ->
-                accountClickListener?.onAccountClicked(item.account)
+            signerAdapter.onClickListener = { _, _, item, _ ->
+                signerClickListener?.onSignerClicked(item.account)
                 true
             }
         }
-
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         //Listeners
         when (context) {
-            is AccountSelectListener -> accountSelectListener = context
-            is AccountClickListener-> accountClickListener = context
+            is SignerSelectListener -> signerSelectListener = context
+            is SignerClickListener-> signerClickListener = context
         }
         //Subscription
         accountSub = AppBox.ed25519SignerBox.query {}.subscribe().on(AndroidScheduler.mainThread()).observer { accounts ->
@@ -81,27 +76,26 @@ class SelectSignerFragment : BaseFragment() {
                 val accountItems = withContext(Dispatchers.Default) {
                     return@withContext accounts.map { SignerSelectItem(it) }
                 }
-                accountAdapter.set(accountItems)
+                signerAdapter.set(accountItems)
             }
         }
     }
 
     override fun onDetach() {
         super.onDetach()
-        accountSelectListener = null
-        accountClickListener = null
+        signerSelectListener = null
+        signerClickListener = null
         accountSub.unSubscribe()
     }
 
-    fun getSelectedAccount() = accountAdapter.getSelectExtension().selectedItems.map { it.account }.toList()
-    fun getAccounts() = accountAdapter.adapterItems
+    fun getSelectedSigner() = signerAdapter.getSelectExtension().selectedItems.map { it.account }.toList()
 
-    interface AccountSelectListener {
-        fun onAccountSelected(accounts: MutableList<Ed25519Signer>)
+    interface SignerSelectListener {
+        fun onSignerSelected(accounts: MutableList<Ed25519Signer>)
     }
 
-    interface AccountClickListener {
-        fun onAccountClicked(account: Ed25519Signer)
+    interface SignerClickListener {
+        fun onSignerClicked(account: Ed25519Signer)
     }
 
     companion object {

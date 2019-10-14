@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:427698105424735860",
-      "lastPropertyId": "4:4927587537342970564",
+      "lastPropertyId": "5:5516636959430682309",
       "name": "StellarAccount",
       "properties": [
         {
@@ -26,6 +26,10 @@
           "id": "4:4927587537342970564",
           "indexId": "3:7056310537831402945",
           "name": "mnemonic"
+        },
+        {
+          "id": "5:5516636959430682309",
+          "name": "name"
         }
       ],
       "relations": []

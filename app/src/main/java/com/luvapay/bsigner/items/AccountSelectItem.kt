@@ -3,7 +3,7 @@ package com.luvapay.bsigner.items
 import android.graphics.Color
 import android.view.View
 import com.luvapay.bsigner.R
-import com.luvapay.bsigner.entities.StellarAccount
+import com.luvapay.bsigner.entities.Ed25519Signer
 import com.luvapay.bsigner.utils.getColorCompat
 import com.luvapay.bsigner.utils.prefetchText
 import com.mikepenz.fastadapter.FastAdapter
@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.item_account_select.view.itemAccountSelect
 import kotlinx.android.synthetic.main.item_account_select.view.itemAccountSelect_container as container
 import kotlinx.android.synthetic.main.item_account_select.view.itemAccountSelect_iconImg as iconImg
 
-data class AccountSelectItem(val account: StellarAccount) : AbstractItem<AccountSelectItem.ViewHolder>() {
+data class AccountSelectItem(val account: Ed25519Signer) : AbstractItem<AccountSelectItem.ViewHolder>() {
 
     override var identifier: Long = account.objId
     override val layoutRes: Int = R.layout.item_account_select

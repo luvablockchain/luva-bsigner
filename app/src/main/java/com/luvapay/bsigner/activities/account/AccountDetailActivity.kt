@@ -6,7 +6,7 @@ import androidx.lifecycle.lifecycleScope
 import com.luvapay.bsigner.AppBox
 import com.luvapay.bsigner.R
 import com.luvapay.bsigner.base.BaseActivity
-import com.luvapay.bsigner.entities.StellarAccount
+import com.luvapay.bsigner.entities.Ed25519Signer
 import com.luvapay.bsigner.utils.prefetchText
 import com.luvapay.bsigner.utils.toQrCode
 import com.luvapay.bsigner.utils.visible
@@ -26,7 +26,7 @@ class AccountDetailActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account_detail)
 
-        val objId = intent.getLongExtra(StellarAccount.OBJ_ID, -2)
+        val objId = intent.getLongExtra(Ed25519Signer.OBJ_ID, -2)
 
         if (objId <= 0) {
             finish()
@@ -36,7 +36,7 @@ class AccountDetailActivity : BaseActivity() {
         toolbar.init()
 
         lifecycleScope.launch {
-            val account = withContext(Dispatchers.Default) { return@withContext AppBox.accountBox[objId] }
+            val account = withContext(Dispatchers.Default) { return@withContext AppBox.ed25519SignerBox[objId] }
             account.name.takeIf { it.isNotBlank() }?.let { name ->
                 nameTv.visible()
                 nameTv prefetchText name

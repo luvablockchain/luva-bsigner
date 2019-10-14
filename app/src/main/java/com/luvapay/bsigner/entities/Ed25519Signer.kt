@@ -8,7 +8,7 @@ import io.objectbox.converter.PropertyConverter
 import org.stellar.sdk.KeyPair
 
 @Entity
-data class StellarAccount(
+data class Ed25519Signer(
     var name: String = "",
     @Unique
     @Index(type = IndexType.VALUE)

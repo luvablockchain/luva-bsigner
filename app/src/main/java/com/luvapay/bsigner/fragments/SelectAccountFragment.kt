@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.luvapay.bsigner.AppBox
 import com.luvapay.bsigner.R
 import com.luvapay.bsigner.base.BaseFragment
-import com.luvapay.bsigner.entities.StellarAccount
+import com.luvapay.bsigner.entities.Ed25519Signer
 import com.luvapay.bsigner.items.AccountSelectItem
 import com.luvapay.bsigner.unSubscribe
 import com.luvapay.bsigner.utils.selectionListener
@@ -75,7 +75,7 @@ class SelectAccountFragment : BaseFragment() {
             is AccountClickListener-> accountClickListener = context
         }
         //Subscription
-        accountSub = AppBox.accountBox.query {}.subscribe().on(AndroidScheduler.mainThread()).observer { accounts ->
+        accountSub = AppBox.ed25519SignerBox.query {}.subscribe().on(AndroidScheduler.mainThread()).observer { accounts ->
             //Coroutine
             lifecycleScope.launch {
                 val accountItems = withContext(Dispatchers.Default) {
@@ -97,11 +97,11 @@ class SelectAccountFragment : BaseFragment() {
     fun getAccounts() = accountAdapter.adapterItems
 
     interface AccountSelectListener {
-        fun onAccountSelected(accounts: MutableList<StellarAccount>)
+        fun onAccountSelected(accounts: MutableList<Ed25519Signer>)
     }
 
     interface AccountClickListener {
-        fun onAccountClicked(account: StellarAccount)
+        fun onAccountClicked(account: Ed25519Signer)
     }
 
     companion object {

@@ -2,8 +2,8 @@ package com.luvapay.bsigner
 
 import android.app.Application
 import com.luvapay.bsigner.entities.MyObjectBox
-import com.luvapay.bsigner.entities.StellarAccount
-import com.luvapay.bsigner.entities.StellarAccount_
+import com.luvapay.bsigner.entities.Ed25519Signer
+import com.luvapay.bsigner.entities.Ed25519Signer_
 import io.objectbox.Box
 import io.objectbox.BoxStore
 import io.objectbox.kotlin.boxFor
@@ -13,29 +13,29 @@ import org.stellar.sdk.KeyPair
 
 object AppBox {
 
-    lateinit var accountBox: Box<StellarAccount>
+    lateinit var ed25519SignerBox: Box<Ed25519Signer>
 
     fun init(boxStore: BoxStore) {
         boxStore.run {
-            accountBox = boxFor()
+            ed25519SignerBox = boxFor()
         }
     }
 
     fun addAccount(mnemonics: String, accountNumber: Int = 0, accountAdded: () -> Unit, accountExists: () -> Unit, error: (throwable: Throwable) -> Unit) {
         runCatching {
             val keyPair = KeyPair.fromBip39Seed(createBip39Seed(mnemonics.toCharArray()), accountNumber)
-            val addedAccount = accountBox.query {
+            val addedAccount = ed25519SignerBox.query {
                 equal(
-                    StellarAccount_.publicKey, keyPair.accountId
+                    Ed25519Signer_.publicKey, keyPair.accountId
                 )
             }.findFirst()
             return@runCatching if (addedAccount == null) {
-                val account = StellarAccount(
+                val account = Ed25519Signer(
                     publicKey = keyPair.accountId,
                     privateKey = keyPair.secretSeed.toString(),
                     mnemonic = mnemonics
                 )
-                accountBox.put(
+                ed25519SignerBox.put(
                     account
                 )
                 Result.success(true)

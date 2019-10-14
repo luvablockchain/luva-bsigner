@@ -5,7 +5,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
 import com.luvapay.bsigner.AppBox
 import com.luvapay.bsigner.R
-import com.luvapay.bsigner.entities.StellarAccount
+import com.luvapay.bsigner.entities.Ed25519Signer
 import com.luvapay.bsigner.utils.invisible
 import com.luvapay.bsigner.utils.prefetchText
 import com.luvapay.bsigner.utils.visible
@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.item_account.view.itemAccount_publicKeyTv 
 import kotlinx.android.synthetic.main.item_account.view.itemAccount_editBtn as editBtn
 import kotlinx.android.synthetic.main.item_account.view.itemAccount_removeBtn as removeBtn
 
-data class AccountItem(val account: StellarAccount) : AbstractItem<AccountItem.ViewHolder>() {
+data class AccountItem(val account: Ed25519Signer) : AbstractItem<AccountItem.ViewHolder>() {
 
     override var identifier: Long = account.objId
     override val layoutRes: Int = R.layout.item_account
@@ -44,7 +44,7 @@ data class AccountItem(val account: StellarAccount) : AbstractItem<AccountItem.V
                 MaterialDialog(itemView.context).show {
                     title(R.string.enter_account_name)
                     input{ _, text ->
-                        AppBox.accountBox.put(item.account.apply { name = text.toString() })
+                        AppBox.ed25519SignerBox.put(item.account.apply { name = text.toString() })
                     }
                     positiveButton(R.string.ok)
                     negativeButton(R.string.cancel)
@@ -55,7 +55,7 @@ data class AccountItem(val account: StellarAccount) : AbstractItem<AccountItem.V
                 MaterialDialog(itemView.context).show {
                     message(R.string.warning_delete)
                     positiveButton(R.string.ok) {
-                        AppBox.accountBox.remove(item.account)
+                        AppBox.ed25519SignerBox.remove(item.account)
                     }
                     negativeButton(R.string.cancel)
                 }

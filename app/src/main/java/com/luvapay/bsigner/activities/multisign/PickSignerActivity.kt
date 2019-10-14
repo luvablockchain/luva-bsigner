@@ -9,13 +9,10 @@ import com.luvapay.bsigner.AppBox
 import com.luvapay.bsigner.R
 import com.luvapay.bsigner.activities.account.BackupWarningActivity
 import com.luvapay.bsigner.base.BaseActivity
-import com.luvapay.bsigner.entities.StellarAccount
+import com.luvapay.bsigner.entities.Ed25519Signer
 import com.luvapay.bsigner.fragments.SelectAccountFragment
-import com.orhanobut.logger.Logger
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.startActivityForResult
-import java.util.*
 import kotlin.collections.ArrayList
 import kotlinx.android.synthetic.main.activity_multisign_pick_signer.activityPickSigner_addBtn as pickSignerBtn
 
@@ -51,7 +48,7 @@ class PickSignerActivity : BaseActivity(), SelectAccountFragment.AccountSelectLi
             )
         }
 
-        if (AppBox.accountBox.isEmpty) MaterialDialog(this@PickSignerActivity).show {
+        if (AppBox.ed25519SignerBox.isEmpty) MaterialDialog(this@PickSignerActivity).show {
             message(R.string.no_accounts_added)
             positiveButton(R.string.ok) {
                 startActivity<BackupWarningActivity>()
@@ -91,7 +88,7 @@ class PickSignerActivity : BaseActivity(), SelectAccountFragment.AccountSelectLi
         }
     }*/
 
-    override fun onAccountSelected(accounts: MutableList<StellarAccount>) {
+    override fun onAccountSelected(accounts: MutableList<Ed25519Signer>) {
         pickSignerBtn.apply {
             isEnabled = accountFragment.getSelectedAccount().isNotEmpty()
         }

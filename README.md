@@ -38,8 +38,8 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?
         when (requestCode) {
             REQUEST_CODE_SIGN_TRANSACTION -> when(resultCode) {
                 Activity.RESULT_OK -> if (intent != null) {
-                    val signatures = intent.getStringArrayListExtra(EXTRA_SIGNATURES)?.toMutableList() ?: mutableListOf()
-                    val signatureHints = intent.getStringArrayListExtra(EXTRA_SIGNATURE_HINTS)?.toMutableList() ?: mutableListOf()
+                    val signatures = intent.getStringArrayListExtra(EXTRA_SIGNATURES)
+                    val signatureHints = intent.getStringArrayListExtra(EXTRA_SIGNATURE_HINTS)
                 }
                 Activity.RESULT_CANCELED -> {
 
@@ -47,4 +47,10 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?
             }
         }
     }
+```
+Constants
+```kotlin
+const val EXTRA_SIGNER_KEYS = "BSIGNER_EXTRA_SIGNER_KEYS"
+const val EXTRA_SIGNATURES = "BSIGNER_EXTRA_SIGNATURES"
+const val EXTRA_SIGNATURE_HINTS = "BSIGNER_EXTRA_SIGNATURE_HINTS"
 ```

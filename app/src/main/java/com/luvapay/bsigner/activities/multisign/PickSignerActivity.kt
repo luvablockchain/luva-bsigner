@@ -33,7 +33,7 @@ class PickSignerActivity : BaseActivity(), SelectSignerFragment.SignerSelectList
 
         //Get action for this activity
         when (val intentAction = intent.action) {
-            ACTION_ADD_SIGNER, ACTION_SIGN_TRANSACTION -> activityAction = intentAction
+            ACTION_BSIGNER_PICK_SIGNER, ACTION_BSIGNER_SIGN_TRANSACTION -> activityAction = intentAction
             else -> {
                 setResult(Activity.RESULT_CANCELED)
                 finish()
@@ -62,14 +62,14 @@ class PickSignerActivity : BaseActivity(), SelectSignerFragment.SignerSelectList
         pickSignerBtn.setOnClickListener {
             val selectedSigners = accountFragment.getSelectedSigner()
             when (activityAction) {
-                ACTION_ADD_SIGNER -> {
+                ACTION_BSIGNER_PICK_SIGNER -> {
                     val data = Intent().apply {
                         putStringArrayListExtra(EXTRA_SIGNER_KEYS, ArrayList(selectedSigners.map { it.publicKey }))
                     }
                     setResult(Activity.RESULT_OK, data)
                     finish()
                 }
-                ACTION_SIGN_TRANSACTION -> {
+                ACTION_BSIGNER_SIGN_TRANSACTION -> {
 
                     startActivity(
                         intentFor<SignTransactionActivity>(EXTRA_SIGNER_OBJ_IDS to selectedSigners.map { it.objId }.toLongArray()).apply { flags = Intent.FLAG_ACTIVITY_FORWARD_RESULT }
@@ -102,8 +102,8 @@ class PickSignerActivity : BaseActivity(), SelectSignerFragment.SignerSelectList
 
         const val EXTRA_SIGNER_OBJ_IDS = "EXTRA_SIGNER_OBJ_IDS"
 
-        const val ACTION_ADD_SIGNER = "android.intent.action.ADD_SIGNER"
-        const val ACTION_SIGN_TRANSACTION = "android.intent.action.SIGN_TRANSACTION"
+        const val ACTION_BSIGNER_PICK_SIGNER = "android.intent.action.BSIGNER_PICK_SIGNER"
+        const val ACTION_BSIGNER_SIGN_TRANSACTION = "android.intent.action.BSIGNER_SIGN_TRANSACTION"
 
         const val REQUEST_CODE_SIGN_TRANSACTION = 12
     }

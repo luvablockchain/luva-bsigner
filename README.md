@@ -14,7 +14,7 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?
         when (requestCode) {
             REQUEST_CODE_PICK_SIGNER -> when(resultCode) {
                 Activity.RESULT_OK -> if (intent != null) {
-                    val signerKeys = intent.getStringArrayListExtra(EXTRA_SIGNER_KEYS)
+                    val signerKeys = intent.getStringArrayListExtra(BSIGNER_EXTRA_SIGNER_KEYS)
                     
                 }
                 Activity.RESULT_CANCELED -> {
@@ -38,8 +38,8 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?
         when (requestCode) {
             REQUEST_CODE_SIGN_TRANSACTION -> when(resultCode) {
                 Activity.RESULT_OK -> if (intent != null) {
-                    val signatures = intent.getStringArrayListExtra(EXTRA_SIGNATURES)
-                    val signatureHints = intent.getStringArrayListExtra(EXTRA_SIGNATURE_HINTS)
+                    val signatures = intent.getStringArrayListExtra(BSIGNER_EXTRA_SIGNATURES)
+                    val signatureHints = intent.getStringArrayListExtra(BSIGNER_EXTRA_SIGNATURE_HINTS)
                 }
                 Activity.RESULT_CANCELED -> {
 

@@ -6,6 +6,7 @@ import com.afollestad.materialdialogs.input.input
 import com.luvapay.bsigner.AppBox
 import com.luvapay.bsigner.R
 import com.luvapay.bsigner.entities.Ed25519Signer
+import com.luvapay.bsigner.utils.gone
 import com.luvapay.bsigner.utils.invisible
 import com.luvapay.bsigner.utils.prefetchText
 import com.luvapay.bsigner.utils.visible
@@ -29,7 +30,9 @@ data class SignerItem(val account: Ed25519Signer) : AbstractItem<SignerItem.View
     class ViewHolder(itemView: View) : FastAdapter.ViewHolder<SignerItem>(itemView) {
 
         override fun bindView(item: SignerItem, payloads: MutableList<Any>) {
-            itemView.nameTv prefetchText item.account.name
+            itemView.nameTv.run {
+                if (item.account.name.isNotBlank()) prefetchText(item.account.name)
+            }
             itemView.publicKeyTv prefetchText item.account.publicKey
 
             if (item.canModify) {

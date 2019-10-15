@@ -16,6 +16,7 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/itemAccount_titleContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -24,8 +25,11 @@
                 android:id="@+id/itemAccount_nameTv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="@string/item_signer_no_name"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
 
             <com.google.android.material.button.MaterialButton

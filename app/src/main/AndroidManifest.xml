@@ -39,26 +39,18 @@
         <activity
             android:name=".activities.multisign.SignTransactionActivity"
             android:configChanges="locale"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.SIGN" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:mimeType="text/plain" />
-            </intent-filter>
-        </activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.multisign.PickSignerActivity"
             android:configChanges="locale"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.ADD_SIGNER" />
+                <action android:name="android.intent.action.BSIGNER_PICK_SIGNER" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="text/plain" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.SIGN_TRANSACTION" />
+                <action android:name="android.intent.action.BSIGNER_SIGN_TRANSACTION" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="text/plain" />
             </intent-filter>

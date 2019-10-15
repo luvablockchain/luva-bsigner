@@ -95,9 +95,13 @@ class PickSignerActivity : BaseActivity(), SelectSignerFragment.SignerSelectList
     }
 
     companion object {
-        const val EXTRA_SIGNER_KEYS = "EXTRA_SIGNER_KEYS"
+        const val EXTRA_SIGNER_KEYS = "BSIGNER_EXTRA_SIGNER_KEYS"
+        const val EXTRA_SIGNATURES = "BSIGNER_EXTRA_SIGNATURES"
+        const val EXTRA_SIGNATURE_HINTS = "BSIGNER_EXTRA_SIGNATURE_HINTS"
+        const val EXTRA_TRANSACTION_XDR = "BSIGNER_EXTRA_TRANSACTION_XDR"
+
         const val EXTRA_SIGNER_OBJ_IDS = "EXTRA_SIGNER_OBJ_IDS"
-        const val EXTRA_TRANSACTION_XDR = "EXTRA_TRANSACTION_XDR"
+
         const val ACTION_ADD_SIGNER = "android.intent.action.ADD_SIGNER"
         const val ACTION_SIGN_TRANSACTION = "android.intent.action.SIGN_TRANSACTION"
 

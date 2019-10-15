@@ -1,13 +1,16 @@
 package com.luvapay.bsigner.items
 
 import android.graphics.Color
+import android.text.TextUtils
 import android.view.View
 import com.luvapay.bsigner.R
 import com.luvapay.bsigner.entities.Ed25519Signer
 import com.luvapay.bsigner.utils.getColorCompat
 import com.luvapay.bsigner.utils.prefetchText
+import com.luvapay.bsigner.utils.visible
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
+import kotlinx.android.synthetic.main.item_signer_select.view.itemAccountSelect_nameTv as nameTv
 import kotlinx.android.synthetic.main.item_signer_select.view.itemAccountSelect_publicKeyTv as publicKeyTv
 import kotlinx.android.synthetic.main.item_signer_select.view.itemAccountSelect_container as container
 import kotlinx.android.synthetic.main.item_signer_select.view.itemAccountSelect_iconImg as iconImg
@@ -24,6 +27,17 @@ data class SignerSelectItem(val account: Ed25519Signer) : AbstractItem<SignerSel
 
         override fun bindView(item: SignerSelectItem, payloads: MutableList<Any>) {
             itemView.apply {
+                nameTv.apply {
+                    item.account.name.takeIf { it.isNotBlank() }?.let {
+                        visible()
+                        val fgColor = if (item.isSelected) Color.parseColor("#FFFFFF") else Color.parseColor("#000000")
+                        setTextColor(fgColor)
+                        prefetchText(it)
+
+                        itemView.publicKeyTv.maxLines = 1
+                        itemView.publicKeyTv.ellipsize = TextUtils.TruncateAt.END
+                    }
+                }
                 publicKeyTv.apply {
                     val fgColor = if (item.isSelected) Color.parseColor("#FFFFFF") else Color.parseColor("#000000")
                     setTextColor(fgColor)
@@ -34,8 +48,10 @@ data class SignerSelectItem(val account: Ed25519Signer) : AbstractItem<SignerSel
                     setCardBackgroundColor(bgColor)
                 }
                 iconImg.apply {
-                    val color = if (item.isSelected) Color.parseColor("#FFFFFF") else Color.parseColor("#606060")
+                    val color = if (item.isSelected) context.getColorCompat(R.color.colorPrimary) else Color.parseColor("#606060")
                     setColorFilter(color)
+                    val icon = if (item.isSelected) context.getDrawable(R.drawable.ic_check) else context.getDrawable(R.drawable.ic_key)
+                    setImageDrawable(icon)
                 }
             }
         }

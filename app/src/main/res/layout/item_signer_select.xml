@@ -7,12 +7,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    app:contentPadding="12dp"
-    app:cardElevation="2dp">
+    app:cardElevation="2dp"
+    app:cardCornerRadius="48dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingStart="12dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -20,19 +24,43 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_key"
-            android:tint="#606060"/>
+            android:padding="5dp"
+            android:src="@drawable/ic_check"
+            android:scaleType="centerInside"
+            android:tint="#606060"
+            android:background="@drawable/bg_icon"/>
 
         <Space
             android:layout_width="12dp"
             android:layout_height="wrap_content"/>
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/itemAccountSelect_publicKeyTv"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/itemAccountSelect_nameTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:textSize="15sp"/>
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="2dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/itemAccountSelect_publicKeyTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
+                android:textSize="12sp"
+                android:letterSpacing="0.072"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 

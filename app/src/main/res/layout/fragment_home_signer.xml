@@ -49,20 +49,28 @@
         android:paddingStart="48dp"
         android:paddingEnd="48dp"
         android:paddingTop="16dp"
-        android:orientation="vertical">
+        android:paddingBottom="4dp"
+        android:orientation="vertical"
+        android:clipToPadding="false">
 
         <com.google.android.material.button.MaterialButton
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.MaterialComponents.Button"
             android:id="@+id/fragmentHomeAccount_createBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            app:cornerRadius="24dp"
+            android:textColor="@color/colorPrimary"
             android:text="@string/create_account"/>
 
         <com.google.android.material.button.MaterialButton
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.MaterialComponents.Button"
             android:id="@+id/fragmentHomeAccount_recoverBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            app:cornerRadius="24dp"
+            android:textColor="@color/colorPrimary"
             android:text="@string/recover_account"/>
 
     </LinearLayout>
@@ -71,7 +79,9 @@
         android:id="@+id/fragmentHomeAccount_accountList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp"
+        android:paddingTop="4dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
         android:clipToPadding="false" />
 
 </LinearLayout>

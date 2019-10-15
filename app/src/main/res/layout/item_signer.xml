@@ -7,86 +7,84 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    app:contentPadding="12dp"
-    app:cardElevation="2dp">
+    app:cardElevation="2dp"
+    app:cardCornerRadius="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="16dp"
+        android:paddingBottom="4dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/itemAccount_nameTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:visibility="gone"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="@string/item_signer_no_name"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:textSize="17sp"/>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="4dp"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/itemAccount_publicKeyTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
+            android:textSize="14sp"
+            android:letterSpacing="0.084"/>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="8dp"/>
 
         <LinearLayout
             android:id="@+id/itemAccount_titleContainer"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/itemAccount_nameTv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:visibility="gone"
-                android:layout_weight="1"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:text="@string/item_signer_no_name"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-                android:textSize="16sp"/>
+            android:orientation="horizontal"
+            android:layout_gravity="end">
 
             <com.google.android.material.button.MaterialButton
-                style="@style/Widget.MaterialComponents.Button.UnelevatedButton.Icon"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                 android:id="@+id/itemAccount_editBtn"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:visibility="invisible"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/all_edit"
+                android:textSize="12sp"
+                android:visibility="visible"
                 app:icon="@drawable/ic_edit"
-                app:iconSize="30dp"
-                app:iconPadding="0dp"
-                app:iconGravity="textStart"
-                app:iconTint="#616161"
-                app:rippleColor="#bdbdbd"
-                android:backgroundTint="@color/white"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
-                android:insetLeft="0dp"
-                android:insetRight="0dp"
+                app:iconTint="@color/white"
+                app:rippleColor="@color/white"
+                android:backgroundTint="@color/colorPrimary"
                 app:cornerRadius="24dp"/>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/itemAccount_publicKeyTv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
-                android:textSize="12sp"
-                android:letterSpacing="0.072"/>
+            <Space
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"/>
 
             <com.google.android.material.button.MaterialButton
-                style="@style/Widget.MaterialComponents.Button.UnelevatedButton.Icon"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                 android:id="@+id/itemAccount_removeBtn"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:visibility="invisible"
-                app:icon="@drawable/ic_delete"
-                app:iconSize="36dp"
-                app:iconPadding="0dp"
-                app:iconGravity="textStart"
-                app:iconTint="#ef5350"
-                app:rippleColor="#ef9a9a"
-                android:backgroundTint="@color/white"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
-                android:insetLeft="0dp"
-                android:insetRight="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/all_delete"
+                android:textSize="12sp"
+                android:visibility="visible"
+                app:icon="@drawable/ic_key_remove"
+                app:iconTint="@color/white"
+                app:rippleColor="@color/white"
+                android:backgroundTint="#d32f2f"
                 app:cornerRadius="24dp"/>
 
         </LinearLayout>

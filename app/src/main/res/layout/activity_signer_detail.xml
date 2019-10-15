@@ -36,18 +36,19 @@
                 android:id="@+id/activityAccountDetail_nameTv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
                 android:visibility="gone"
+                android:gravity="center"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="12dp"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/activityAccountDetail_publicTv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
+                android:textSize="14sp"
+                android:letterSpacing="0.096"/>
 
         </LinearLayout>
 

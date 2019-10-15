@@ -37,7 +37,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/itemAccountSelect_nameTv"
@@ -55,7 +56,6 @@
                 android:id="@+id/itemAccountSelect_publicKeyTv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
                 android:textSize="12sp"
                 android:letterSpacing="0.072"/>

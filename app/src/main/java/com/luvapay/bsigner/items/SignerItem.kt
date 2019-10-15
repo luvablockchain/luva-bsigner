@@ -45,8 +45,8 @@ data class SignerItem(val account: Ed25519Signer) : AbstractItem<SignerItem.View
                 itemView.editBtn.visible()
                 itemView.removeBtn.visible()
             } else {
-                itemView.editBtn.invisible()
-                itemView.removeBtn.invisible()
+                itemView.editBtn.gone()
+                itemView.removeBtn.gone()
             }
 
             itemView.editBtn.setOnClickListener {

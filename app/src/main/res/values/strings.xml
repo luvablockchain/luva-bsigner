@@ -5,6 +5,8 @@
 
     <string name="all_cancel">Cancel</string>
     <string name="all_continue">Continue</string>
+    <string name="all_edit">Edit</string>
+    <string name="all_delete">Delete</string>
 
     <string name="home">Home</string>
     <string name="settings">Settings</string>

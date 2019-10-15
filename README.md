@@ -29,7 +29,7 @@ Sign transaction by bSigner
 val signTransactionIntent = Intent().apply {
     action = "android.intent.action.BSIGNER_SIGN_TRANSACTION"
     type = "text/plain"
-    putExtra("transactionXDR" ,"yourXDR")
+    putExtra(BSIGNER_EXTRA_TRANSACTION_XDR, "yourXDR")
 }
 startActivityForResult(signTransactionIntent, REQUEST_CODE_SIGN_TRANSACTION)
 
@@ -50,7 +50,8 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?
 ```
 Constants
 ```kotlin
-const val EXTRA_SIGNER_KEYS = "BSIGNER_EXTRA_SIGNER_KEYS"
-const val EXTRA_SIGNATURES = "BSIGNER_EXTRA_SIGNATURES"
-const val EXTRA_SIGNATURE_HINTS = "BSIGNER_EXTRA_SIGNATURE_HINTS"
+const val BSIGNER_EXTRA_SIGNER_KEYS = "BSIGNER_EXTRA_SIGNER_KEYS"
+const val BSIGNER_EXTRA_SIGNATURES = "BSIGNER_EXTRA_SIGNATURES"
+const val BSIGNER_EXTRA_SIGNATURE_HINTS = "BSIGNER_EXTRA_SIGNATURE_HINTS"
+const val BSIGNER_EXTRA_TRANSACTION_XDR = "BSIGNER_EXTRA_TRANSACTION_XDR"
 ```

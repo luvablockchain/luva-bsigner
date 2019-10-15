@@ -4,7 +4,7 @@
 Pick signer keys form bSigner
 ```kotlin
 val pickIntent = Intent().apply {
-    action = "android.intent.action.BSIGNER_PICK_SIGNER"
+    action = ACTION_BSIGNER_PICK_SIGNER
     type = "text/plain"
 }
 startActivityForResult(pickIntent, REQUEST_CODE_PICK_SIGNER)
@@ -27,7 +27,7 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?
 Sign transaction by bSigner
 ```kotlin
 val signTransactionIntent = Intent().apply {
-    action = "android.intent.action.BSIGNER_SIGN_TRANSACTION"
+    action = ACTION_BSIGNER_SIGN_TRANSACTION
     type = "text/plain"
     putExtra(BSIGNER_EXTRA_TRANSACTION_XDR, "yourXDR")
 }
@@ -50,6 +50,10 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?
 ```
 Constants
 ```kotlin
+//Intent Actions
+const val ACTION_BSIGNER_PICK_SIGNER = "android.intent.action.BSIGNER_PICK_SIGNER"
+const val ACTION_BSIGNER_SIGN_TRANSACTION = "android.intent.action.BSIGNER_SIGN_TRANSACTION"
+//Intent extra keys
 const val BSIGNER_EXTRA_SIGNER_KEYS = "BSIGNER_EXTRA_SIGNER_KEYS"
 const val BSIGNER_EXTRA_SIGNATURES = "BSIGNER_EXTRA_SIGNATURES"
 const val BSIGNER_EXTRA_SIGNATURE_HINTS = "BSIGNER_EXTRA_SIGNATURE_HINTS"

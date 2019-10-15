@@ -1,5 +1,6 @@
 package com.luvapay.bsigner.items
 
+import android.text.TextUtils
 import android.view.View
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
@@ -31,7 +32,12 @@ data class SignerItem(val account: Ed25519Signer) : AbstractItem<SignerItem.View
 
         override fun bindView(item: SignerItem, payloads: MutableList<Any>) {
             itemView.nameTv.run {
-                if (item.account.name.isNotBlank()) prefetchText(item.account.name)
+                item.account.name.takeIf { it.isNotBlank() }?.let {
+                    prefetchText(it)
+                    visible()
+                    itemView.publicKeyTv.maxLines = 1
+                    itemView.publicKeyTv.ellipsize = TextUtils.TruncateAt.END
+                }
             }
             itemView.publicKeyTv prefetchText item.account.publicKey
 

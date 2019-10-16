@@ -61,6 +61,9 @@
     <string name="sign_transaction_subtitle">Approve transaction</string>
     <string name="sign_transaction_amount">Amount</string>
     <string name="sign_transaction_memo">Memo</string>
+    <string name="sign_transaction_from">From</string>
+    <string name="sign_transaction_to">To</string>
+    <string name="sign_transaction_approve">Approve</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

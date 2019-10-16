@@ -8,11 +8,11 @@ import com.luvapay.bsigner.AppBox
 import com.luvapay.bsigner.R
 import com.luvapay.bsigner.entities.Ed25519Signer
 import com.luvapay.bsigner.utils.gone
-import com.luvapay.bsigner.utils.invisible
 import com.luvapay.bsigner.utils.prefetchText
 import com.luvapay.bsigner.utils.visible
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
+import kotlinx.android.synthetic.main.item_signer.view.itemAccount_container as container
 import kotlinx.android.synthetic.main.item_signer.view.itemAccount_nameTv as nameTv
 import kotlinx.android.synthetic.main.item_signer.view.itemAccount_publicKeyTv as publicKeyTv
 import kotlinx.android.synthetic.main.item_signer.view.itemAccount_editBtn as editBtn
@@ -26,11 +26,16 @@ data class SignerItem(val account: Ed25519Signer) : AbstractItem<SignerItem.View
 
     var canModify = false
 
+    var card: Boolean = true
+
     override fun getViewHolder(v: View): ViewHolder = ViewHolder(v)
 
     class ViewHolder(itemView: View) : FastAdapter.ViewHolder<SignerItem>(itemView) {
 
         override fun bindView(item: SignerItem, payloads: MutableList<Any>) {
+
+            if (!item.card) itemView.container.cardElevation = 0f
+
             itemView.nameTv.run {
                 item.account.name.takeIf { it.isNotBlank() }?.let {
                     prefetchText(it)
@@ -39,6 +44,7 @@ data class SignerItem(val account: Ed25519Signer) : AbstractItem<SignerItem.View
                     itemView.publicKeyTv.ellipsize = TextUtils.TruncateAt.END
                 }
             }
+
             itemView.publicKeyTv prefetchText item.account.publicKey
 
             if (item.canModify) {

@@ -19,11 +19,13 @@ import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import com.orhanobut.logger.PrettyFormatStrategy
 import com.sonhvp.kryptographer.Kryptographer
+import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.greenrobot.eventbus.EventBus
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
+import java.security.Security
 
 class App : Application(), LifecycleObserver {
 
@@ -56,6 +58,10 @@ class App : Application(), LifecycleObserver {
         }
 
         if (getAppPin().isNotBlank()) lockApp()
+
+        //BouncyCastle for JDK lower than 1.8
+        Security.removeProvider("BC")
+        Security.insertProviderAt(BouncyCastleProvider(), 1)
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)

@@ -7,6 +7,7 @@
     <string name="all_continue">Continue</string>
     <string name="all_edit">Edit</string>
     <string name="all_delete">Delete</string>
+    <string name="all_loading">Loading…</string>
 
     <string name="home">Home</string>
     <string name="settings">Settings</string>
@@ -56,8 +57,10 @@
     <string name="enter_account_name">Enter your account name</string>
     <string name="warning_delete">This action cannot revert, continue to delete this account?</string>
 
-    <string name="sign_transaction_title">Sign Transaction</string>
-    <string name="sign_transaction_subtitle">Subtitle</string>
+    <string name="sign_transaction_title">Transaction Info</string>
+    <string name="sign_transaction_subtitle">Approve transaction</string>
+    <string name="sign_transaction_amount">Amount</string>
+    <string name="sign_transaction_memo">Memo</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -22,6 +22,7 @@ import com.luvapay.bsigner.utils.gone
 import com.luvapay.bsigner.utils.visible
 import com.luvapay.bsigner.viewmodel.HomeViewModel
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
+import com.orhanobut.logger.Logger
 import io.objectbox.android.AndroidScheduler
 import io.objectbox.kotlin.query
 import io.objectbox.reactive.DataSubscription
@@ -92,6 +93,8 @@ class HomeFragment : BaseFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        Logger.d(AppBox.ed25519SignerBox.all.size)
+        Logger.d(AppBox.ed25519SignerBox.all)
         //Subscription
         accountSub = AppBox.ed25519SignerBox.query {}.subscribe().on(AndroidScheduler.mainThread()).observer { accounts ->
             //Coroutine

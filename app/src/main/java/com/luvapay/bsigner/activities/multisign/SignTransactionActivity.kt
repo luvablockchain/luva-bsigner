@@ -81,6 +81,8 @@ class SignTransactionActivity : AppCompatActivity() {
                             .setTimeout(300)
                     }
 
+
+
                     //Receive xdr convert to Transaction Object and hash
                     val transactionTxHash = transaction.hash()
 

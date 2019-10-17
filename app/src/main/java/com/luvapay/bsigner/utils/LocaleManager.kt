@@ -1,28 +1,62 @@
 package com.luvapay.bsigner.utils
 
+import android.annotation.TargetApi
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.res.Configuration
 import android.os.Build
+import com.orhanobut.logger.Logger
 import java.util.*
 
-object LocaleManager {
+fun ContextWrapper.wrap(language: String = Prefs.currentLanguage()): ContextWrapper {
+    val config = baseContext.resources.configuration
+    val sysLocale: Locale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        this.getSystemLocale()
+    } else {
+        this.getSystemLocaleLegacy()
+    }
 
-    fun updateResources(context: Context, language: String = Prefs.currentLanguage()): Context {
-        var context = context
-
+    if (language.isNotEmpty() && sysLocale.language != language) {
         val locale = Locale(language)
         Locale.setDefault(locale)
 
-        val res = context.resources
-        val config = Configuration(res.configuration)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            config.setLocale(locale)
-            context = context.createConfigurationContext(config)
+            this.setSystemLocale(locale)
         } else {
-            config.locale = locale
-            res.updateConfiguration(config, res.displayMetrics)
+            this.setSystemLocaleLegacy(locale)
         }
-        return context
     }
 
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        val context = baseContext.createConfigurationContext(config)
+        ContextWrapper(context)
+    } else {
+        baseContext.resources.updateConfiguration(config, baseContext.resources.displayMetrics)
+        ContextWrapper(baseContext)
+    }
+
+}
+
+@Suppress("DEPRECATION")
+fun ContextWrapper.getSystemLocaleLegacy(): Locale {
+    val config = baseContext.resources.configuration
+    return config.locale
+}
+
+@TargetApi(Build.VERSION_CODES.N)
+fun ContextWrapper.getSystemLocale(): Locale {
+    val config = baseContext.resources.configuration
+    return config.locales[0]
+}
+
+@Suppress("DEPRECATION")
+fun ContextWrapper.setSystemLocaleLegacy(locale: Locale) {
+    val config = baseContext.resources.configuration
+    config.locale = locale
+}
+
+@TargetApi(Build.VERSION_CODES.N)
+fun ContextWrapper.setSystemLocale(locale: Locale) {
+    val config = baseContext.resources.configuration
+    config.setLocale(locale)
 }

@@ -2,6 +2,7 @@ package com.luvapay.bsigner
 
 import android.app.Application
 import android.content.Context
+import android.content.ContextWrapper
 import android.util.Log
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
@@ -63,15 +64,10 @@ class App : Application(), LifecycleObserver {
         Security.insertProviderAt(BouncyCastleProvider(), 1)
     }
 
-    override fun attachBaseContext(base: Context?) {
-        if (base == null) super.attachBaseContext(base) else {
-            Prefs.init(base)
-            Log.d("Language", Prefs.currentLanguage())
-            Logger.d("${Prefs.currentLanguage()}")
-            super.attachBaseContext(LocaleManager.updateResources(base))
-        }
+    /*override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(ContextWrapper(base).wrap("en"))
     }
-
+*/
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     open fun onMoveToForeground() {
         workManager.cancelUniqueWork(AppLockWorker.UNIQUE_WORK_NAME)

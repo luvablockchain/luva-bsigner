@@ -2,6 +2,7 @@ package com.luvapay.bsigner.base
 
 import android.app.Activity
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.content.res.Configuration
 import android.util.Log
@@ -10,10 +11,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.coroutineScope
 import com.luvapay.bsigner.activities.passcode.VerifyPinActivity
 import com.luvapay.bsigner.model.InitData
-import com.luvapay.bsigner.utils.LOGIN_PIN_REQUEST_CODE
-import com.luvapay.bsigner.utils.LocaleManager
-import com.luvapay.bsigner.utils.Prefs
-import com.luvapay.bsigner.utils.isAppLocked
+import com.luvapay.bsigner.utils.*
 import com.orhanobut.logger.Logger
 import kotlinx.coroutines.*
 import org.greenrobot.eventbus.EventBus
@@ -29,7 +27,16 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     override fun attachBaseContext(newBase: Context?) {
-        if (newBase == null) super.attachBaseContext(newBase) else super.attachBaseContext(LocaleManager.updateResources(newBase))
+        super.attachBaseContext(ContextWrapper(newBase).wrap())
+    }
+
+    override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
+        if (overrideConfiguration != null) {
+            val uiMode = overrideConfiguration.uiMode
+            overrideConfiguration.setTo(baseContext.resources.configuration)
+            overrideConfiguration.uiMode = uiMode
+        }
+        super.applyOverrideConfiguration(overrideConfiguration)
     }
 
     override fun onResume() {

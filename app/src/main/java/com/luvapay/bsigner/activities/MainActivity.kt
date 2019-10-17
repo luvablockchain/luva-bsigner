@@ -10,6 +10,7 @@ import com.luvapay.bsigner.fragments.HomeFragment
 import com.luvapay.bsigner.fragments.SettingsFragment
 import com.luvapay.bsigner.fragments.TransactionFragment
 import com.luvapay.bsigner.viewmodel.HomeViewModel
+import com.orhanobut.logger.Logger
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -35,7 +36,7 @@ class MainActivity : BaseActivity() {
             add(R.id.activityMain_fragmentContainer, settingsFrag)
             hide(settingsFrag)
         }
-
+    Logger.d(getString(R.string.settings))
         bottomNav.apply {
             //Listener
             setOnNavigationItemSelectedListener { item ->

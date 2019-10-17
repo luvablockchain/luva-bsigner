@@ -115,4 +115,8 @@ class HomeFragment : BaseFragment() {
         accountSub.unSubscribe()
     }
 
+    companion object {
+        const val TAG = "homeFragment"
+    }
+
 }

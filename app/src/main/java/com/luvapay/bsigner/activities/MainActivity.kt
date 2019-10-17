@@ -1,8 +1,10 @@
 package com.luvapay.bsigner.activities
 
 import android.os.Bundle
+import android.os.PersistableBundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import androidx.fragment.app.commitNow
 import androidx.lifecycle.lifecycleScope
 import com.luvapay.bsigner.R
 import com.luvapay.bsigner.base.BaseActivity
@@ -20,26 +22,33 @@ class MainActivity : BaseActivity() {
 
     private val vm: HomeViewModel by viewModel()
 
-    private val homeFrag: HomeFragment by lazy { HomeFragment() }
-    private val transactionFrag: TransactionFragment by lazy { TransactionFragment() }
-    private val settingsFrag: SettingsFragment by lazy { SettingsFragment() }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_main)
 
+        supportFragmentManager.commitNow(allowStateLoss = false) {
+            supportFragmentManager.findFragmentByTag(HomeFragment.TAG)?.let { remove(it) }
+            supportFragmentManager.findFragmentByTag(TransactionFragment.TAG)?.let { remove(it) }
+            supportFragmentManager.findFragmentByTag(SettingsFragment.TAG)?.let { remove(it) }
+        }
+
+        val homeFrag = HomeFragment()
+        val transactionFrag = TransactionFragment()
+        val settingsFrag = SettingsFragment()
+
         supportFragmentManager.commit {
-            add(R.id.activityMain_fragmentContainer, homeFrag)
+            add(R.id.activityMain_fragmentContainer, homeFrag, HomeFragment.TAG)
             hide(homeFrag)
-            add(R.id.activityMain_fragmentContainer, transactionFrag)
+            add(R.id.activityMain_fragmentContainer, transactionFrag, TransactionFragment.TAG)
             hide(transactionFrag)
-            add(R.id.activityMain_fragmentContainer, settingsFrag)
+            add(R.id.activityMain_fragmentContainer, settingsFrag, SettingsFragment.TAG)
             hide(settingsFrag)
         }
-    Logger.d(getString(R.string.settings))
+
         bottomNav.apply {
             //Listener
             setOnNavigationItemSelectedListener { item ->
+                vm.navSelectedItemId = item.itemId
                 when (item.itemId) {
                     R.id.nav_home -> {
                         supportFragmentManager.commit {
@@ -67,13 +76,9 @@ class MainActivity : BaseActivity() {
                 true
             }
             //Default item
-            selectedItemId = R.id.nav_home
+            selectedItemId = vm.navSelectedItemId
         }
 
-        lifecycleScope.launch {
-            delay(1000)
-            //recreate()
-        }
     }
 
 }

@@ -39,13 +39,17 @@ class TransactionFragment : BaseFragment() {
         transactionSub = AppBox.transactionInfoBox.query {  }.subscribe().on(AndroidScheduler.mainThread()).onError {
 
         }.observer { transactionInfoList ->
-            Logger.d(transactionInfoList)
+            //Logger.d(transactionInfoList)
         }
     }
 
     override fun onPause() {
         super.onPause()
         transactionSub.unSubscribe()
+    }
+
+    companion object {
+        const val TAG = "transactionFragment"
     }
 
 }

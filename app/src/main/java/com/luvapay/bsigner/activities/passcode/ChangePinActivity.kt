@@ -22,6 +22,7 @@ class ChangePinActivity : AppCompatActivity() {
                 val verifyNewPinFrag = initVerifyPinFrag(
                     useFingerprint = false,
                     encodedPinCode = encodedCode,
+                    verifyNewPin = true,
                     verifySuccess = {
                         setAppPin(encodedCode)
                         setResult(Activity.RESULT_OK)

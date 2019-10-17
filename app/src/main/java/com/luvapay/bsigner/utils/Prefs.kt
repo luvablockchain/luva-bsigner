@@ -4,15 +4,15 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
-import com.luvapay.bsigner.utils.Prefs.PREF_APP_LOCKED
-import com.luvapay.bsigner.utils.Prefs.PREF_APP_PIN_KEY
+import com.luvapay.bsigner.utils.Prefs.APP_LOCKED
+import com.luvapay.bsigner.utils.Prefs.APP_PIN_KEY
 
 object Prefs {
 
     private lateinit var prefs: SharedPreferences
 
     fun init(context: Context) {
-        prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        if (!::prefs.isInitialized) prefs = PreferenceManager.getDefaultSharedPreferences(context)
     }
 
     fun commit(block: SharedPreferences.Editor.() -> Unit) {
@@ -35,9 +35,29 @@ object Prefs {
     fun getFloat(key: String, fallback: Float = -1f): Float = prefs.getFloat(key, fallback)
     fun getLong(key: String, fallback: Long = -1): Long = prefs.getLong(key, fallback)
 
+    fun changeLanguageToVn() {
+        apply { putString(LANGUAGE, "vi") }
+    }
 
-    const val PREF_APP_PIN_KEY = "PREF_APP_PIN_KEY"
-    const val PREF_APP_LOCKED = "PREF_APP_LOCKED"
+    fun changeLanguageToEn() {
+        apply { putString(LANGUAGE, "en") }
+    }
+
+    fun currentLanguage(): String = getString(LANGUAGE, "vi")
+
+    fun currentLanguage(
+        vn : () -> Unit,
+        en : () -> Unit
+    ) {
+        when (getString(LANGUAGE, "vi")) {
+            "vi" -> vn()
+            "en" -> en()
+        }
+    }
+
+    const val APP_PIN_KEY = "APP_PIN_KEY"
+    const val APP_LOCKED = "APP_LOCKED"
+    private const val LANGUAGE = "pref_language"
 }
 
 fun Context.initPrefs() {
@@ -45,17 +65,22 @@ fun Context.initPrefs() {
 }
 
 fun setAppPin(pin: String) {
-    Prefs.commit { putString(PREF_APP_PIN_KEY, pin) }
+    Prefs.commit { putString(APP_PIN_KEY, pin) }
 }
 
-fun getAppPin(): String = Prefs.getString(PREF_APP_PIN_KEY)
+fun getAppPin(): String = Prefs.getString(APP_PIN_KEY)
 
-fun isAppLocked(): Boolean = Prefs.getBoolean(PREF_APP_LOCKED)
+fun isAppLocked(): Boolean = Prefs.getBoolean(APP_LOCKED)
 
 fun openAppLock() {
-    Prefs.commit { putBoolean(PREF_APP_LOCKED, false) }
+    Prefs.commit { putBoolean(APP_LOCKED, false) }
 }
 
 fun lockApp() {
-    Prefs.commit { putBoolean(PREF_APP_LOCKED, true) }
+    Prefs.commit { putBoolean(APP_LOCKED, true) }
+}
+
+sealed class Language {
+    object Vn : Language()
+    object En : Language()
 }

@@ -3,12 +3,15 @@ package com.luvapay.bsigner.activities
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import androidx.lifecycle.lifecycleScope
 import com.luvapay.bsigner.R
 import com.luvapay.bsigner.base.BaseActivity
 import com.luvapay.bsigner.fragments.HomeFragment
 import com.luvapay.bsigner.fragments.SettingsFragment
 import com.luvapay.bsigner.fragments.TransactionFragment
 import com.luvapay.bsigner.viewmodel.HomeViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlinx.android.synthetic.main.activity_home_main.activityMain_nav as bottomNav
 
@@ -43,6 +46,11 @@ class MainActivity : BaseActivity() {
             }
             //Default item
             selectedItemId = R.id.nav_home
+        }
+
+        lifecycleScope.launch {
+            delay(1000)
+            //recreate()
         }
     }
 

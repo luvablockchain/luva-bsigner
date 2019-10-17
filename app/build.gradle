@@ -102,6 +102,8 @@ dependencies {
 
     implementation 'com.yqritc:recyclerview-flexibledivider:1.4.0'
 
+    implementation 'com.github.GwonHyeok:StickySwitch:0.0.15'
+
     //Test
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'

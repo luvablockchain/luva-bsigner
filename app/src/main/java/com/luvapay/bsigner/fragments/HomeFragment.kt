@@ -93,8 +93,6 @@ class HomeFragment : BaseFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        Logger.d(AppBox.ed25519SignerBox.all.size)
-        Logger.d(AppBox.ed25519SignerBox.all)
         //Subscription
         accountSub = AppBox.ed25519SignerBox.query {}.subscribe().on(AndroidScheduler.mainThread()).observer { accounts ->
             //Coroutine

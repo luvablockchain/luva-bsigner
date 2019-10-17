@@ -1,6 +1,8 @@
 package com.luvapay.bsigner
 
 import android.app.Application
+import android.content.Context
+import android.util.Log
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
@@ -9,10 +11,7 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.jakewharton.threetenabp.AndroidThreeTen
-import com.luvapay.bsigner.utils.getAppPin
-import com.luvapay.bsigner.utils.getCryptKey
-import com.luvapay.bsigner.utils.initPrefs
-import com.luvapay.bsigner.utils.lockApp
+import com.luvapay.bsigner.utils.*
 import com.luvapay.bsigner.viewmodel.HomeViewModel
 import com.luvapay.bsigner.workers.AppLockWorker
 import com.orhanobut.logger.AndroidLogAdapter
@@ -62,6 +61,15 @@ class App : Application(), LifecycleObserver {
         //BouncyCastle for JDK lower than 1.8
         Security.removeProvider("BC")
         Security.insertProviderAt(BouncyCastleProvider(), 1)
+    }
+
+    override fun attachBaseContext(base: Context?) {
+        if (base == null) super.attachBaseContext(base) else {
+            Prefs.init(base)
+            Log.d("Language", Prefs.currentLanguage())
+            Logger.d("${Prefs.currentLanguage()}")
+            super.attachBaseContext(LocaleManager.updateResources(base))
+        }
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)

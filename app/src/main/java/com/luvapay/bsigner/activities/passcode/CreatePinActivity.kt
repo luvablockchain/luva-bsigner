@@ -23,6 +23,7 @@ class CreatePinActivity : BaseActivity() {
             val verifyPinFrag = initVerifyPinFrag(
                 useFingerprint = false,
                 encodedPinCode = encodedCode,
+                verifyNewPin = true,
                 verifySuccess = {
                     setAppPin(encodedCode)
                     startActivity<MainActivity>()

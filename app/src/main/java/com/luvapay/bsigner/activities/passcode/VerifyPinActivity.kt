@@ -9,6 +9,7 @@ import com.beautycoder.pflockscreen.fragments.PFLockScreenFragment
 import com.luvapay.bsigner.R
 import com.luvapay.bsigner.utils.Prefs
 import com.luvapay.bsigner.utils.getAppPin
+import com.luvapay.bsigner.utils.initVerifyPinFrag
 import com.luvapay.bsigner.utils.openAppLock
 
 class VerifyPinActivity : AppCompatActivity() {
@@ -17,36 +18,8 @@ class VerifyPinActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pin_verify)
 
-        val verifyPinFrag = PFLockScreenFragment()
-        val verifyPinConfig = PFFLockScreenConfiguration.Builder(this@VerifyPinActivity)
-            .setTitle(getString(R.string.pin_enter_hint))
-            .setCodeLength(6)
-            .setUseFingerprint(Prefs.useFingerPrint)
-            .setMode(PFFLockScreenConfiguration.MODE_AUTH)
-            .setClearCodeOnError(true)
-            .setErrorAnimation(true)
-            .setErrorVibration(true)
-            .build()
-
-        verifyPinFrag.apply {
-            setConfiguration(verifyPinConfig)
-            setEncodedPinCode(getAppPin())
-            setLoginListener(
-                object : PFLockScreenFragment.OnPFLockScreenLoginListener {
-                    override fun onPinLoginFailed() {
-
-                    }
-                    override fun onFingerprintLoginFailed() {
-
-                    }
-                    override fun onFingerprintSuccessful() {
-                        verifySuccess()
-                    }
-                    override fun onCodeInputSuccessful() {
-                        verifySuccess()
-                    }
-                }
-            )
+        val verifyPinFrag = initVerifyPinFrag {
+            verifySuccess()
         }
 
         supportFragmentManager.commit {

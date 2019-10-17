@@ -16,17 +16,21 @@
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
         <activity
-            android:name=".activities.signer.SignerDetailActivity"
+            android:name=".activities.passcode.ChangePinActivity"
             android:configChanges="locale"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activities.signer.SignerDetailActivity"
+            android:configChanges="locale"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.passcode.VerifyPinActivity"
             android:configChanges="locale"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.passcode.CreatePinActivity"
             android:configChanges="locale"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.SplashActivity"
             android:configChanges="locale"
@@ -34,25 +38,30 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".activities.multisign.SignTransactionActivity"
             android:configChanges="locale"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.multisign.PickSignerActivity"
             android:configChanges="locale"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.BSIGNER_PICK_SIGNER" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="text/plain" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.BSIGNER_SIGN_TRANSACTION" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>

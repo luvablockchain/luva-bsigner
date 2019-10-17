@@ -55,6 +55,8 @@
     <string name="pin_verify_setup_pin_hint">Nhập mã PIN</string>
     <string name="pin_verify_new_pin_hint">Nhập lại mã PIN mới</string>
     <string name="pin_continue">Tiếp theo</string>
+    <string name="pin_changed_success">Đổi mã PIN thành công</string>
+    <string name="pin_changed_failed">Đổi mã PIN thất bại</string>
 
     <string name="enter_account_name">Nhập tên chữ ký</string>
     <string name="warning_delete">Thao tác này không thể phục hồi, xác nhận xóa chữ ký này?</string>

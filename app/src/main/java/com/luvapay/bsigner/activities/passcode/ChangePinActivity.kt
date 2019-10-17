@@ -1,5 +1,6 @@
 package com.luvapay.bsigner.activities.passcode
 
+import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.commit
@@ -23,6 +24,7 @@ class ChangePinActivity : AppCompatActivity() {
                     encodedPinCode = encodedCode,
                     verifySuccess = {
                         setAppPin(encodedCode)
+                        setResult(Activity.RESULT_OK)
                         finish()
                     }
                 )

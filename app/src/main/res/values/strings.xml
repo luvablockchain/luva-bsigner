@@ -54,6 +54,8 @@
     <string name="pin_verify_setup_pin_hint">Enter your PIN</string>
     <string name="pin_verify_new_pin_hint">Reenter your new PIN</string>
     <string name="pin_continue">Continue</string>
+    <string name="pin_changed_success">Change PIN success</string>
+    <string name="pin_changed_failed">Change PIN failed</string>
 
     <string name="enter_account_name">Enter your account name</string>
     <string name="warning_delete">This action cannot revert, continue to delete this account?</string>

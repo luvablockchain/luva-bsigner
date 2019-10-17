@@ -27,18 +27,18 @@ class ChangePinActivity : AppCompatActivity() {
                     }
                 )
                 supportFragmentManager.commit {
-                    replace(R.id.activityVerifyPin_root, verifyNewPinFrag)
+                    replace(R.id.activityChangePin_root, verifyNewPinFrag)
                 }
             }
 
             supportFragmentManager.commit {
-                replace(R.id.activityVerifyPin_root, createPinFrag)
+                replace(R.id.activityChangePin_root, createPinFrag)
             }
 
         }
 
         supportFragmentManager.commit {
-            replace(R.id.activityVerifyPin_root, verifyPinFrag)
+            replace(R.id.activityChangePin_root, verifyPinFrag)
         }
 
     }

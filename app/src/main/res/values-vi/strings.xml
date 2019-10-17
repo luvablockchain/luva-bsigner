@@ -51,9 +51,9 @@
 
     <string name="item_signer_no_name">(no name)</string>
 
-    <string name="pin_create_hint">Thiếp lập mã PIN</string>
-    <string name="pin_again_hint">Xác nhận mã PIN</string>
-    <string name="pin_enter_hint">Nhập mã PIN</string>
+    <string name="pin_create_hint">Thiếp lập mã PIN mới</string>
+    <string name="pin_verify_setup_pin_hint">Nhập mã PIN</string>
+    <string name="pin_verify_new_pin_hint">Nhập lại mã PIN mới</string>
     <string name="pin_continue">Tiếp theo</string>
 
     <string name="enter_account_name">Nhập tên chữ ký</string>

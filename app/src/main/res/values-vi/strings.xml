@@ -2,20 +2,20 @@
 <resources>
     <string name="app_name">Luva bSigner</string>
 
-    <string name="app_name_subtitle">Multiply your security</string>
+    <string name="app_name_subtitle">Tăng cường khả năng bảo mật</string>
 
     <string name="all_cancel">Hủy bỏ</string>
     <string name="all_continue">Tiếp tục</string>
     <string name="all_edit">Sửa</string>
     <string name="all_delete">Xóa</string>
     <string name="all_loading">Đang tải…</string>
-    <string name="all_language">Language</string>
+    <string name="all_language">Ngôn ngữ</string>
 
     <string name="home">Trang chủ</string>
     <string name="settings">Cài đặt</string>
     <string name="transactions">Giao dịch</string>
 
-    <string name="copy_menemonic">Copy</string>
+    <string name="copy_menemonic">Sao chép</string>
     <string name="copied_to_clipboard">Đã sao chép vào bộ nhớ tạm</string>
 
     <string name="next">Tiếp theo</string>
@@ -33,10 +33,10 @@
     <string name="verify_phrase_hint">Tap the words in correct order</string>
     <string name="verify_does_not_match">Verify mnemonics don\'t match</string>
 
-    <string name="first_time_help_section">First time user? See our Help section</string>
-    <string name="agree_with_terms_and_privacy_policy">By registering you agree to our Terms of Service and Privacy Policy</string>
+    <string name="first_time_help_section">Lần đầu sử dung? Hãy xem qua các mục trợ giúp</string>
+    <string name="agree_with_terms_and_privacy_policy">Bằng việc đăng ký, bạn đã đồng ý với các chính sách và điều khoản sử dụng</string>
 
-    <string name="recover_account">Recover account</string>
+    <string name="recover_account">Phục hồi chữ ký</string>
     <string name="recovery_phrase">Recovery Phrase</string>
     <string name="recovery_phrase_hint">Recovery phrase can help you to recover access to your account in case your phone is lost or stolen.</string>
     <string name="recovery_phrase_save_hint">Write down these 12 words and keep them secure. Don’t email them or screenshot them.</string>
@@ -45,9 +45,9 @@
 
     <string name="signer_list">Chữ ký</string>
 
-    <string name="no_accounts_added">No accounts added. Add an account now?</string>
-    <string name="error_account_already_exist">Account already exists</string>
-    <string name="error_undefined">Something went wrong</string>
+    <string name="no_accounts_added">Hiện không có chữ ký nào, tiến hành tạo mới?</string>
+    <string name="error_account_already_exist">Chữ ký này đã tồn tại</string>
+    <string name="error_undefined">Lỗi, vui lòng thử lại sau</string>
 
     <string name="item_signer_no_name">(no name)</string>
 
@@ -57,14 +57,14 @@
     <string name="pin_continue">Tiếp theo</string>
 
     <string name="enter_account_name">Nhập tên chữ ký</string>
-    <string name="warning_delete">This action cannot revert, continue to delete this account?</string>
+    <string name="warning_delete">Thao tác này không thể phục hồi, xác nhận xóa chữ ký này?</string>
 
-    <string name="sign_transaction_title">Transaction Info</string>
-    <string name="sign_transaction_subtitle">Approve transaction</string>
-    <string name="sign_transaction_amount">Amount</string>
-    <string name="sign_transaction_memo">Memo</string>
-    <string name="sign_transaction_from">From</string>
-    <string name="sign_transaction_to">To</string>
-    <string name="sign_transaction_approve">Approve</string>
+    <string name="sign_transaction_title">Thông tin giao dịch</string>
+    <string name="sign_transaction_subtitle">Chấp thuận giao dịch</string>
+    <string name="sign_transaction_amount">Số lượng</string>
+    <string name="sign_transaction_memo">Ghi chú</string>
+    <string name="sign_transaction_from">Từ</string>
+    <string name="sign_transaction_to">Đến</string>
+    <string name="sign_transaction_approve">Chấp thuận</string>
 
 </resources>

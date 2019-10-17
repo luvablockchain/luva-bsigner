@@ -10,44 +10,128 @@
       "properties": [
         {
           "id": "1:8432417588257745427",
-          "name": "objId"
+          "name": "objId",
+          "type": 6,
+          "flags": 1
         },
         {
           "id": "2:4441218597435666152",
-          "name": "name"
+          "name": "name",
+          "type": 9
         },
         {
           "id": "3:4938482465671621451",
+          "name": "publicKey",
           "indexId": "4:8896331203006530169",
-          "name": "publicKey"
+          "type": 9,
+          "flags": 40
         },
         {
           "id": "4:5001178177123951245",
+          "name": "privateKey",
           "indexId": "5:1206400017170060953",
-          "name": "privateKey"
+          "type": 9,
+          "flags": 40
         },
         {
           "id": "5:3185979735952523659",
-          "indexId": "6:7125996967597917653",
-          "name": "mnemonic"
+          "name": "mnemonic",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:256993730654055097",
+      "lastPropertyId": "6:6880381406672927310",
+      "name": "Payment",
+      "properties": [
+        {
+          "id": "1:2594072032377424629",
+          "name": "objId",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:3011569605818716979",
+          "name": "source",
+          "type": 9
+        },
+        {
+          "id": "3:2115578900870930401",
+          "name": "destination",
+          "type": 9
+        },
+        {
+          "id": "4:7979649757663763339",
+          "name": "assetCode",
+          "type": 9
+        },
+        {
+          "id": "5:4516436075614997006",
+          "name": "assetIssuer",
+          "type": 9
+        },
+        {
+          "id": "6:6880381406672927310",
+          "name": "amount",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "4:5630474617132612967",
+      "lastPropertyId": "5:5603578198764213243",
+      "name": "Transaction",
+      "properties": [
+        {
+          "id": "1:4919495627718191054",
+          "name": "objId",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:7602879110969549280",
+          "name": "sourceAccount",
+          "type": 9
+        },
+        {
+          "id": "3:672488702914138848",
+          "name": "sequenceNumber",
+          "type": 6,
+          "flags": 4
+        },
+        {
+          "id": "4:8050022460933583509",
+          "name": "fee",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "5:5603578198764213243",
+          "name": "memoType",
+          "type": 5,
+          "flags": 4
         }
       ],
       "relations": []
     }
   ],
-  "lastEntityId": "2:960951708655703074",
+  "lastEntityId": "4:5630474617132612967",
   "lastIndexId": "6:7125996967597917653",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
-  "modelVersion": 4,
-  "modelVersionParserMinimum": 4,
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
   "retiredEntityUids": [
     427698105424735860
   ],
   "retiredIndexUids": [
     8297096507971171783,
     117517356642646062,
-    7056310537831402945
+    7056310537831402945,
+    7125996967597917653
   ],
   "retiredPropertyUids": [
     3620674997250532602,

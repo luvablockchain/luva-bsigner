@@ -4,6 +4,7 @@ import android.app.Application
 import com.luvapay.bsigner.entities.MyObjectBox
 import com.luvapay.bsigner.entities.Ed25519Signer
 import com.luvapay.bsigner.entities.Ed25519Signer_
+import com.luvapay.bsigner.entities.TransactionInfo
 import io.objectbox.Box
 import io.objectbox.BoxStore
 import io.objectbox.kotlin.boxFor
@@ -14,10 +15,12 @@ import org.stellar.sdk.KeyPair
 object AppBox {
 
     lateinit var ed25519SignerBox: Box<Ed25519Signer>
+    lateinit var transactionInfoBox: Box<TransactionInfo>
 
     fun init(boxStore: BoxStore) {
         boxStore.run {
             ed25519SignerBox = boxFor()
+            transactionInfoBox = boxFor()
         }
     }
 

@@ -16,9 +16,7 @@ import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.stellar.sdk.Memo
-import org.stellar.sdk.MemoText
-import org.stellar.sdk.PaymentOperation
+import org.stellar.sdk.*
 import kotlinx.android.synthetic.main.activity_multisign_sign_transaction.activitySignTransaction_fromTv as fromTv
 import kotlinx.android.synthetic.main.activity_multisign_sign_transaction.activitySignTransaction_toTv as toTv
 import kotlinx.android.synthetic.main.activity_multisign_sign_transaction.activitySignTransaction_memoTv as memoTv
@@ -88,7 +86,8 @@ class SignTransactionActivity : AppCompatActivity() {
                         .addMemo(Memo.text("test"))
                 }
             }
-            transaction.operations.firstOrNull()?.let { operation ->
+
+            Transaction.fromEnvelopeXdr(transaction.toEnvelopeXdrBase64(), Network.TESTNET).operations.firstOrNull()?.let { operation ->
                 val transactionOperation = operation as PaymentOperation
                 fromTv prefetchText transaction.sourceAccount
                 toTv prefetchText transactionOperation.destination

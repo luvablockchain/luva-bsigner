@@ -27,18 +27,39 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_main)
 
+        supportFragmentManager.commit {
+            add(R.id.activityMain_fragmentContainer, homeFrag)
+            hide(homeFrag)
+            add(R.id.activityMain_fragmentContainer, transactionFrag)
+            hide(transactionFrag)
+            add(R.id.activityMain_fragmentContainer, settingsFrag)
+            hide(settingsFrag)
+        }
+
         bottomNav.apply {
             //Listener
             setOnNavigationItemSelectedListener { item ->
                 when (item.itemId) {
                     R.id.nav_home -> {
-                        homeFrag.replace()
+                        supportFragmentManager.commit {
+                            hide(transactionFrag)
+                            hide(settingsFrag)
+                            show(homeFrag)
+                        }
                     }
                     R.id.nav_transactions -> {
-                        transactionFrag.replace()
+                        supportFragmentManager.commit {
+                            hide(homeFrag)
+                            hide(settingsFrag)
+                            show(transactionFrag)
+                        }
                     }
                     R.id.nav_settings -> {
-                        settingsFrag.replace()
+                        supportFragmentManager.commit {
+                            hide(transactionFrag)
+                            hide(homeFrag)
+                            show(settingsFrag)
+                        }
                     }
                     else -> return@setOnNavigationItemSelectedListener false
                 }
@@ -51,12 +72,6 @@ class MainActivity : BaseActivity() {
         lifecycleScope.launch {
             delay(1000)
             //recreate()
-        }
-    }
-
-    private fun Fragment.replace() {
-        supportFragmentManager.commit {
-            replace(R.id.activityMain_fragmentContainer, this@replace)
         }
     }
 

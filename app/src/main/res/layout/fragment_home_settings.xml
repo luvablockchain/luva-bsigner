@@ -13,32 +13,43 @@
         android:layout_width="wrap_content"
         android:layout_height="36dp"/>
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:text="@string/settings_system"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
+        android:letterSpacing="0.072"
+        android:textSize="14sp"
+        android:drawableStart="@drawable/ic_settings"
+        android:drawablePadding="5dp"/>
+
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardUseCompatPadding="true"
-        app:cardElevation="4dp">
+        app:cardElevation="2dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="5dp">
+            android:padding="10dp">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_gravity="start"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:layout_gravity="start|center_vertical"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                 android:text="@string/all_language"/>
 
             <io.ghyeok.stickyswitch.widget.StickySwitch
                 android:id="@+id/fragmentSettings_languageSelector"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                app:ss_animationDuration="480"
+                android:layout_gravity="end|center_vertical"
+                app:ss_animationDuration="360"
                 app:ss_iconPadding="0dp"
                 app:ss_iconSize="24dp"
                 app:ss_leftText="Vn"
@@ -49,6 +60,181 @@
                 app:ss_textColor="#212121"
                 app:ss_textSize="12sp"
                 app:ss_animationType="line"/>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:text="@string/settings_security"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
+        android:letterSpacing="0.072"
+        android:textSize="14sp"
+        android:drawableStart="@drawable/ic_shield_lock"
+        android:drawablePadding="5dp"/>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        app:cardElevation="2dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="start|center_vertical"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                android:text="@string/settings_use_finger_print_to_login"/>
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/fragmentSettings_fingerPrintSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"/>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="#03000000"/>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        app:cardElevation="2dp"
+        android:clickable="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="start|center_vertical"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                android:text="@string/settings_change_pin"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:src="@drawable/ic_chevron_right"/>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:text="@string/settings_help"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
+        android:letterSpacing="0.072"
+        android:textSize="14sp"
+        android:drawableStart="@drawable/ic_help_outlined"
+        android:drawablePadding="5dp"/>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        app:cardElevation="2dp"
+        android:clickable="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="start|center_vertical"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                android:text="@string/settings_term_of_service"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:src="@drawable/ic_chevron_right"/>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="#03000000"/>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        app:cardElevation="2dp"
+        android:clickable="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="start|center_vertical"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                android:text="@string/settings_frequently_asked_questions"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:src="@drawable/ic_chevron_right"/>
 
         </LinearLayout>
 

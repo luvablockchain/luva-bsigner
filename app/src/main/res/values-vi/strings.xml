@@ -67,4 +67,12 @@
     <string name="sign_transaction_to">Đến</string>
     <string name="sign_transaction_approve">Chấp thuận</string>
 
+    <string name="settings_system">Hệ thống</string>
+    <string name="settings_security">Bảo mật</string>
+    <string name="settings_help">Trợ giúp</string>
+    <string name="settings_use_finger_print_to_login">Dùng vân tay để đăng nhập</string>
+    <string name="settings_change_pin">Đổi mã PIN</string>
+    <string name="settings_term_of_service">Điều khoản sử dụng</string>
+    <string name="settings_frequently_asked_questions">Câu hỏi thường gặp</string>
+
 </resources>

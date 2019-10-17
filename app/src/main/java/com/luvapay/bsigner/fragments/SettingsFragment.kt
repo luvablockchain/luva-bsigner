@@ -2,13 +2,16 @@ package com.luvapay.bsigner.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import com.luvapay.bsigner.R
 import com.luvapay.bsigner.base.BaseFragment
 import com.luvapay.bsigner.utils.Prefs
 import com.luvapay.bsigner.viewmodel.HomeViewModel
 import io.ghyeok.stickyswitch.widget.StickySwitch
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import kotlinx.android.synthetic.main.fragment_home_settings.fragmentSettings_languageSelector as languageSelector
+import kotlinx.android.synthetic.main.fragment_home_settings.fragmentSettings_fingerPrintSwitch as fingerPrintSwitch
 
 class SettingsFragment : BaseFragment() {
 
@@ -30,6 +33,13 @@ class SettingsFragment : BaseFragment() {
                         StickySwitch.Direction.RIGHT -> Prefs.changeLanguageToEn()
                     }
                 }
+            }
+        }
+
+        fingerPrintSwitch.apply {
+            isChecked = Prefs.useFingerPrint
+            setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) Prefs.enableFingerPrint() else Prefs.disableFingerPrint()
             }
         }
     }

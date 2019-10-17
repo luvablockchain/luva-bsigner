@@ -66,6 +66,14 @@
     <string name="sign_transaction_to">To</string>
     <string name="sign_transaction_approve">Approve</string>
 
+    <string name="settings_system">System</string>
+    <string name="settings_security">Security</string>
+    <string name="settings_help">Help</string>
+    <string name="settings_use_finger_print_to_login">Use finger print to login</string>
+    <string name="settings_change_pin">Change PIN</string>
+    <string name="settings_term_of_service">Term of service</string>
+    <string name="settings_frequently_asked_questions">Frequently asked questions</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
 

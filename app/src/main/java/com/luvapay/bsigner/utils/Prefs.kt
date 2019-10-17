@@ -55,9 +55,15 @@ object Prefs {
         }
     }
 
+    val useFingerPrint: Boolean
+        get() = getBoolean(USE_FINGER_PRINT, false)
+    fun enableFingerPrint() { apply { putBoolean(USE_FINGER_PRINT, true) } }
+    fun disableFingerPrint() { apply { putBoolean(USE_FINGER_PRINT, false) } }
+
     const val APP_PIN_KEY = "APP_PIN_KEY"
     const val APP_LOCKED = "APP_LOCKED"
     private const val LANGUAGE = "pref_language"
+    private const val USE_FINGER_PRINT = "use_finger_print"
 }
 
 fun Context.initPrefs() {

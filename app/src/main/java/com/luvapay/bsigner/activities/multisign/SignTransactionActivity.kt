@@ -31,7 +31,6 @@ class SignTransactionActivity : AppCompatActivity() {
 
     private val signerAdapter by lazy { FastItemAdapter<SignerItem>() }
 
-    @ExperimentalStdlibApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_multisign_sign_transaction)
@@ -100,9 +99,7 @@ class SignTransactionActivity : AppCompatActivity() {
                 publicKeys.add(signer.publicKey)
                 val signature = KeyPair.fromSecretSeed(signer.privateKey).signDecorated(transaction.hash()).signature.signature
                 val signatureStr = Base64.encodeToString(signature, Base64.NO_WRAP)
-                Logger.d("signatureStr: ${String(signature)}")
-                Logger.d("signatureStr: ${signature.decodeToString()}")
-                Logger.d("signatureStr: ${Base64.encodeToString(signature, Base64.NO_WRAP)}")
+
                 signatures.add(signatureStr)
             }
             val data = Intent().apply {
@@ -111,55 +108,7 @@ class SignTransactionActivity : AppCompatActivity() {
             }
             setResult(Activity.RESULT_OK, data)
             finish()
-
-            /*lifecycleScope.launch {
-                withContext(Dispatchers.IO) {
-                    val sourceAccount = Horizon.server.accounts().account("GDICGWXEFFJJKGBOH7LL45PPPA6ZFVHEG3PCXP4BUAJHAA6FIFIVG4LJ")
-
-                    val transaction = testnetTransaction(sourceAccount) {
-                        addOperation(
-                            nativePaymentOperation(
-                                "GC53FZQZFQ6J5ZABVQDZKEQWU42P3SK4Y7RNOKZ3JKVCCNAKMSE6S2CW",
-                                "10"
-                            )
-                        )
-                            .setTimeout(300)
-                    }
-
-                    transaction.memo
-
-
-                    //Receive xdr convert to Transaction Object and hash
-                    val transactionTxHash = transaction.hash()
-
-                    val signatures = arrayListOf<String>()
-                    val signatureHints = arrayListOf<String>()
-
-                    ed25519Signers.forEach { ed25519Signer ->
-                        val keyPair = KeyPair.fromSecretSeed(ed25519Signer.privateKey)
-
-                        val signatureDecorated = keyPair.signDecorated(transactionTxHash)
-                        signatures.add(String(signatureDecorated.signature.signature))
-                        signatureHints.add(String(signatureDecorated.hint.signatureHint))
-                    }
-
-                    Logger.d(signatures)
-                    Logger.d(signatureHints)
-
-
-                    try {
-                        //Logger.d(Horizon.server.submitTransaction(transaction).isSuccess)
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                }
-            }*/
         }
-    }
-
-
-    private fun sign() {
-
     }
 
 }

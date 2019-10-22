@@ -76,27 +76,14 @@ class SignTransactionActivity : AppCompatActivity() {
         }
 
         lifecycleScope.launch {
-            val transaction = withContext(Dispatchers.IO) {
-                val sourceAccount = Horizon.server.accounts().account("GDICGWXEFFJJKGBOH7LL45PPPA6ZFVHEG3PCXP4BUAJHAA6FIFIVG4LJ")
-                return@withContext testnetTransaction(sourceAccount) {
-                    addOperation(
-                        nativePaymentOperation(
-                            "GC53FZQZFQ6J5ZABVQDZKEQWU42P3SK4Y7RNOKZ3JKVCCNAKMSE6S2CW",
-                            "10"
-                        )
-                    )
-                        .setTimeout(300)
-                        .addMemo(Memo.text("test"))
-                }
-            }
-
-            Transaction.fromEnvelopeXdr(transaction.toEnvelopeXdrBase64(), Network.TESTNET).operations.firstOrNull()?.let { operation ->
+            val transaction = Transaction.fromEnvelopeXdr(transactionXdr, Network.TESTNET)
+            transaction.operations.firstOrNull()?.let { operation ->
                 val transactionOperation = operation as PaymentOperation
                 fromTv prefetchText transaction.sourceAccount
                 toTv prefetchText transactionOperation.destination
                 amountTv prefetchText transactionOperation.amount
             }
-            memoTv prefetchText (transaction.memo as MemoText).text
+            memoTv prefetchText (transaction.memo.toString())
         }
 
         cancelBtn.setOnClickListener {

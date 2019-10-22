@@ -21,7 +21,7 @@ class PickSignerActivity : BaseActivity(), SelectSignerFragment.SignerSelectList
     private val accountFragment by lazy {
         SelectSignerFragment.init(
             selectable = true,
-            multiSelect = intent.getBooleanExtra(SelectSignerFragment.MULTI_SELECT, true)
+            multiSelect = intent.getBooleanExtra(SelectSignerFragment.MULTI_SELECT, false)
         )
     }
 

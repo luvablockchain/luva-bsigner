@@ -1,7 +1,9 @@
 package com.luvapay.bsigner.activities.multisign
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import android.util.Base64
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -29,6 +31,7 @@ class SignTransactionActivity : AppCompatActivity() {
 
     private val signerAdapter by lazy { FastItemAdapter<SignerItem>() }
 
+    @ExperimentalStdlibApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_multisign_sign_transaction)
@@ -40,9 +43,9 @@ class SignTransactionActivity : AppCompatActivity() {
         }
 
         val signerObjIds = intent.getLongArrayExtra(PickSignerActivity.EXTRA_SIGNER_OBJ_IDS)?.toMutableList() ?: mutableListOf()
-        val transactionXdr = intent.getStringExtra(PickSignerActivity.EXTRA_TRANSACTION_XDR) ?: "change later"
+        val transactionXdr = intent.getStringExtra(PickSignerActivity.EXTRA_TRANSACTION_XDR) ?: ""
 
-        if (signerObjIds.isEmpty() || transactionXdr == null) {
+        if (signerObjIds.isEmpty() || transactionXdr.isBlank()) {
             setResult(Activity.RESULT_CANCELED)
             finish()
             return
@@ -101,8 +104,27 @@ class SignTransactionActivity : AppCompatActivity() {
             finish()
         }
 
-
         signBtn.setOnClickListener {
+            Logger.d("transactionXdr: $transactionXdr")
+            val transaction = Transaction.fromEnvelopeXdr(transactionXdr, Network.TESTNET)
+            val publicKeys: MutableList<String> = mutableListOf()
+            val signatures: MutableList<String> = mutableListOf()
+            signerAdapter.adapterItems.map { it.account }.forEach { signer ->
+                publicKeys.add(signer.publicKey)
+                val signature = KeyPair.fromSecretSeed(signer.privateKey).signDecorated(transaction.hash()).signature.signature
+                val signatureStr = Base64.encodeToString(signature, Base64.NO_WRAP)
+                Logger.d("signatureStr: ${String(signature)}")
+                Logger.d("signatureStr: ${signature.decodeToString()}")
+                Logger.d("signatureStr: ${Base64.encodeToString(signature, Base64.NO_WRAP)}")
+                signatures.add(signatureStr)
+            }
+            val data = Intent().apply {
+                putStringArrayListExtra(PickSignerActivity.BSIGNER_EXTRA_PUBLIC_KEYS, ArrayList(publicKeys))
+                putStringArrayListExtra(PickSignerActivity.EXTRA_SIGNATURES, ArrayList(signatures))
+            }
+            setResult(Activity.RESULT_OK, data)
+            finish()
+
             /*lifecycleScope.launch {
                 withContext(Dispatchers.IO) {
                     val sourceAccount = Horizon.server.accounts().account("GDICGWXEFFJJKGBOH7LL45PPPA6ZFVHEG3PCXP4BUAJHAA6FIFIVG4LJ")

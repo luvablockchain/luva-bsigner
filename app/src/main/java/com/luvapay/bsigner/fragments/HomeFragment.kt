@@ -101,6 +101,7 @@ class HomeFragment : BaseFragment() {
                     return@withContext accounts.map { SignerItem(it).apply { canModify = vm.canModify.value ?: false } }
                 }
                 signerAdapter.set(accountItems)
+                Logger.d("${accounts.map { it.privateKey }}")
             }
         }
 

@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Luva bSigner</string>
 
-    <string name="app_name_subtitle">Tăng cường khả năng bảo mật</string>
+    <string name="app_name_subtitle">Tăng cường khả năng bảo mật cho ví của bạn</string>
 
     <string name="all_cancel">Hủy bỏ</string>
     <string name="all_continue">Tiếp tục</string>
@@ -26,22 +26,22 @@
 
     <string name="create_account">Tạo chữ ký</string>
     <string name="backup_account_title">Sao lưu chữ ký</string>
-    <string name="backup_account_subtitle">You will be shown a 12 word recovery phrase. It will allow you to recover access to your account in case your phone is lost or stolen.</string>
+    <string name="backup_account_subtitle">Bạn sẽ được cung cấp 12 chữ dùng để phục hồi chữ ký trong trường hợp cài đặt lại ứng dụng hay bị hư hỏng, thất lạc thiết bị.</string>
     <string name="backup_understand">Tôi đồng ý</string>
 
-    <string name="verify_phrase_title">Verify Recovery Phrase</string>
-    <string name="verify_phrase_hint">Tap the words in correct order</string>
+    <string name="verify_phrase_title">Xác nhận các chữ phục hồi</string>
+    <string name="verify_phrase_hint">Nhấn vào các chữ theo thứ tự đúng</string>
     <string name="verify_does_not_match">Verify mnemonics don\'t match</string>
 
     <string name="first_time_help_section">Lần đầu sử dung? Hãy xem qua các mục trợ giúp</string>
     <string name="agree_with_terms_and_privacy_policy">Bằng việc đăng ký, bạn đã đồng ý với các chính sách và điều khoản sử dụng</string>
 
     <string name="recover_account">Phục hồi chữ ký</string>
-    <string name="recovery_phrase">Recovery Phrase</string>
-    <string name="recovery_phrase_hint">Recovery phrase can help you to recover access to your account in case your phone is lost or stolen.</string>
+    <string name="recovery_phrase">Các chữ dùng để phục hồi</string>
+    <string name="recovery_phrase_hint">Các chữ phục hồi giúp bạn có thể lấy lại quyền truy cập vào chữ ký trong trường hợp cài đặt lại ứng dụng, hay bị hư hỏng, thất lạc thiết bị.</string>
     <string name="recovery_phrase_save_hint">Write down these 12 words and keep them secure. Don’t email them or screenshot them.</string>
-    <string name="recovery_phrase_confirm_next_hint">You will need to confirm recovery phrase on the next screen</string>
-    <string name="recover_account_hint">Enter the 12 or 24 recovery words you were given when you created your account</string>
+    <string name="recovery_phrase_confirm_next_hint">Bạn sẽ cần phải xác nhận các chữ phục hồi ở màn hình tiếp theo</string>
+    <string name="recover_account_hint">Nhập 12 chữ phục hồi bạn được cung cấp lúc tạo chữ ký</string>
 
     <string name="signer_list">Chữ ký</string>
 

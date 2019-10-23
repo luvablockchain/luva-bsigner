@@ -1,9 +1,6 @@
 package com.luvapay.bsigner
 
 import android.app.Application
-import android.content.Context
-import android.content.ContextWrapper
-import android.util.Log
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
@@ -12,9 +9,12 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.jakewharton.threetenabp.AndroidThreeTen
+import com.luvapay.bsigner.notification.TransactionOpenedHandler
+import com.luvapay.bsigner.notification.TransactionReceivedHandler
 import com.luvapay.bsigner.utils.*
 import com.luvapay.bsigner.viewmodel.HomeViewModel
 import com.luvapay.bsigner.workers.AppLockWorker
+import com.onesignal.OneSignal
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import com.orhanobut.logger.PrettyFormatStrategy
@@ -59,15 +59,26 @@ class App : Application(), LifecycleObserver {
 
         if (getAppPin().isNotBlank()) lockApp()
 
-        //BouncyCastle for JDK lower than 1.8
+        /**
+         * BouncyCastle for JDK lower than 1.8
+         */
         Security.removeProvider("BC")
         Security.insertProviderAt(BouncyCastleProvider(), 1)
+
+        /**
+         * OneSignal Initialization
+         */
+        OneSignal.startInit(this@App)
+            .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
+            .unsubscribeWhenNotificationsAreDisabled(false)
+            .autoPromptLocation(false)
+            .setNotificationReceivedHandler(TransactionReceivedHandler())
+            .setNotificationOpenedHandler(TransactionOpenedHandler())
+            .init()
+
+        OneSignal.getPermissionSubscriptionState().subscriptionStatus.userId
     }
 
-    /*override fun attachBaseContext(base: Context?) {
-        super.attachBaseContext(ContextWrapper(base).wrap("en"))
-    }
-*/
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     open fun onMoveToForeground() {
         workManager.cancelUniqueWork(AppLockWorker.UNIQUE_WORK_NAME)

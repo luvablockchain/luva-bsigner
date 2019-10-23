@@ -1,3 +1,19 @@
+//OneSignal
+buildscript {
+    repositories {
+        maven { url 'https://plugins.gradle.org/m2/'}
+    }
+    dependencies {
+        classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:[0.12.4, 0.99.99]'
+    }
+}
+apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
+
+repositories {
+    maven { url 'https://maven.google.com' }
+}
+
+//App
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
@@ -14,8 +30,27 @@ android {
         versionCode 1
         versionName "0.1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        manifestPlaceholders = [
+                onesignal_app_id: 'abc3541d-068d-47d5-8b91-8da37e5dd2ce',
+                // Project number pulled from dashboard, local value is ignored.
+                onesignal_google_project_number: 'REMOTE'
+        ]
+    }
+    signingConfigs {
+        customDebug {
+            storeFile file("../bsigner.jks")
+            storePassword "bsigner"
+            keyAlias "bsigner"
+            keyPassword "bsigner"
+        }
     }
     buildTypes {
+        debug {
+            minifyEnabled false
+            applicationIdSuffix ".debug"
+            signingConfig signingConfigs.customDebug
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -101,6 +136,9 @@ dependencies {
     implementation 'com.yqritc:recyclerview-flexibledivider:1.4.0'
 
     implementation 'com.github.GwonHyeok:StickySwitch:0.0.15'
+
+    //OneSignal
+    implementation 'com.onesignal:OneSignal:[3.11.2, 3.99.99]'
 
     //Test
     testImplementation 'junit:junit:4.12'

@@ -75,8 +75,8 @@ class App : Application(), LifecycleObserver {
             .setNotificationReceivedHandler(TransactionReceivedHandler())
             .setNotificationOpenedHandler(TransactionOpenedHandler())
             .init()
-
-        OneSignal.getPermissionSubscriptionState().subscriptionStatus.userId
+        //OneSignal.sendTags()
+        //OneSignal.getPermissionSubscriptionState().subscriptionStatus.userId
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)

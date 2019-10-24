@@ -10,12 +10,12 @@ class TransactionReceivedHandler : OneSignal.NotificationReceivedHandler {
         notification?.runCatching {
 
             Logger.d(
-                "notificationReceived" +
-                        "payload.body: \t${payload.body}" +
-                        "payload.additionalData: \t${payload.additionalData}" +
-                        "payload.title: \t${payload.title}" +
-                        "payload.rawPayload: \t${payload.rawPayload}" +
-                        "payload.body: \t${androidNotificationId}"
+                "\nnotificationReceived" +
+                        "\npayload.body: \t${payload.body}" +
+                        "\npayload.additionalData: \t${payload.additionalData}" +
+                        "\npayload.title: \t${payload.title}" +
+                        "\npayload.rawPayload: \t${payload.rawPayload}" +
+                        "\npayload.body: \t${androidNotificationId}"
             )
 
         }

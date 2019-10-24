@@ -22,6 +22,7 @@ import com.luvapay.bsigner.utils.gone
 import com.luvapay.bsigner.utils.visible
 import com.luvapay.bsigner.viewmodel.HomeViewModel
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
+import com.onesignal.OneSignal
 import com.orhanobut.logger.Logger
 import io.objectbox.android.AndroidScheduler
 import io.objectbox.kotlin.query
@@ -29,8 +30,16 @@ import io.objectbox.reactive.DataSubscription
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import org.jetbrains.anko.startActivity
+import org.json.JSONObject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.stellar.sdk.requests.RequestBuilder
 import kotlinx.android.synthetic.main.fragment_home_signer.view.fragmentHomeAccount_accountList as accountList
 import kotlinx.android.synthetic.main.fragment_home_signer.view.fragmentHomeAccount_modifyBtn as modifyBtn
 import kotlinx.android.synthetic.main.fragment_home_signer.view.fragmentHomeAccount_createBtn as createAccountBtn
@@ -63,6 +72,34 @@ class HomeFragment : BaseFragment() {
 
         view.modifyBtn.setOnClickListener {
             vm.canModify.value = !(vm.canModify.value ?: true)
+
+
+            /*signerAdapter.adapterItems.forEach { item ->
+                lifecycleScope.launch {
+                    withContext(Dispatchers.IO) {
+                        val json = JSONObject().apply {
+                            put("user_id", OneSignal.getPermissionSubscriptionState().subscriptionStatus.userId)
+                            put("public_key", item.account.publicKey)
+                        }
+
+                        Logger.d("post: $json")
+
+                        val reqBody = json.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
+
+                        json.toString().toByteArray()
+                        val req = Request.Builder()
+                            .url("http://10.10.9.57:8080/api/subscribe")
+                            .post(reqBody)
+                            .build()
+
+                        OkHttpClient().newCall(req).execute().use {
+                            val body = it.body?.string() ?: ""
+                            Logger.d("body: $body")
+                        }
+                    }
+                }
+            }*/
+
         }
 
         view.createAccountBtn.setOnClickListener {
@@ -101,7 +138,6 @@ class HomeFragment : BaseFragment() {
                     return@withContext accounts.map { SignerItem(it).apply { canModify = vm.canModify.value ?: false } }
                 }
                 signerAdapter.set(accountItems)
-                Logger.d("${accounts.map { it.privateKey }}")
             }
         }
 

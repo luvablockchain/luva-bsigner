@@ -76,6 +76,8 @@
     <string name="settings_term_of_service">Term of service</string>
     <string name="settings_frequently_asked_questions">Frequently asked questions</string>
 
+    <string name="transaction_owner">Transaction Owner</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
 

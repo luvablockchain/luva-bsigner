@@ -8,11 +8,7 @@ import io.objectbox.annotation.IndexType
 @Entity
 data class TransactionInfo(
     @Index(type = IndexType.VALUE)
-    var sequenceNumber: Long = -1,
-    @Index(type = IndexType.VALUE)
-    var envelopXdrBase64: String = "",
-    @Index(type = IndexType.VALUE)
-    var submitted: Boolean = false
+    var envelopXdrBase64: String = ""
 ) {
     @Id
     var objId: Long = 0

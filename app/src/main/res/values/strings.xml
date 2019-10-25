@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Luva bSigner</string>
+    <string name="app_name" translatable="false">bSigner</string>
 
     <string name="app_name_subtitle">Multiply your security</string>
 

@@ -41,7 +41,9 @@ class TransactionFragment : BaseFragment() {
         view.transactionList.apply {
             itemAnimator = DefaultItemAnimator()
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            adapter = transactionAdapter
+            adapter = transactionAdapter.apply {
+
+            }
         }
 
     }

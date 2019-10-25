@@ -75,6 +75,7 @@
     <string name="settings_term_of_service">Điều khoản sử dụng</string>
     <string name="settings_frequently_asked_questions">Câu hỏi thường gặp</string>
 
+    <string name="transaction_list">Danh sách giao dịch</string>
     <string name="transaction_owner">Người tạo giao dịch</string>
 
 </resources>

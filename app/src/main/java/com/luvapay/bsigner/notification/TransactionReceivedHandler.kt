@@ -25,6 +25,8 @@ class TransactionReceivedHandler : OneSignal.NotificationReceivedHandler {
             )
 
             val transactionXdr = payload.additionalData.getString("transactionXdr")
+            val signerKeys = payload.additionalData.getString("signerKeys")
+            Logger.d(signerKeys)
             val cachedTransaction = AppBox.transactionInfoBox.query {
                 equal(TransactionInfo_.envelopXdrBase64, transactionXdr)
             }.findFirst()

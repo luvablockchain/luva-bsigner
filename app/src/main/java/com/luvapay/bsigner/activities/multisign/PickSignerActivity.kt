@@ -7,6 +7,7 @@ import androidx.fragment.app.commit
 import com.afollestad.materialdialogs.MaterialDialog
 import com.luvapay.bsigner.AppBox
 import com.luvapay.bsigner.R
+import com.luvapay.bsigner.activities.WelcomeActivity
 import com.luvapay.bsigner.activities.signer.BackupWarningActivity
 import com.luvapay.bsigner.base.BaseActivity
 import com.luvapay.bsigner.entities.Ed25519Signer
@@ -52,15 +53,8 @@ class PickSignerActivity : BaseActivity(), SelectSignerFragment.SignerSelectList
             )
         }
 
-        if (AppBox.ed25519SignerBox.isEmpty) MaterialDialog(this@PickSignerActivity).show {
-            message(R.string.no_accounts_added)
-            positiveButton(R.string.ok) {
-                startActivity<BackupWarningActivity>()
-            }
-            negativeButton(R.string.cancel) {
-                setResult(Activity.RESULT_CANCELED)
-                finish()
-            }
+        if (AppBox.ed25519SignerBox.isEmpty) {
+            startActivity<WelcomeActivity>()
         }
 
         pickSignerBtn.setOnClickListener {

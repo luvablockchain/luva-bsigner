@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.afollestad.materialdialogs.MaterialDialog
 import com.luvapay.bsigner.AppBox
 import com.luvapay.bsigner.R
 import com.luvapay.bsigner.entities.Ed25519Signer_
@@ -85,26 +86,31 @@ class SignTransactionActivity : AppCompatActivity() {
             finish()
         }
 
-        if (signerAdapter.adapterItems.all { it.privateKey.isNotBlank() }) signBtn.enable()
-
         signBtn.setOnClickListener {
-            Logger.d("transactionXdr: $transactionXdr")
-            val transaction = Transaction.fromEnvelopeXdr(transactionXdr, Network.TESTNET)
-            val publicKeys: MutableList<String> = mutableListOf()
-            val signatures: MutableList<String> = mutableListOf()
-            signerAdapter.adapterItems.filter { it.privateKey.isNotBlank() }.forEach { signer ->
-                publicKeys.add(signer.publicKey)
-                val signature = KeyPair.fromSecretSeed(signer.privateKey).signDecorated(transaction.hash()).signature.signature
-                val signatureStr = Base64.encodeToString(signature, Base64.NO_WRAP)
+            if (signerAdapter.adapterItems.all { it.privateKey.isBlank() }) {
+                MaterialDialog(this@SignTransactionActivity).show {
+                    message(R.string.sign_transaction_not_enough_signer)
+                    positiveButton(R.string.ok)
+                }
+            } else {
+                Logger.d("transactionXdr: $transactionXdr")
+                val transaction = Transaction.fromEnvelopeXdr(transactionXdr, Network.TESTNET)
+                val publicKeys: MutableList<String> = mutableListOf()
+                val signatures: MutableList<String> = mutableListOf()
+                signerAdapter.adapterItems.filter { it.privateKey.isNotBlank() }.forEach { signer ->
+                    publicKeys.add(signer.publicKey)
+                    val signature = KeyPair.fromSecretSeed(signer.privateKey).signDecorated(transaction.hash()).signature.signature
+                    val signatureStr = Base64.encodeToString(signature, Base64.NO_WRAP)
 
-                signatures.add(signatureStr)
+                    signatures.add(signatureStr)
+                }
+                val data = Intent().apply {
+                    putStringArrayListExtra(BSIGNER_EXTRA_PUBLIC_KEYS, ArrayList(publicKeys))
+                    putStringArrayListExtra(EXTRA_SIGNATURES, ArrayList(signatures))
+                }
+                setResult(Activity.RESULT_OK, data)
+                finish()
             }
-            val data = Intent().apply {
-                putStringArrayListExtra(BSIGNER_EXTRA_PUBLIC_KEYS, ArrayList(publicKeys))
-                putStringArrayListExtra(EXTRA_SIGNATURES, ArrayList(signatures))
-            }
-            setResult(Activity.RESULT_OK, data)
-            finish()
         }
     }
 

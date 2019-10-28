@@ -66,6 +66,7 @@
     <string name="sign_transaction_memo">Memo</string>
     <string name="sign_transaction_from">From</string>
     <string name="sign_transaction_to">To</string>
+    <string name="sign_transaction_not_enough_signer">You don\'t have enough signers to sign transaction</string>
     <string name="sign_transaction_approve">Approve</string>
 
     <string name="settings_system">System</string>

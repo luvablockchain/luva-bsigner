@@ -170,6 +170,7 @@
             app:layout_constraintWidth_percent="0.36"
             app:cornerRadius="24dp"
             android:text="@string/sign_transaction_approve"
+            android:enabled="false"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toEndOf="@id/activitySignTransaction_cancelBtn"
             app:layout_constraintEnd_toEndOf="parent"

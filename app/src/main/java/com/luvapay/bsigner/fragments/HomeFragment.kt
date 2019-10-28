@@ -73,7 +73,7 @@ class HomeFragment : BaseFragment() {
         view.modifyBtn.setOnClickListener {
             vm.canModify.value = !(vm.canModify.value ?: true)
 
-            signerAdapter.adapterItems.forEach { item ->
+            /*signerAdapter.adapterItems.forEach { item ->
                 lifecycleScope.launch {
                     withContext(Dispatchers.IO) {
                         val json = JSONObject().apply {
@@ -97,7 +97,7 @@ class HomeFragment : BaseFragment() {
                         }
                     }
                 }
-            }
+            }*/
 
         }
 

@@ -9,69 +9,64 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.luvapay.bsigner.*
-import com.luvapay.bsigner.items.SignerItem
+import com.luvapay.bsigner.AppBox
+import com.luvapay.bsigner.R
+import com.luvapay.bsigner.entities.Ed25519Signer_
+import com.luvapay.bsigner.items.SignerSignItem
+import com.luvapay.bsigner.utils.enable
 import com.luvapay.bsigner.utils.prefetchText
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import com.orhanobut.logger.Logger
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
-import kotlinx.coroutines.Dispatchers
+import io.objectbox.kotlin.query
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import org.stellar.sdk.*
-import kotlinx.android.synthetic.main.activity_multisign_sign_transaction.activitySignTransaction_fromTv as fromTv
-import kotlinx.android.synthetic.main.activity_multisign_sign_transaction.activitySignTransaction_toTv as toTv
-import kotlinx.android.synthetic.main.activity_multisign_sign_transaction.activitySignTransaction_memoTv as memoTv
+import org.stellar.sdk.KeyPair
+import org.stellar.sdk.Network
+import org.stellar.sdk.PaymentOperation
+import org.stellar.sdk.Transaction
 import kotlinx.android.synthetic.main.activity_multisign_sign_transaction.activitySignTransaction_amountTv as amountTv
 import kotlinx.android.synthetic.main.activity_multisign_sign_transaction.activitySignTransaction_cancelBtn as cancelBtn
+import kotlinx.android.synthetic.main.activity_multisign_sign_transaction.activitySignTransaction_fromTv as fromTv
+import kotlinx.android.synthetic.main.activity_multisign_sign_transaction.activitySignTransaction_memoTv as memoTv
 import kotlinx.android.synthetic.main.activity_multisign_sign_transaction.activitySignTransaction_signBtn as signBtn
 import kotlinx.android.synthetic.main.activity_multisign_sign_transaction.activitySignTransaction_signerList as signerList
+import kotlinx.android.synthetic.main.activity_multisign_sign_transaction.activitySignTransaction_toTv as toTv
 
 class SignTransactionActivity : AppCompatActivity() {
 
-    private val signerAdapter by lazy { FastItemAdapter<SignerItem>() }
+    private val signerAdapter by lazy { FastItemAdapter<SignerSignItem>() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_multisign_sign_transaction)
 
-        if (intent == null) {
+        val signerKeys = intent.getStringArrayListExtra(BSIGNER_EXTRA_PUBLIC_KEYS)?.toMutableList() ?: mutableListOf()
+        val transactionXdr = intent.getStringExtra(EXTRA_TRANSACTION_XDR) ?: ""
+
+        if (signerKeys.isEmpty() || transactionXdr.isBlank()) {
             setResult(Activity.RESULT_CANCELED)
             finish()
             return
         }
 
-        val signerObjIds = intent.getLongArrayExtra(PickSignerActivity.EXTRA_SIGNER_OBJ_IDS)?.toMutableList() ?: mutableListOf()
-        val transactionXdr = intent.getStringExtra(PickSignerActivity.EXTRA_TRANSACTION_XDR) ?: ""
-
-        if (signerObjIds.isEmpty() || transactionXdr.isBlank()) {
-            setResult(Activity.RESULT_CANCELED)
-            finish()
-            return
-        }
-
-        val ed25519Signers = AppBox.ed25519SignerBox.get(signerObjIds).toMutableList()
-
-        Logger.d(ed25519Signers.map { it.privateKey })
+        //Logger.d(ed25519Signers.map { it.privateKey })
 
         signerList.apply {
             itemAnimator = DefaultItemAnimator()
             layoutManager = LinearLayoutManager(this@SignTransactionActivity, RecyclerView.VERTICAL, false)
             adapter = signerAdapter.apply {
-                onClickListener = { _, _, item, _ ->
+                onClickListener = { _, _, _, _ ->
                     true
                 }
-                set(
-                    ed25519Signers.map {
-                        SignerItem(it).apply {
-                            canModify = false
-                            card = false
-                        }
-                    }
-                )
             }
             addItemDecoration(VerticalDividerItemDecoration.Builder(this@SignTransactionActivity).build())
-            //addItemDecoration(DividerItemDecoration(this@SignTransactionActivity, DividerItemDecoration.VERTICAL))
+        }
+
+        signerKeys.forEach {  signerKey ->
+            val cachedKey = AppBox.ed25519SignerBox.query {
+                equal(Ed25519Signer_.publicKey, signerKey)
+            }.findFirst()
+            signerAdapter.add(SignerSignItem(cachedKey?.name ?: "", signerKey, cachedKey?.privateKey ?: ""))
         }
 
         lifecycleScope.launch {
@@ -90,12 +85,14 @@ class SignTransactionActivity : AppCompatActivity() {
             finish()
         }
 
+        if (signerAdapter.adapterItems.all { it.privateKey.isNotBlank() }) signBtn.enable()
+
         signBtn.setOnClickListener {
             Logger.d("transactionXdr: $transactionXdr")
             val transaction = Transaction.fromEnvelopeXdr(transactionXdr, Network.TESTNET)
             val publicKeys: MutableList<String> = mutableListOf()
             val signatures: MutableList<String> = mutableListOf()
-            signerAdapter.adapterItems.map { it.account }.forEach { signer ->
+            signerAdapter.adapterItems.filter { it.privateKey.isNotBlank() }.forEach { signer ->
                 publicKeys.add(signer.publicKey)
                 val signature = KeyPair.fromSecretSeed(signer.privateKey).signDecorated(transaction.hash()).signature.signature
                 val signatureStr = Base64.encodeToString(signature, Base64.NO_WRAP)
@@ -103,12 +100,20 @@ class SignTransactionActivity : AppCompatActivity() {
                 signatures.add(signatureStr)
             }
             val data = Intent().apply {
-                putStringArrayListExtra(PickSignerActivity.BSIGNER_EXTRA_PUBLIC_KEYS, ArrayList(publicKeys))
-                putStringArrayListExtra(PickSignerActivity.EXTRA_SIGNATURES, ArrayList(signatures))
+                putStringArrayListExtra(BSIGNER_EXTRA_PUBLIC_KEYS, ArrayList(publicKeys))
+                putStringArrayListExtra(EXTRA_SIGNATURES, ArrayList(signatures))
             }
             setResult(Activity.RESULT_OK, data)
             finish()
         }
+    }
+
+    companion object {
+        const val BSIGNER_EXTRA_PUBLIC_KEYS = "BSIGNER_EXTRA_PUBLIC_KEYS"
+        const val EXTRA_SIGNATURES = "BSIGNER_EXTRA_SIGNATURES"
+        //const val EXTRA_SIGNATURE_HINTS = "BSIGNER_EXTRA_SIGNATURE_HINTS"
+        const val EXTRA_TRANSACTION_XDR = "BSIGNER_EXTRA_TRANSACTION_XDR"
+        //const val EXTRA_SIGNER_OBJ_IDS = "EXTRA_SIGNER_OBJ_IDS"
     }
 
 }

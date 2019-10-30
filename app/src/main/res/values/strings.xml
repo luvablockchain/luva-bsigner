@@ -23,9 +23,9 @@
     <string name="cancel">Cancel</string>
     <string name="language">Language</string>
 
-    <string name="create_account">Create account</string>
-    <string name="backup_account_title">Backup Your Account</string>
-    <string name="backup_account_subtitle">You will be shown a 12 word recovery phrase. It will allow you to recover access to your account in case your phone is lost or stolen.</string>
+    <string name="create_account">Create signer</string>
+    <string name="backup_account_title">Backup Your Signer</string>
+    <string name="backup_account_subtitle">You will be shown a 12 word recovery phrase. It will allow you to recover access to your signer in case your phone is lost or stolen.</string>
     <string name="backup_understand">I Understand</string>
 
     <string name="verify_phrase_title">Verify Recovery Phrase</string>
@@ -35,17 +35,17 @@
     <string name="first_time_help_section">First time user? See our Help section</string>
     <string name="agree_with_terms_and_privacy_policy">By registering you agree to our Terms of Service and Privacy Policy</string>
 
-    <string name="recover_account">Recover account</string>
+    <string name="recover_account">Recover signer</string>
     <string name="recovery_phrase">Recovery Phrase</string>
-    <string name="recovery_phrase_hint">Recovery phrase can help you to recover access to your account in case your phone is lost or stolen.</string>
+    <string name="recovery_phrase_hint">Recovery phrase can help you to recover access to your signer in case your phone is lost or stolen.</string>
     <string name="recovery_phrase_save_hint">Write down these 12 words and keep them secure. Don’t email them or screenshot them.</string>
     <string name="recovery_phrase_confirm_next_hint">You will need to confirm recovery phrase on the next screen</string>
-    <string name="recover_account_hint">Enter the 12 or 24 recovery words you were given when you created your account</string>
+    <string name="recover_account_hint">Enter the 12 or 24 recovery words you were given when you created your signer</string>
 
     <string name="signer_list">Your signers</string>
 
-    <string name="no_accounts_added">No accounts added. Add an account now?</string>
-    <string name="error_account_already_exist">Account already exists</string>
+    <string name="no_accounts_added">No signers added. Add an signer now?</string>
+    <string name="error_account_already_exist">Signer already exists</string>
     <string name="error_undefined">Something went wrong</string>
 
     <string name="item_signer_no_name">(no name)</string>
@@ -57,8 +57,8 @@
     <string name="pin_changed_success">Change PIN success</string>
     <string name="pin_changed_failed">Change PIN failed</string>
 
-    <string name="enter_account_name">Enter your account name</string>
-    <string name="warning_delete">This action cannot revert, continue to delete this account?</string>
+    <string name="enter_account_name">Enter your signer name</string>
+    <string name="warning_delete">This action cannot revert, continue to delete this signer?</string>
 
     <string name="sign_transaction_title">Transaction Info</string>
     <string name="sign_transaction_subtitle">Approve transaction</string>

@@ -2,7 +2,6 @@ package com.luvapay.bsigner.entities
 
 import com.luvapay.bsigner.utils.decrypt
 import com.luvapay.bsigner.utils.encrypt
-import com.orhanobut.logger.Logger
 import io.objectbox.annotation.*
 import io.objectbox.converter.PropertyConverter
 import org.stellar.sdk.KeyPair
@@ -18,7 +17,9 @@ data class Ed25519Signer(
     @Convert(converter = SecurityConverter::class, dbType = String::class)
     var privateKey: String = "",
     @Convert(converter = SecurityConverter::class, dbType = String::class)
-    var mnemonic: String = ""
+    var mnemonic: String = "",
+    @Index(type = IndexType.VALUE)
+    var subscribed: Boolean = false
 ) {
 
     @Id

@@ -24,15 +24,17 @@ class TransactionReceivedHandler : OneSignal.NotificationReceivedHandler {
                         "\npayload.body: \t${androidNotificationId}"
             )
 
-            val transactionXdr = payload.additionalData.getString("transactionXdr")
-            val signerKeys = payload.additionalData.getString("signerKeys")
-            Logger.d(signerKeys)
+            val xdr = payload.additionalData.getString(TransactionInfo.XDR)
+            val name = payload.additionalData.getString(TransactionInfo.NAME)
+
             val cachedTransaction = AppBox.transactionInfoBox.query {
-                equal(TransactionInfo_.envelopXdrBase64, transactionXdr)
+                equal(TransactionInfo_.envelopXdrBase64, xdr)
             }.findFirst()
-            AppBox.transactionInfoBox.put(
-                cachedTransaction?.apply { envelopXdrBase64 = transactionXdr } ?: TransactionInfo(transactionXdr)
-            )
+
+            val transaction = TransactionInfo(xdr, name)
+            if (cachedTransaction != null) transaction.apply { objId = cachedTransaction.objId }
+
+            AppBox.transactionInfoBox.put(transaction)
         }
     }
 

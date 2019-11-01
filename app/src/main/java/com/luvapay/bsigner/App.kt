@@ -73,7 +73,7 @@ class App : Application(), LifecycleObserver {
             .unsubscribeWhenNotificationsAreDisabled(false)
             .autoPromptLocation(false)
             .setNotificationReceivedHandler(TransactionReceivedHandler())
-            .setNotificationOpenedHandler(TransactionOpenedHandler())
+            .setNotificationOpenedHandler(TransactionOpenedHandler(this@App))
             .init()
         //OneSignal.sendTags()
         //OneSignal.getPermissionSubscriptionState().subscriptionStatus.userId

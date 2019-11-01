@@ -43,7 +43,7 @@
     },
     {
       "id": "5:4556089856164876981",
-      "lastPropertyId": "4:1582094685479975916",
+      "lastPropertyId": "6:8573095708635645613",
       "name": "TransactionInfo",
       "properties": [
         {
@@ -58,13 +58,62 @@
           "indexId": "8:3753822176888317821",
           "type": 9,
           "flags": 8
+        },
+        {
+          "id": "5:65310895617810692",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "6:8573095708635645613",
+          "name": "subscribed",
+          "type": 1,
+          "flags": 4
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "6:6106271170867888639",
+      "lastPropertyId": "5:446687301878480754",
+      "name": "TransactionSigner",
+      "properties": [
+        {
+          "id": "1:4085338089644537402",
+          "name": "objId",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:6471272683026930539",
+          "name": "key",
+          "type": 9
+        },
+        {
+          "id": "3:1679629742013233853",
+          "name": "weight",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "4:4861658941170068054",
+          "name": "type",
+          "type": 9
+        },
+        {
+          "id": "5:446687301878480754",
+          "name": "transactionId",
+          "indexId": "10:202173912094992685",
+          "type": 11,
+          "flags": 1548,
+          "relationTarget": "TransactionInfo"
         }
       ],
       "relations": []
     }
   ],
-  "lastEntityId": "5:4556089856164876981",
-  "lastIndexId": "9:2050333952675655068",
+  "lastEntityId": "6:6106271170867888639",
+  "lastIndexId": "10:202173912094992685",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,

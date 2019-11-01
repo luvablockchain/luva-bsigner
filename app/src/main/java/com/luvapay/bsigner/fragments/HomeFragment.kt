@@ -10,14 +10,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.luvapay.bsigner.AppBox
 import com.luvapay.bsigner.R
-import com.luvapay.bsigner.activities.signer.SignerDetailActivity
 import com.luvapay.bsigner.activities.signer.BackupWarningActivity
 import com.luvapay.bsigner.activities.signer.RecoverSignerActivity
+import com.luvapay.bsigner.activities.signer.SignerDetailActivity
 import com.luvapay.bsigner.base.BaseFragment
 import com.luvapay.bsigner.entities.Ed25519Signer
+import com.luvapay.bsigner.entities.Ed25519Signer_
 import com.luvapay.bsigner.entities.TransactionInfo
 import com.luvapay.bsigner.entities.TransactionInfo_
 import com.luvapay.bsigner.items.SignerItem
+import com.luvapay.bsigner.server.BSigner
 import com.luvapay.bsigner.unSubscribe
 import com.luvapay.bsigner.utils.callback
 import com.luvapay.bsigner.utils.getColorCompat
@@ -33,22 +35,19 @@ import io.objectbox.reactive.DataSubscription
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.jetbrains.anko.startActivity
 import org.json.JSONArray
 import org.json.JSONObject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.stellar.sdk.requests.RequestBuilder
 import kotlinx.android.synthetic.main.fragment_home_signer.view.fragmentHomeAccount_accountList as accountList
-import kotlinx.android.synthetic.main.fragment_home_signer.view.fragmentHomeAccount_modifyBtn as modifyBtn
 import kotlinx.android.synthetic.main.fragment_home_signer.view.fragmentHomeAccount_createBtn as createAccountBtn
-import kotlinx.android.synthetic.main.fragment_home_signer.view.fragmentHomeAccount_recoverBtn as recoverAccountBtn
 import kotlinx.android.synthetic.main.fragment_home_signer.view.fragmentHomeAccount_menuContainer as menuContainer
+import kotlinx.android.synthetic.main.fragment_home_signer.view.fragmentHomeAccount_modifyBtn as modifyBtn
+import kotlinx.android.synthetic.main.fragment_home_signer.view.fragmentHomeAccount_recoverBtn as recoverAccountBtn
 
 class HomeFragment : BaseFragment() {
 
@@ -76,87 +75,6 @@ class HomeFragment : BaseFragment() {
 
         view.modifyBtn.setOnClickListener {
             vm.canModify.value = !(vm.canModify.value ?: true)
-
-            /*signerAdapter.adapterItems.forEach { item ->
-                lifecycleScope.launch {
-                    withContext(Dispatchers.IO) {
-                        val json = JSONObject().apply {
-                            put("user_id", OneSignal.getPermissionSubscriptionState().subscriptionStatus.userId)
-                            put("public_key", item.account.publicKey)
-                        }
-
-                        Logger.d("post: $json")
-
-                        val reqBody = json.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
-
-                        json.toString().toByteArray()
-                        val req = Request.Builder()
-                            .url("http://10.10.9.57:8080/api/subscribe")
-                            .post(reqBody)
-                            .build()
-
-                        OkHttpClient().newCall(req).execute().use {
-                            val body = it.body?.string() ?: ""
-                            Logger.d("body: $body")
-                        }
-                    }
-                }
-            }*/
-
-            lifecycleScope.launch {
-                withContext(Dispatchers.IO) {
-                    val signerKeys = JSONArray()
-                    signerAdapter.adapterItems.map { it.account.publicKey }.forEach { signerKeys.put(it) }
-                    val json = JSONObject().apply {
-                        put("signer_keys", signerKeys)
-                    }
-
-                    Logger.d("post: $json")
-
-                    val reqBody = json.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
-
-                    json.toString().toByteArray()
-
-                    val req = Request.Builder()
-                        .url("http://10.10.9.57:8080/api/getTransactions")
-                        .post(reqBody)
-                        .build()
-
-                    OkHttpClient().newCall(req).enqueue(callback(
-                        response = { _, response ->
-                            val body = JSONObject(response.body?.string() ?: "")
-                            Logger.d("body: $body")
-
-                            val transactions = body.getJSONObject("data").getJSONArray("transactions")
-                            Logger.d("transactions: $transactions")
-
-                            for (i in 0 until transactions.length()) {
-                                val transactionXdr = transactions.getJSONObject(i).getString("transaction_xdr")
-                                val signerKeys = transactions.getJSONObject(i).getJSONArray("signer_keys")
-                                val cachedTransactionInfo = AppBox.transactionInfoBox.query {
-                                    equal(TransactionInfo_.envelopXdrBase64, transactionXdr)
-                                }.findFirst()
-
-                                val transaction = TransactionInfo(transactionXdr)
-                                /*for (j in 0 until signerKeys.length()) {
-                                    transaction.signers.add()
-                                    signerKeys.getString(j)
-                                }*/
-                                Logger.d(transaction)
-
-                                if (cachedTransactionInfo != null) {
-                                    //AppBox.transactionSignerBox.remove(cachedTransactionInfo.signers)
-                                    transaction.objId = cachedTransactionInfo.objId
-                                }
-                                AppBox.transactionInfoBox.put(transaction)
-                            }
-                        },
-                        failure = { _, e ->
-                            e.printStackTrace()
-                        }
-                    ))
-                }
-            }
         }
 
         view.createAccountBtn.setOnClickListener {
@@ -196,6 +114,11 @@ class HomeFragment : BaseFragment() {
                 }
                 signerAdapter.set(accountItems)
             }
+            Logger.d(accounts)
+        }
+
+        lifecycleScope.launch {
+            AppBox.ed25519SignerBox.query { equal(Ed25519Signer_.subscribed, false) }.findFirst()?.let { subscribe(it) }
         }
 
         vm.canModify.observe(this, Observer { canModify ->
@@ -207,6 +130,38 @@ class HomeFragment : BaseFragment() {
     override fun onDetach() {
         super.onDetach()
         accountSub.unSubscribe()
+    }
+
+    private fun subscribe(ed25519Signer: Ed25519Signer) {
+        val json = JSONObject().apply {
+            put("user_id", OneSignal.getPermissionSubscriptionState().subscriptionStatus.userId)
+            put("public_key", ed25519Signer.publicKey)
+        }
+
+        Logger.d("post: $json")
+
+        val reqBody = json.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
+
+        json.toString().toByteArray()
+
+        val req = Request.Builder()
+            .url(BSigner.ENDPOINT_SUBSCRIBE)
+            .post(reqBody)
+            .build()
+
+        OkHttpClient().newCall(req).enqueue(callback(
+            response = { _, response ->
+                val body = response.body?.string() ?: ""
+                Logger.d("body: $body")
+                AppBox.ed25519SignerBox.put(
+                    ed25519Signer.apply { subscribed = true }
+                )
+                AppBox.ed25519SignerBox.query { equal(Ed25519Signer_.subscribed, false) }.findFirst()?.let { subscribe(it) }
+            },
+            failure = { _, e ->
+
+            }
+        ))
     }
 
     companion object {

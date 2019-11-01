@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.luvapay.bsigner.AppBox
 import com.luvapay.bsigner.R
+import com.luvapay.bsigner.activities.transaction.TransactionDetailActivity
 import com.luvapay.bsigner.base.BaseFragment
 import com.luvapay.bsigner.items.TransactionItem
 import com.luvapay.bsigner.unSubscribe
@@ -20,6 +21,7 @@ import io.objectbox.reactive.DataSubscription
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.jetbrains.anko.startActivity
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.stellar.sdk.Network
 import org.stellar.sdk.Transaction
@@ -37,13 +39,15 @@ class TransactionFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         transactionAdapter = FastItemAdapter()
+        transactionAdapter.onClickListener = { _, _, item, _ ->
+            context?.startActivity<TransactionDetailActivity>("transactionXdr" to item.transaction.toEnvelopeXdrBase64())
+            true
+        }
 
         view.transactionList.apply {
             itemAnimator = DefaultItemAnimator()
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            adapter = transactionAdapter.apply {
-
-            }
+            adapter = transactionAdapter
         }
 
     }

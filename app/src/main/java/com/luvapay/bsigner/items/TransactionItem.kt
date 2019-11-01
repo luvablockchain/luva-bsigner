@@ -8,7 +8,7 @@ import com.mikepenz.fastadapter.items.AbstractItem
 import org.stellar.sdk.Transaction
 import kotlinx.android.synthetic.main.item_transaction.view.itemTransaction_sourceTv as sourceTv
 
-data class TransactionItem(override var identifier: Long, private val transaction: Transaction) : AbstractItem<TransactionItem.ViewHolder>() {
+data class TransactionItem(override var identifier: Long, val transaction: Transaction) : AbstractItem<TransactionItem.ViewHolder>() {
 
     override val layoutRes: Int = R.layout.item_transaction
     override val type: Int = 0

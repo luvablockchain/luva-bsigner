@@ -15,8 +15,11 @@ import com.luvapay.bsigner.activities.signer.BackupWarningActivity
 import com.luvapay.bsigner.activities.signer.RecoverSignerActivity
 import com.luvapay.bsigner.base.BaseFragment
 import com.luvapay.bsigner.entities.Ed25519Signer
+import com.luvapay.bsigner.entities.TransactionInfo
+import com.luvapay.bsigner.entities.TransactionInfo_
 import com.luvapay.bsigner.items.SignerItem
 import com.luvapay.bsigner.unSubscribe
+import com.luvapay.bsigner.utils.callback
 import com.luvapay.bsigner.utils.getColorCompat
 import com.luvapay.bsigner.utils.gone
 import com.luvapay.bsigner.utils.visible
@@ -37,6 +40,7 @@ import okhttp3.Request
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.jetbrains.anko.startActivity
+import org.json.JSONArray
 import org.json.JSONObject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.stellar.sdk.requests.RequestBuilder
@@ -99,6 +103,60 @@ class HomeFragment : BaseFragment() {
                 }
             }*/
 
+            lifecycleScope.launch {
+                withContext(Dispatchers.IO) {
+                    val signerKeys = JSONArray()
+                    signerAdapter.adapterItems.map { it.account.publicKey }.forEach { signerKeys.put(it) }
+                    val json = JSONObject().apply {
+                        put("signer_keys", signerKeys)
+                    }
+
+                    Logger.d("post: $json")
+
+                    val reqBody = json.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
+
+                    json.toString().toByteArray()
+
+                    val req = Request.Builder()
+                        .url("http://10.10.9.57:8080/api/getTransactions")
+                        .post(reqBody)
+                        .build()
+
+                    OkHttpClient().newCall(req).enqueue(callback(
+                        response = { _, response ->
+                            val body = JSONObject(response.body?.string() ?: "")
+                            Logger.d("body: $body")
+
+                            val transactions = body.getJSONObject("data").getJSONArray("transactions")
+                            Logger.d("transactions: $transactions")
+
+                            for (i in 0 until transactions.length()) {
+                                val transactionXdr = transactions.getJSONObject(i).getString("transaction_xdr")
+                                val signerKeys = transactions.getJSONObject(i).getJSONArray("signer_keys")
+                                val cachedTransactionInfo = AppBox.transactionInfoBox.query {
+                                    equal(TransactionInfo_.envelopXdrBase64, transactionXdr)
+                                }.findFirst()
+
+                                val transaction = TransactionInfo(transactionXdr)
+                                /*for (j in 0 until signerKeys.length()) {
+                                    transaction.signers.add()
+                                    signerKeys.getString(j)
+                                }*/
+                                Logger.d(transaction)
+
+                                if (cachedTransactionInfo != null) {
+                                    //AppBox.transactionSignerBox.remove(cachedTransactionInfo.signers)
+                                    transaction.objId = cachedTransactionInfo.objId
+                                }
+                                AppBox.transactionInfoBox.put(transaction)
+                            }
+                        },
+                        failure = { _, e ->
+                            e.printStackTrace()
+                        }
+                    ))
+                }
+            }
         }
 
         view.createAccountBtn.setOnClickListener {

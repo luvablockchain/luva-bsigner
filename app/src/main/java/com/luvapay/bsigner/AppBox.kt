@@ -1,10 +1,7 @@
 package com.luvapay.bsigner
 
 import android.app.Application
-import com.luvapay.bsigner.entities.MyObjectBox
-import com.luvapay.bsigner.entities.Ed25519Signer
-import com.luvapay.bsigner.entities.Ed25519Signer_
-import com.luvapay.bsigner.entities.TransactionInfo
+import com.luvapay.bsigner.entities.*
 import io.objectbox.Box
 import io.objectbox.BoxStore
 import io.objectbox.kotlin.boxFor
@@ -16,6 +13,7 @@ object AppBox {
 
     lateinit var ed25519SignerBox: Box<Ed25519Signer>
     lateinit var transactionInfoBox: Box<TransactionInfo>
+    lateinit var transactionSignerBox: Box<TransactionSigner>
 
     fun init(boxStore: BoxStore) {
         boxStore.run {

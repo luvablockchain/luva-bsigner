@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
-        <activity android:name=".activities.transaction.TransactionActivity"></activity>
+        <activity android:name=".activities.transaction.TransactionDetailActivity"></activity>
         <activity
             android:name=".activities.passcode.ChangePinActivity"
             android:configChanges="locale"

@@ -16,7 +16,9 @@ object Horizon {
 
 }
 
-fun createBip39Seed(mnemonic: CharArray, passphrase: String = "mnemonicluva"): ByteArray {
+const val E25519_PUBLIC_KEY = "ed25519_public_key"
+
+fun createBip39Seed(mnemonic: CharArray, passphrase: String = "mnemonic"): ByteArray {
     val salt = passphrase.toByteArray()
     val keySpec = PBEKeySpec(mnemonic, salt, 2048, 512)
     val secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512")

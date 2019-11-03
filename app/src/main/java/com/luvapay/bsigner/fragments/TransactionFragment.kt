@@ -13,7 +13,7 @@ import com.luvapay.bsigner.base.BaseFragment
 import com.luvapay.bsigner.entities.TransactionInfo
 import com.luvapay.bsigner.entities.TransactionInfo_
 import com.luvapay.bsigner.items.TransactionItem
-import com.luvapay.bsigner.server.BSigner
+import com.luvapay.bsigner.server.Api
 import com.luvapay.bsigner.unSubscribe
 import com.luvapay.bsigner.utils.callback
 import com.luvapay.bsigner.viewmodel.HomeViewModel
@@ -33,8 +33,6 @@ import org.jetbrains.anko.startActivity
 import org.json.JSONArray
 import org.json.JSONObject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.stellar.sdk.Network
-import org.stellar.sdk.Transaction
 import kotlinx.android.synthetic.main.fragment_home_transaction.view.fragmentHomeTransaction_transactionList as transactionList
 import kotlinx.android.synthetic.main.fragment_home_transaction.view.fragmentHomeTransaction_refreshBtn as refreshBtn
 
@@ -106,7 +104,7 @@ class TransactionFragment : BaseFragment() {
                 val reqBody = json.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
 
                 val req = Request.Builder()
-                    .url(BSigner.ENDPOINT_GET_TRANSACTIONS)
+                    .url(Api.GET_TRANSACTIONS)
                     .post(reqBody)
                     .build()
 

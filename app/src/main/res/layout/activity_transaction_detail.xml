@@ -10,16 +10,22 @@
     android:paddingEnd="16dp"
     tools:context=".activities.transaction.TransactionDetailActivity">
 
-    <Space
-        android:layout_width="wrap_content"
-        android:layout_height="16dp"/>
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/activityTransactionDetail_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:title="@string/sign_transaction_title"/>
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <!--<Space
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"/>-->
+
+    <!--<androidx.appcompat.widget.AppCompatTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-        android:text="@string/sign_transaction_title"/>
+        android:text="@string/sign_transaction_title"/>-->
 
     <Space
         android:layout_width="wrap_content"
@@ -125,14 +131,29 @@
         android:layout_width="wrap_content"
         android:layout_height="4dp"/>
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/activityTransactionDetail_signatureList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!--<androidx.appcompat.widget.AppCompatTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-        android:text="@string/sign_transaction_subtitle" />
+        android:text="@string/sign_transaction_subtitle" />-->
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button"
+        android:id="@+id/activityTransactionDetail_signBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:elevation="2dp"
+        app:cornerRadius="24dp"
+        android:text="@string/sign_transaction_approve"/>
+
+    <!--<androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
@@ -195,6 +216,6 @@
             app:layout_constraintTop_toBottomOf="@id/activityTransactionDetail_keyContainer"
             app:layout_constraintBottom_toBottomOf="@id/activityTransactionDetail_keyContainer"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
 </LinearLayout>

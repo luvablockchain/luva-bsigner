@@ -16,10 +16,8 @@ import com.luvapay.bsigner.activities.signer.SignerDetailActivity
 import com.luvapay.bsigner.base.BaseFragment
 import com.luvapay.bsigner.entities.Ed25519Signer
 import com.luvapay.bsigner.entities.Ed25519Signer_
-import com.luvapay.bsigner.entities.TransactionInfo
-import com.luvapay.bsigner.entities.TransactionInfo_
 import com.luvapay.bsigner.items.SignerItem
-import com.luvapay.bsigner.server.BSigner
+import com.luvapay.bsigner.server.Api
 import com.luvapay.bsigner.unSubscribe
 import com.luvapay.bsigner.utils.callback
 import com.luvapay.bsigner.utils.getColorCompat
@@ -40,7 +38,6 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.jetbrains.anko.startActivity
-import org.json.JSONArray
 import org.json.JSONObject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import kotlinx.android.synthetic.main.fragment_home_signer.view.fragmentHomeAccount_accountList as accountList
@@ -145,7 +142,7 @@ class HomeFragment : BaseFragment() {
         json.toString().toByteArray()
 
         val req = Request.Builder()
-            .url(BSigner.ENDPOINT_SUBSCRIBE)
+            .url(Api.SUBSCRIBE)
             .post(reqBody)
             .build()
 

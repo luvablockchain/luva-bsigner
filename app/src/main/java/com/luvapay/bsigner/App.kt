@@ -41,10 +41,6 @@ class App : Application(), LifecycleObserver {
         initPrefs()
         //Threeten
         AndroidThreeTen.init(this@App)
-        //
-        Kryptographer.initWithDefaultKeys(this@App)
-        //
-        initAppBox()
         //EventBus index
         EventBus.builder().addIndex(MyEventBusIndex()).installDefaultEventBus()
 
@@ -75,6 +71,12 @@ class App : Application(), LifecycleObserver {
             .setNotificationReceivedHandler(TransactionReceivedHandler())
             .setNotificationOpenedHandler(TransactionOpenedHandler(this@App))
             .init()
+
+        //
+        Kryptographer.initWithDefaultKeys(this@App)
+        //
+        initAppBox()
+
         //OneSignal.sendTags()
         //OneSignal.getPermissionSubscriptionState().subscriptionStatus.userId
     }

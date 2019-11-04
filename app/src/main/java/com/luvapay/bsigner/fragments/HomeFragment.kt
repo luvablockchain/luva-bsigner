@@ -102,20 +102,36 @@ class HomeFragment : BaseFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+
+
+
         //Subscription
-        accountSub = AppBox.ed25519SignerBox.query {}.subscribe().on(AndroidScheduler.mainThread()).observer { accounts ->
+        accountSub = AppBox.ed25519SignerBox.query {}.subscribe().on(AndroidScheduler.mainThread()).onError {  }.observer { accounts ->
             //Coroutine
             lifecycleScope.launch {
                 val accountItems = withContext(Dispatchers.Default) {
                     return@withContext accounts.map { SignerItem(it).apply { canModify = vm.canModify.value ?: false } }
                 }
                 signerAdapter.set(accountItems)
+
+                //subscribe(accounts.first())
             }
-            Logger.d(accounts)
+            //Logger.d(accounts)
         }
 
         lifecycleScope.launch {
-            AppBox.ed25519SignerBox.query { equal(Ed25519Signer_.subscribed, false) }.findFirst()?.let { subscribe(it) }
+            withContext(Dispatchers.Default) {
+                //
+                val test = AppBox.ed25519SignerBox.all
+                test.forEach { it.subscribed = false }
+                AppBox.ed25519SignerBox.put(test)
+                //
+                AppBox.ed25519SignerBox.query {
+                    equal(Ed25519Signer_.subscribed, false)
+                }.findFirst()?.let {
+                    subscribe(it)
+                }
+            }
         }
 
         vm.canModify.observe(this, Observer { canModify ->
@@ -153,7 +169,19 @@ class HomeFragment : BaseFragment() {
                 AppBox.ed25519SignerBox.put(
                     ed25519Signer.apply { subscribed = true }
                 )
-                AppBox.ed25519SignerBox.query { equal(Ed25519Signer_.subscribed, false) }.findFirst()?.let { subscribe(it) }
+
+                AppBox.ed25519SignerBox.query {
+                    equal(Ed25519Signer_.subscribed, false)
+                }.findFirst()?.let {
+                    activity?.runOnUiThread {
+                        subscribe(it)
+                    }
+                }
+                /*AppBox.ed25519SignerBox.query {
+                    equal(Ed25519Signer_.subscribed, false)
+                }.findLazy().firstOrNull()?.let {
+                    subscribe(it)
+                }*/
             },
             failure = { _, e ->
 

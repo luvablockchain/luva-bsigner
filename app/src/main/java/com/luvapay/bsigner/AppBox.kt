@@ -19,6 +19,7 @@ object AppBox {
         boxStore.run {
             ed25519SignerBox = boxFor()
             transactionInfoBox = boxFor()
+            transactionSignerBox = boxFor()
         }
     }
 

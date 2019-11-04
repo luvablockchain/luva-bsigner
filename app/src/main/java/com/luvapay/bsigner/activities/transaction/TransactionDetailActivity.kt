@@ -4,13 +4,16 @@ import android.os.Bundle
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.luvapay.bsigner.AppBox
 import com.luvapay.bsigner.R
 import com.luvapay.bsigner.base.BaseActivity
 import com.luvapay.bsigner.entities.TransactionInfo
+import com.luvapay.bsigner.entities.TransactionInfo_
 import com.luvapay.bsigner.items.SignatureItem
 import com.luvapay.bsigner.utils.prefetchText
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import com.orhanobut.logger.Logger
+import io.objectbox.kotlin.query
 import org.stellar.sdk.Network
 import org.stellar.sdk.PaymentOperation
 import org.stellar.sdk.Transaction
@@ -35,13 +38,16 @@ class TransactionDetailActivity : BaseActivity() {
         val transactionXdr = intent.getStringExtra(TransactionInfo.XDR) ?: ""
         val transactionName = intent.getStringExtra(TransactionInfo.NAME) ?: ""
 
-        if (transactionXdr.isBlank()) {
+        val transactionObjId = intent.getLongExtra("objId", -2)
+
+        /*if (transactionXdr.isBlank()) {
             Logger.d("transactionXdr is blank")
             finish()
             return
-        }
+        }*/
 
-        val transaction = Transaction.fromEnvelopeXdr(transactionXdr, Network.TESTNET)
+        val cachedTransaction = AppBox.transactionInfoBox[transactionObjId]
+        val transaction = Transaction.fromEnvelopeXdr(cachedTransaction.envelopXdrBase64, Network.TESTNET)
 
         fromTv prefetchText transaction.sourceAccount
         kotlin.runCatching {

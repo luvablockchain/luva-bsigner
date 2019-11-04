@@ -1,12 +1,18 @@
 package com.luvapay.bsigner.notification
 
 import android.content.Context
+import com.luvapay.bsigner.AppBox
 import com.luvapay.bsigner.activities.transaction.TransactionDetailActivity
 import com.luvapay.bsigner.entities.TransactionInfo
+import com.luvapay.bsigner.entities.TransactionInfo_
+import com.luvapay.bsigner.entities.TransactionSigner
+import com.luvapay.bsigner.entities.TransactionSigner_
 import com.onesignal.OSNotificationOpenResult
 import com.onesignal.OneSignal
 import com.orhanobut.logger.Logger
+import io.objectbox.kotlin.query
 import org.jetbrains.anko.startActivity
+import org.json.JSONObject
 
 class TransactionOpenedHandler(val context: Context) : OneSignal.NotificationOpenedHandler {
 
@@ -14,22 +20,31 @@ class TransactionOpenedHandler(val context: Context) : OneSignal.NotificationOpe
         result?.run {
             notification?.runCatching {
 
-                Logger.d(
-                    "\nnotificationOpened" +
-                            "\npayload.body: \t${payload.body}" +
-                            "\npayload.additionalData: \t${payload.additionalData}" +
-                            "\npayload.title: \t${payload.title}" +
-                            "\npayload.rawPayload: \t${payload.rawPayload}" +
-                            "\npayload.body: \t${androidNotificationId}"
-                )
+                val notificationData = JSONObject(payload.additionalData.toString())
+                val type = notificationData.optString("type")
+                val data = notificationData.optJSONObject("data") ?: JSONObject()
 
-                val xdr = payload.additionalData.getString(TransactionInfo.XDR)
-                val name = payload.additionalData.getString(TransactionInfo.NAME)
+                /*Logger.d(type)
+                Logger.d(data)*/
 
-                context.startActivity<TransactionDetailActivity>(
-                    TransactionInfo.XDR to xdr,
-                    TransactionInfo.NAME to name
-                )
+                when (type) {
+                    "sign_transaction" -> {
+                        val xdr = data.getString(TransactionInfo.XDR)
+
+                        val cachedTransaction = AppBox.transactionInfoBox.query {
+                            equal(TransactionInfo_.envelopXdrBase64, xdr)
+                        }.findFirst()
+
+                        Logger.d(cachedTransaction)
+
+                        cachedTransaction?.let {
+                            context.startActivity<TransactionDetailActivity>("objId" to it.objId)
+                        }
+                    }
+                    else -> {
+
+                    }
+                }
             }
         }
     }

@@ -50,8 +50,9 @@ class TransactionFragment : BaseFragment() {
         transactionAdapter = FastItemAdapter()
         transactionAdapter.onClickListener = { _, _, item, _ ->
             context?.startActivity<TransactionDetailActivity>(
-                TransactionInfo.XDR to item.transactionInfo.envelopXdrBase64,
-                TransactionInfo.NAME to item.transactionInfo.name
+                "objId" to item.transactionInfo.objId
+                /*TransactionInfo.XDR to item.transactionInfo.envelopXdrBase64,
+                TransactionInfo.NAME to item.transactionInfo.name*/
             )
             true
         }
@@ -118,7 +119,8 @@ class TransactionFragment : BaseFragment() {
 
                         for (i in 0 until transactions.length()) {
                             val transactionXdr = transactions.getJSONObject(i).getString("transaction_xdr")
-                            val signerKeys = transactions.getJSONObject(i).getJSONArray("signer_keys")
+                            val transactionName = transactions.getJSONObject(i).getString("transaction_name")
+                            val signerKeys = transactions.getJSONObject(i).getJSONArray("signatures")
                             val cachedTransactionInfo = AppBox.transactionInfoBox.query {
                                 equal(TransactionInfo_.envelopXdrBase64, transactionXdr)
                             }.findFirst()

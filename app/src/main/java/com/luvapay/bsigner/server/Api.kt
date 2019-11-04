@@ -13,7 +13,7 @@ object Api {
 
     //
     private const val PROTOCOL = PROTOCOL_HTTP
-    private const val ADDESS = LOCAL_ADDRESS_2
+    private const val ADDESS = LOCAL_ADDRESS_1
 
     const val SUBSCRIBE = "$PROTOCOL$ADDESS$PORT/subscribe"
     const val GET_TRANSACTIONS = "$PROTOCOL$ADDESS$PORT/transaction/list"

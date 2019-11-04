@@ -18,6 +18,7 @@ data class TransactionInfo(
     companion object {
         const val XDR = "transaction_xdr"
         const val NAME = "transaction_name"
+        const val SIGNATURES = "signatures"
     }
 
 }

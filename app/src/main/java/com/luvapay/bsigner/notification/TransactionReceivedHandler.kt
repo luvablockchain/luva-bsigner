@@ -40,33 +40,45 @@ class TransactionReceivedHandler : OneSignal.NotificationReceivedHandler {
                     val name = data.getString(TransactionInfo.NAME)
                     val signatures = data.getJSONArray(TransactionInfo.SIGNATURES)
 
+                    Logger.d("signatures: $signatures")
+
                     val cachedTransaction = AppBox.transactionInfoBox.query {
                         equal(TransactionInfo_.envelopXdrBase64, xdr)
                     }.findFirst()
 
-                    val transaction = TransactionInfo(xdr, name)
-                    if (cachedTransaction != null) transaction.apply { objId = cachedTransaction.objId }
-
-                    val signer: MutableList<TransactionSigner> = mutableListOf()
+                    val signers: MutableList<TransactionSigner> = mutableListOf()
                     for (i in 0 until signatures.length()) {
-                        signer.add(
+                        signers.add(
                             TransactionSigner(
                                 key = signatures.getJSONObject(i).getString("public_key"),
                                 signed = signatures.getJSONObject(i).getString("signature").isNotBlank()
                             )
                         )
                     }
+                    Logger.d("signers: $signers")
 
-                    transaction.signers.removeAll(transaction.signers)
-                    transaction.signers.addAll(signer)
-                    val objId = AppBox.transactionInfoBox.put(transaction)
-                    Logger.d("objId: $objId")
+                    if (cachedTransaction == null) {
+                        val transaction = TransactionInfo(xdr, name)
+                        transaction.signers.addAll(signers)
+                        val objId = AppBox.transactionInfoBox.put(transaction)
+                        Logger.d("objId: $objId")
+                    } else {
+                        val oldSignatures = cachedTransaction.signers
+
+                        cachedTransaction.signers.removeAll(oldSignatures)
+                        AppBox.transactionInfoBox.put(cachedTransaction)
+
+                        AppBox.transactionSignerBox.remove(oldSignatures)
+
+                        cachedTransaction.signers.addAll(signers)
+                        val objId = AppBox.transactionInfoBox.put(cachedTransaction)
+                        Logger.d("objId: $objId")
+                    }
                 }
                 else -> {
 
                 }
             }
-            Logger.d("adasd")
         }
     }
 

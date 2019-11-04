@@ -9,7 +9,9 @@ import com.luvapay.bsigner.R
 import com.luvapay.bsigner.base.BaseActivity
 import com.luvapay.bsigner.entities.TransactionInfo
 import com.luvapay.bsigner.entities.TransactionInfo_
+import com.luvapay.bsigner.entities.TransactionSigner
 import com.luvapay.bsigner.items.SignatureItem
+import com.luvapay.bsigner.items.TransactionItem
 import com.luvapay.bsigner.utils.prefetchText
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import com.orhanobut.logger.Logger
@@ -35,16 +37,13 @@ class TransactionDetailActivity : BaseActivity() {
 
         toolbar.init()
 
-        val transactionXdr = intent.getStringExtra(TransactionInfo.XDR) ?: ""
-        val transactionName = intent.getStringExtra(TransactionInfo.NAME) ?: ""
-
         val transactionObjId = intent.getLongExtra("objId", -2)
 
-        /*if (transactionXdr.isBlank()) {
+        if (transactionObjId <= 0) {
             Logger.d("transactionXdr is blank")
             finish()
             return
-        }*/
+        }
 
         val cachedTransaction = AppBox.transactionInfoBox[transactionObjId]
         val transaction = Transaction.fromEnvelopeXdr(cachedTransaction.envelopXdrBase64, Network.TESTNET)
@@ -64,7 +63,10 @@ class TransactionDetailActivity : BaseActivity() {
         signatureList.apply {
             itemAnimator = DefaultItemAnimator()
             layoutManager = LinearLayoutManager(this@TransactionDetailActivity, RecyclerView.HORIZONTAL, false)
+            adapter = signatureAdapter
         }
+        Logger.d(cachedTransaction.signers.toMutableList())
+        signatureAdapter.set(cachedTransaction.signers.map { SignatureItem(it) })
     }
 
 }

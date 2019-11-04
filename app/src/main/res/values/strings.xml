@@ -66,6 +66,7 @@
     <string name="sign_transaction_memo">Memo</string>
     <string name="sign_transaction_from">From</string>
     <string name="sign_transaction_to">To</string>
+    <string name="sign_transaction_signature_list">Signatures</string>
     <string name="sign_transaction_not_enough_signer">You don\'t have enough signers to sign transaction</string>
     <string name="sign_transaction_approve">Approve</string>
 
@@ -79,6 +80,9 @@
 
     <string name="transaction_list">Transaction List</string>
     <string name="transaction_owner">Transaction Owner</string>
+
+    <string name="transaction_signature_signed">Signed</string>
+    <string name="transaction_signature_waiting">Waiting</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>

@@ -65,6 +65,7 @@
     <string name="sign_transaction_memo">Ghi chú</string>
     <string name="sign_transaction_from">Từ</string>
     <string name="sign_transaction_to">Đến</string>
+    <string name="sign_transaction_signature_list">Chữ ký</string>
     <string name="sign_transaction_approve">Chấp thuận</string>
     <string name="sign_transaction_not_enough_signer">Bạn không có đủ chữ ký để phê duyệt giao dịch</string>
 
@@ -78,5 +79,8 @@
 
     <string name="transaction_list">Danh sách giao dịch</string>
     <string name="transaction_owner">Người tạo giao dịch</string>
+
+    <string name="transaction_signature_signed">Đã ký</string>
+    <string name="transaction_signature_waiting">Đang chờ</string>
 
 </resources>

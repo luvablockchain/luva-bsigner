@@ -6,7 +6,6 @@ import io.objectbox.annotation.Id
 import io.objectbox.relation.ToOne
 import org.parceler.Parcel
 
-@Parcel
 @Entity
 data class TransactionSigner(
     var key: String = "",

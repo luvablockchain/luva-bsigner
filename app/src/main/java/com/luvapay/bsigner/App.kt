@@ -11,6 +11,7 @@ import androidx.work.WorkManager
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.luvapay.bsigner.notification.TransactionOpenedHandler
 import com.luvapay.bsigner.notification.TransactionReceivedHandler
+import com.luvapay.bsigner.obj.initAppObj
 import com.luvapay.bsigner.utils.*
 import com.luvapay.bsigner.viewmodel.HomeViewModel
 import com.luvapay.bsigner.workers.AppLockWorker
@@ -39,6 +40,8 @@ class App : Application(), LifecycleObserver {
         initLogger()
         //Init prefs
         initPrefs()
+        //
+        initAppObj()
         //Threeten
         AndroidThreeTen.init(this@App)
         //EventBus index

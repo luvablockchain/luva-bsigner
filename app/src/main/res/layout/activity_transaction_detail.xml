@@ -37,6 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/all_loading"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
         android:textSize="14sp"
@@ -58,6 +59,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
         android:textSize="14sp"
         android:text="@string/all_loading"
@@ -65,13 +67,14 @@
 
     <Space
         android:layout_width="wrap_content"
-        android:layout_height="4dp"/>
+        android:layout_height="7dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="7dp"
         android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -98,7 +101,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="7dp"
         android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -149,7 +153,8 @@
         android:id="@+id/activityTransactionDetail_signBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:elevation="2dp"
         app:cornerRadius="24dp"
         android:text="@string/sign_transaction_approve"/>

@@ -12,6 +12,7 @@ import com.luvapay.bsigner.activities.transaction.TransactionDetailActivity
 import com.luvapay.bsigner.base.BaseFragment
 import com.luvapay.bsigner.entities.TransactionInfo
 import com.luvapay.bsigner.entities.TransactionInfo_
+import com.luvapay.bsigner.entities.TransactionSigner
 import com.luvapay.bsigner.items.TransactionItem
 import com.luvapay.bsigner.server.Api
 import com.luvapay.bsigner.unSubscribe
@@ -90,14 +91,14 @@ class TransactionFragment : BaseFragment() {
     private fun getTransaction() {
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
-                val signers = AppBox.ed25519SignerBox.all
-                if (signers.isEmpty()) return@withContext
+                val ed25519Signer = AppBox.ed25519SignerBox.all
+                if (ed25519Signer.isEmpty()) return@withContext
 
-                val signerKeys = JSONArray()
-                signers.forEach { signerKeys.put(it.publicKey) }
+                val publicKeys = JSONArray()
+                ed25519Signer.forEach { publicKeys.put(it.publicKey) }
 
                 val json = JSONObject().apply {
-                    put("signer_keys", signerKeys)
+                    put("public_keys", publicKeys)
                 }
 
                 Logger.d("post: $json")
@@ -118,25 +119,42 @@ class TransactionFragment : BaseFragment() {
                         Logger.d("transactions: $transactions")
 
                         for (i in 0 until transactions.length()) {
-                            val transactionXdr = transactions.getJSONObject(i).getString("transaction_xdr")
-                            val transactionName = transactions.getJSONObject(i).getString("transaction_name")
-                            val signerKeys = transactions.getJSONObject(i).getJSONArray("signatures")
-                            val cachedTransactionInfo = AppBox.transactionInfoBox.query {
-                                equal(TransactionInfo_.envelopXdrBase64, transactionXdr)
+                            val xdr = transactions.getJSONObject(i).getString("transaction_xdr")
+                            val name = transactions.getJSONObject(i).getString("transaction_name")
+                            val signatures = transactions.getJSONObject(i).getJSONArray("signatures")
+
+                            val cachedTransaction = AppBox.transactionInfoBox.query {
+                                equal(TransactionInfo_.envelopXdrBase64, xdr)
                             }.findFirst()
 
-                            val transaction = TransactionInfo(transactionXdr)
-                            /*for (j in 0 until signerKeys.length()) {
-                                transaction.signers.add()
-                                signerKeys.getString(j)
-                            }*/
-                            Logger.d(transaction)
-
-                            if (cachedTransactionInfo != null) {
-                                //AppBox.transactionSignerBox.remove(cachedTransactionInfo.signers)
-                                transaction.objId = cachedTransactionInfo.objId
+                            val signers: MutableList<TransactionSigner> = mutableListOf()
+                            for (j in 0 until signatures.length()) {
+                                signers.add(
+                                    TransactionSigner(
+                                        key = signatures.getJSONObject(j).getString("public_key"),
+                                        signed = signatures.getJSONObject(j).getBoolean("signed")
+                                    )
+                                )
                             }
-                            AppBox.transactionInfoBox.put(transaction)
+                            Logger.d("signers: $signers")
+
+                            if (cachedTransaction == null) {
+                                val transaction = TransactionInfo(xdr, name)
+                                transaction.signers.addAll(signers)
+                                val objId = AppBox.transactionInfoBox.put(transaction)
+                                Logger.d("objId: $objId")
+                            } else {
+                                val oldSignatures = cachedTransaction.signers
+
+                                cachedTransaction.signers.removeAll(oldSignatures)
+                                AppBox.transactionInfoBox.put(cachedTransaction)
+
+                                AppBox.transactionSignerBox.remove(oldSignatures)
+
+                                cachedTransaction.signers.addAll(signers)
+                                val objId = AppBox.transactionInfoBox.put(cachedTransaction)
+                                Logger.d("objId: $objId")
+                            }
                         }
                     },
                     failure = { _, e ->

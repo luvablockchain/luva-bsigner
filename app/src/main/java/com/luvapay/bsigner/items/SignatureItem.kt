@@ -1,8 +1,10 @@
 package com.luvapay.bsigner.items
 
 import android.view.View
+import com.luvapay.bsigner.AppBox
 import com.luvapay.bsigner.R
 import com.luvapay.bsigner.entities.TransactionSigner
+import com.luvapay.bsigner.obj.AppObj
 import com.luvapay.bsigner.utils.prefetchText
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
@@ -21,12 +23,14 @@ data class SignatureItem(val transactionSigner: TransactionSigner) : AbstractIte
 
         override fun bindView(item: SignatureItem, payloads: MutableList<Any>) {
             itemView.publicKeyTv prefetchText item.transactionSigner.key
-            val status = if (item.transactionSigner.signed) {
-                itemView.context.getString(R.string.transaction_signature_signed)
+
+            if (item.transactionSigner.signed) {
+                itemView.statusTv.prefetchText(itemView.context.getString(R.string.transaction_signature_signed))
+                itemView.statusTv.setTextColor(AppObj.transactionSignedColor)
             } else {
-                itemView.context.getString(R.string.transaction_signature_waiting)
+                itemView.statusTv.prefetchText(itemView.context.getString(R.string.transaction_signature_waiting))
+                itemView.statusTv.setTextColor(AppObj.transactionWaitingColor)
             }
-            itemView.statusTv prefetchText status
         }
 
         override fun unbindView(item: SignatureItem) {

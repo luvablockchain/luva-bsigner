@@ -112,16 +112,18 @@ class TransactionFragment : BaseFragment() {
 
                 OkHttpClient().newCall(req).enqueue(callback(
                     response = { _, response ->
-                        val body = JSONObject(response.body?.string() ?: "")
+                        val responseString = response.body?.string() ?: ""
+                        Logger.d(responseString)
+                        val body = JSONObject(responseString)
                         Logger.d("body: $body")
 
                         val transactions = body.getJSONObject("data").getJSONArray("transactions")
                         Logger.d("transactions: $transactions")
 
                         for (i in 0 until transactions.length()) {
-                            val xdr = transactions.getJSONObject(i).getString("transaction_xdr")
-                            val name = transactions.getJSONObject(i).getString("transaction_name")
-                            val signatures = transactions.getJSONObject(i).getJSONArray("signatures")
+                            val xdr = transactions.getJSONObject(i).getString(TransactionInfo.XDR)
+                            val name = transactions.getJSONObject(i).getString(TransactionInfo.NAME)
+                            val signatures = transactions.getJSONObject(i).getJSONArray(TransactionInfo.SIGNATURES)
 
                             val cachedTransaction = AppBox.transactionInfoBox.query {
                                 equal(TransactionInfo_.envelopXdrBase64, xdr)
@@ -131,12 +133,14 @@ class TransactionFragment : BaseFragment() {
                             for (j in 0 until signatures.length()) {
                                 signers.add(
                                     TransactionSigner(
-                                        key = signatures.getJSONObject(j).getString("public_key"),
-                                        signed = signatures.getJSONObject(j).getBoolean("signed")
+                                        key = signatures.getJSONObject(j).getString(TransactionSigner.PUBLIC_KEY),
+                                        weight = signatures.getJSONObject(j).getInt(TransactionSigner.WEIGHT),
+                                        signed = signatures.getJSONObject(j).getBoolean(TransactionSigner.SIGNED),
+                                        signedAt = signatures.getJSONObject(j).getLong(TransactionSigner.SIGNED_AT)
                                     )
                                 )
                             }
-                            Logger.d("signers: $signers")
+                            //Logger.d("signers: $signers")
 
                             if (cachedTransaction == null) {
                                 val transaction = TransactionInfo(xdr, name)
@@ -145,15 +149,15 @@ class TransactionFragment : BaseFragment() {
                                 Logger.d("objId: $objId")
                             } else {
                                 val oldSignatures = cachedTransaction.signers
-
+                                //Remove all current cached signature in transaction
                                 cachedTransaction.signers.removeAll(oldSignatures)
                                 AppBox.transactionInfoBox.put(cachedTransaction)
-
+                                ////Remove all current cached signature
                                 AppBox.transactionSignerBox.remove(oldSignatures)
-
+                                //Add new update signature to transaction
                                 cachedTransaction.signers.addAll(signers)
-                                val objId = AppBox.transactionInfoBox.put(cachedTransaction)
-                                Logger.d("objId: $objId")
+                                AppBox.transactionInfoBox.put(cachedTransaction)
+                                //Logger.d("objId: $objId")
                             }
                         }
                     },

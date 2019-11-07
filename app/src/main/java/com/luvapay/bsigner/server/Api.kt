@@ -17,7 +17,7 @@ object Api {
 
     const val SUBSCRIBE = "$PROTOCOL$ADDESS$PORT/subscribe"
     const val GET_TRANSACTIONS = "$PROTOCOL$ADDESS$PORT/transaction/list"
-    const val TRANSACTION_ADD_SIGNATURE = "$PROTOCOL$ADDESS$PORT/transaction/addSignature"
+    const val TRANSACTION_ADD_SIGNATURE = "$PROTOCOL$ADDESS$PORT/transaction/sign"
 }
 
 //10.10.9.57

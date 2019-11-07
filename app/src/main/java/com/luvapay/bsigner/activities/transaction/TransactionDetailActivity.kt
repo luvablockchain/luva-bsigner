@@ -94,13 +94,19 @@ class TransactionDetailActivity : BaseActivity() {
             //startActivity<SignTransactionActivity>()
 
             val signatures = JSONArray()
-
             AppBox.ed25519SignerBox.all.forEach { ed25519Signer: Ed25519Signer ->
+
+                val signatureBase64 = Base64.encodeToString(KeyPair.fromSecretSeed(ed25519Signer.privateKey).signDecorated(transaction.hash()).signature.signature, Base64.NO_WRAP)
+                /*Logger.d(transaction.hash())
+                Logger.d(Base64.encodeToString(transaction.hash(), Base64.NO_WRAP))
+                Logger.d(signatureBase64)
+                Logger.d(Base64.encodeToString(KeyPair.fromSecretSeed(ed25519Signer.privateKey).sign(transaction.hash()), Base64.NO_WRAP))*/
+
                 cachedTransaction.signers.forEach { transactionSigner ->
                     if (ed25519Signer.publicKey == transactionSigner.key) {
                         val signature = JSONObject().apply {
                             put("public_key", ed25519Signer.publicKey)
-                            put("signature", Base64.encodeToString(KeyPair.fromSecretSeed(ed25519Signer.privateKey).signDecorated(transaction.hash()).signature.signature, Base64.NO_WRAP))
+                            put("signature", signatureBase64)
                         }
                         signatures.put(signature)
                     }
@@ -108,7 +114,7 @@ class TransactionDetailActivity : BaseActivity() {
             }
 
             val json = JSONObject().apply {
-                put("transaction_xdr", cachedTransaction.envelopXdrBase64)
+                put("xdr", cachedTransaction.envelopXdrBase64)
                 put("user_id", OneSignal.getPermissionSubscriptionState().subscriptionStatus.userId)
                 put("signatures", signatures)
             }

@@ -35,12 +35,12 @@ class TransactionReceivedHandler : OneSignal.NotificationReceivedHandler {
             Logger.d(data)
 
             when (type) {
-                "sign_transaction" -> {
+                "host_transaction" -> {
                     val xdr = data.getString(TransactionInfo.XDR)
                     val name = data.getString(TransactionInfo.NAME)
                     val signatures = data.getJSONArray(TransactionInfo.SIGNATURES)
 
-                    Logger.d("signatures: $signatures")
+                    //Logger.d("signatures: $signatures")
 
                     val cachedTransaction = AppBox.transactionInfoBox.query {
                         equal(TransactionInfo_.envelopXdrBase64, xdr)
@@ -50,12 +50,14 @@ class TransactionReceivedHandler : OneSignal.NotificationReceivedHandler {
                     for (i in 0 until signatures.length()) {
                         signers.add(
                             TransactionSigner(
-                                key = signatures.getJSONObject(i).getString("public_key"),
-                                signed = signatures.getJSONObject(i).getString("signature").isNotBlank()
+                                key = signatures.getJSONObject(i).getString(TransactionSigner.PUBLIC_KEY),
+                                weight = signatures.getJSONObject(i).getInt(TransactionSigner.WEIGHT),
+                                signed = signatures.getJSONObject(i).getBoolean(TransactionSigner.SIGNED),
+                                signedAt = signatures.getJSONObject(i).getLong(TransactionSigner.SIGNED_AT)
                             )
                         )
                     }
-                    Logger.d("signers: $signers")
+                    //Logger.d("signers: $signers")
 
                     if (cachedTransaction == null) {
                         val transaction = TransactionInfo(xdr, name)

@@ -16,8 +16,9 @@ data class TransactionInfo(
     lateinit var signers: ToMany<TransactionSigner>
 
     companion object {
-        const val XDR = "transaction_xdr"
-        const val NAME = "transaction_name"
+        const val XDR = "xdr"
+        const val NAME = "name"
+        const val WEIGHT = "weight"
         const val SIGNATURES = "signatures"
     }
 

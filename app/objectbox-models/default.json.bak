@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:9043026135069052449",
-      "lastPropertyId": "5:7347581117549091671",
+      "lastPropertyId": "6:7195733797521994016",
       "name": "TransactionSigner",
       "properties": [
         {
@@ -37,6 +37,12 @@
           "type": 11,
           "flags": 1548,
           "relationTarget": "TransactionInfo"
+        },
+        {
+          "id": "6:7195733797521994016",
+          "name": "signed",
+          "type": 1,
+          "flags": 4
         }
       ],
       "relations": []

@@ -79,7 +79,7 @@ object AppBox {
                 )
             )
         }
-        //Logger.d("signers: $signers")
+        Logger.d("signers: $signers")
 
         if (cachedTransaction == null) {
             val transaction = TransactionInfo(xdr, name)
@@ -87,12 +87,12 @@ object AppBox {
             val objId = transactionInfoBox.put(transaction)
             Logger.d("objId: $objId")
         } else {
-            val oldSignatures = cachedTransaction.signers
+            /*val oldSignatures = cachedTransaction.signers
             //Remove all current cached signature in transaction
             cachedTransaction.signers.removeAll(oldSignatures)
-            transactionInfoBox.put(cachedTransaction)
+            transactionInfoBox.put(cachedTransaction)*/
             ////Remove all current cached signature
-            transactionSignerBox.remove(oldSignatures)
+            transactionSignerBox.remove(cachedTransaction.signers)
             //Add new update signature to transaction
             cachedTransaction.signers.addAll(signers)
             transactionInfoBox.put(cachedTransaction)

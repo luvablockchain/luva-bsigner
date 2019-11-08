@@ -4,20 +4,17 @@ import android.os.Bundle
 import android.util.Base64
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.luvapay.bsigner.AppBox
 import com.luvapay.bsigner.R
-import com.luvapay.bsigner.activities.multisign.SignTransactionActivity
 import com.luvapay.bsigner.base.BaseActivity
 import com.luvapay.bsigner.entities.Ed25519Signer
-import com.luvapay.bsigner.entities.TransactionInfo
-import com.luvapay.bsigner.entities.TransactionInfo_
-import com.luvapay.bsigner.entities.TransactionSigner
+import com.luvapay.bsigner.entities.Ed25519Signer_
 import com.luvapay.bsigner.items.SignatureItem
-import com.luvapay.bsigner.items.TransactionItem
 import com.luvapay.bsigner.server.Api
 import com.luvapay.bsigner.utils.callback
+import com.luvapay.bsigner.utils.disable
+import com.luvapay.bsigner.utils.enable
 import com.luvapay.bsigner.utils.prefetchText
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import com.onesignal.OneSignal
@@ -27,7 +24,6 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
-import org.jetbrains.anko.startActivity
 import org.json.JSONArray
 import org.json.JSONObject
 import org.stellar.sdk.KeyPair
@@ -88,43 +84,40 @@ class TransactionDetailActivity : BaseActivity() {
         //Logger.d(cachedTransaction.signers.toMutableList())
         signatureAdapter.set(cachedTransaction.signers.map { SignatureItem(it) })
 
+        Logger.d(cachedTransaction.signers.map { it.signed })
 
+
+        val availableKeys = AppBox.ed25519SignerBox.query {
+            `in`(Ed25519Signer_.publicKey, cachedTransaction.signers.filter { !it.signed }.map { it.key }.toTypedArray())
+        }.find()
+
+        if (availableKeys.isEmpty()) signBtn.disable() else signBtn.enable()
 
         signBtn.setOnClickListener {
             //startActivity<SignTransactionActivity>()
 
             val signatures = JSONArray()
-            AppBox.ed25519SignerBox.all.forEach { ed25519Signer: Ed25519Signer ->
 
-                val signatureBase64 = Base64.encodeToString(KeyPair.fromSecretSeed(ed25519Signer.privateKey).signDecorated(transaction.hash()).signature.signature, Base64.NO_WRAP)
-                /*Logger.d(transaction.hash())
-                Logger.d(Base64.encodeToString(transaction.hash(), Base64.NO_WRAP))
-                Logger.d(signatureBase64)
-                Logger.d(Base64.encodeToString(KeyPair.fromSecretSeed(ed25519Signer.privateKey).sign(transaction.hash()), Base64.NO_WRAP))*/
-
-                cachedTransaction.signers.forEach { transactionSigner ->
-                    if (ed25519Signer.publicKey == transactionSigner.key) {
-                        val signature = JSONObject().apply {
-                            put("public_key", ed25519Signer.publicKey)
-                            put("signature", signatureBase64)
-                        }
-                        signatures.put(signature)
-                    }
+            availableKeys.forEach { availableKey ->
+                val signatureBase64 = Base64.encodeToString(
+                    KeyPair.fromSecretSeed(availableKey.privateKey).signDecorated(transaction.hash()).signature.signature,
+                    Base64.NO_WRAP
+                )
+                val signature = JSONObject().apply {
+                    put("public_key", availableKey.publicKey)
+                    put("signature", signatureBase64)
                 }
+                signatures.put(signature)
             }
 
-            val json = JSONObject().apply {
+            val reqBody = JSONObject().apply {
                 put("xdr", cachedTransaction.envelopXdrBase64)
                 put("user_id", OneSignal.getPermissionSubscriptionState().subscriptionStatus.userId)
                 put("signatures", signatures)
-            }
-
-            Logger.d("post: $json")
-
-            val reqBody = json.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
+            }.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
 
             val req = Request.Builder()
-                .url(Api.TRANSACTION_ADD_SIGNATURE)
+                .url(Api.SIGN_TRANSACTION)
                 .post(reqBody)
                 .build()
 

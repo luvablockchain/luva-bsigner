@@ -89,51 +89,47 @@ class TransactionFragment : BaseFragment() {
     }
 
     private fun getTransaction() {
-        lifecycleScope.launch {
-            withContext(Dispatchers.IO) {
-                val ed25519Signer = AppBox.ed25519SignerBox.all
-                if (ed25519Signer.isEmpty()) return@withContext
+        val ed25519Signer = AppBox.ed25519SignerBox.all
+        if (ed25519Signer.isEmpty()) return
 
-                val publicKeys = JSONArray()
-                ed25519Signer.forEach { publicKeys.put(it.publicKey) }
+        val publicKeys = JSONArray()
+        ed25519Signer.forEach { publicKeys.put(it.publicKey) }
 
-                val json = JSONObject().apply {
-                    put("public_keys", publicKeys)
-                }
+        val json = JSONObject().apply {
+            put("public_keys", publicKeys)
+        }
 
-                //Logger.d("post: $json")
+        //Logger.d("post: $json")
 
-                val reqBody = json.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
+        val reqBody = json.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
 
-                val req = Request.Builder()
-                    .url(Api.GET_TRANSACTIONS)
-                    .post(reqBody)
-                    .build()
+        val req = Request.Builder()
+            .url(Api.GET_TRANSACTIONS)
+            .post(reqBody)
+            .build()
 
-                OkHttpClient().newCall(req).enqueue(callback(
-                    response = { _, response ->
-                        val responseString = response.body?.string() ?: ""
-                        val body = JSONObject(responseString)
-                        //Logger.d("body: $body")
-                        val transactions = body.getJSONObject("data").getJSONArray("transactions")
-                        Logger.d("transactions: $transactions")
+        OkHttpClient().newCall(req).enqueue(callback(
+            response = { _, response ->
+                val responseString = response.body?.string() ?: ""
+                val body = JSONObject(responseString)
+                //Logger.d("body: $body")
+                val transactions = body.getJSONObject("data").getJSONArray("transactions")
+                Logger.d("transactions: $transactions")
 
-                        activity?.runOnUiThread {
-                            launch {
-                                withContext(Dispatchers.Default) {
-                                    for (i in 0 until transactions.length()) {
-                                        AppBox.addTransaction(transactions.getJSONObject(i))
-                                    }
-                                }
+                activity?.runOnUiThread {
+                    lifecycleScope.launch {
+                        withContext(Dispatchers.Default) {
+                            for (i in 0 until transactions.length()) {
+                                AppBox.addTransaction(transactions.getJSONObject(i))
                             }
                         }
-                    },
-                    failure = { _, e ->
-                        e.printStackTrace()
                     }
-                ))
+                }
+            },
+            failure = { _, e ->
+                e.printStackTrace()
             }
-        }
+        ))
     }
 
     companion object {

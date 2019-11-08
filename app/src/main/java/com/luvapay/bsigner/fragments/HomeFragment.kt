@@ -103,8 +103,6 @@ class HomeFragment : BaseFragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
-
-
         //Subscription
         accountSub = AppBox.ed25519SignerBox.query {}.subscribe().on(AndroidScheduler.mainThread()).onError {  }.observer { accounts ->
             //Coroutine
@@ -120,18 +118,17 @@ class HomeFragment : BaseFragment() {
         }
 
         lifecycleScope.launch {
-            withContext(Dispatchers.Default) {
+            val ed25519Signer = withContext(Dispatchers.Default) {
                 //
                 val test = AppBox.ed25519SignerBox.all
                 test.forEach { it.subscribed = false }
                 AppBox.ed25519SignerBox.put(test)
                 //
-                AppBox.ed25519SignerBox.query {
+                return@withContext AppBox.ed25519SignerBox.query {
                     equal(Ed25519Signer_.subscribed, false)
-                }.findFirst()?.let {
-                    subscribe(it)
-                }
+                }.findFirst()
             }
+            ed25519Signer?.let { subscribe(it) }
         }
 
         vm.canModify.observe(this, Observer { canModify ->
@@ -177,11 +174,6 @@ class HomeFragment : BaseFragment() {
                         subscribe(it)
                     }
                 }
-                /*AppBox.ed25519SignerBox.query {
-                    equal(Ed25519Signer_.subscribed, false)
-                }.findLazy().firstOrNull()?.let {
-                    subscribe(it)
-                }*/
             },
             failure = { _, e ->
 

@@ -1,15 +1,17 @@
 package com.luvapay.bsigner.items
 
 import android.view.View
-import com.luvapay.bsigner.AppBox
 import com.luvapay.bsigner.R
 import com.luvapay.bsigner.entities.TransactionSigner
 import com.luvapay.bsigner.obj.AppObj
 import com.luvapay.bsigner.utils.prefetchText
+import com.luvapay.bsigner.utils.toTimeStr
+import com.luvapay.bsigner.utils.visible
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
 import kotlinx.android.synthetic.main.item_signature.view.itemSignature_publicKeyTv as publicKeyTv
 import kotlinx.android.synthetic.main.item_signature.view.itemSignature_statusTv as statusTv
+import kotlinx.android.synthetic.main.item_signature.view.itemSignature_timeTv as timeTv
 
 data class SignatureItem(val transactionSigner: TransactionSigner) : AbstractItem<SignatureItem.ViewHolder>() {
 
@@ -31,10 +33,16 @@ data class SignatureItem(val transactionSigner: TransactionSigner) : AbstractIte
                 itemView.statusTv.prefetchText(itemView.context.getString(R.string.transaction_signature_waiting))
                 itemView.statusTv.setTextColor(AppObj.transactionWaitingColor)
             }
+
+            if (item.transactionSigner.signed) {
+                itemView.timeTv.visible()
+                itemView.timeTv prefetchText item.transactionSigner.signedAt.toTimeStr()
+            }
         }
 
         override fun unbindView(item: SignatureItem) {
             itemView.publicKeyTv.text = null
+            itemView.statusTv.text = null
         }
 
     }

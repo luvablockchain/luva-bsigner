@@ -34,6 +34,17 @@
             android:textSize="12sp"
             android:letterSpacing="0.072"/>
 
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="4dp"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/itemSignature_timeTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"/>
+
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

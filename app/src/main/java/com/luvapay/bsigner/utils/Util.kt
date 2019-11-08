@@ -18,16 +18,15 @@ import com.google.zxing.MultiFormatWriter
 import com.google.zxing.common.BitMatrix
 import com.sonhvp.kryptographer.Kryptographer
 import com.sonhvp.kryptographer.key.CryptographicKey
+import org.threeten.bp.Instant
+import org.threeten.bp.ZoneId
+import org.threeten.bp.ZonedDateTime
+import org.threeten.bp.format.DateTimeFormatter
 import java.lang.Exception
 
-infix fun Boolean.then(block: () -> Unit): Boolean {
-    if (this) block()
-    return this
-}
-
-infix fun Boolean.otherwise(block: () -> Unit): Boolean {
-    if (!this) block()
-    return this
+fun Long.toTimeStr(): String {
+    return ZonedDateTime.ofInstant(Instant.ofEpochSecond(this), ZoneId.systemDefault())
+        .format(DateTimeFormatter.ofPattern("dd/MM hh:mm"))
 }
 
 infix fun AppCompatTextView.prefetchText(charSequence: CharSequence) {

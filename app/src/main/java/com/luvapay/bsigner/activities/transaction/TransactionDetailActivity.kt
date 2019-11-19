@@ -10,16 +10,16 @@ import com.luvapay.bsigner.R
 import com.luvapay.bsigner.base.BaseActivity
 import com.luvapay.bsigner.entities.Ed25519Signer
 import com.luvapay.bsigner.entities.Ed25519Signer_
+import com.luvapay.bsigner.entities.TransactionInfo_
 import com.luvapay.bsigner.items.SignatureItem
 import com.luvapay.bsigner.server.Api
-import com.luvapay.bsigner.utils.callback
-import com.luvapay.bsigner.utils.disable
-import com.luvapay.bsigner.utils.enable
-import com.luvapay.bsigner.utils.prefetchText
+import com.luvapay.bsigner.utils.*
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import com.onesignal.OneSignal
 import com.orhanobut.logger.Logger
+import io.objectbox.android.AndroidScheduler
 import io.objectbox.kotlin.query
+import io.objectbox.reactive.DataSubscription
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -42,6 +42,8 @@ class TransactionDetailActivity : BaseActivity() {
 
     private lateinit var signatureAdapter: FastItemAdapter<SignatureItem>
 
+    private lateinit var signerSub: DataSubscription
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_transaction_detail)
@@ -56,7 +58,92 @@ class TransactionDetailActivity : BaseActivity() {
             return
         }
 
-        val cachedTransaction = AppBox.transactionInfoBox[transactionObjId]
+        signerSub = AppBox.transactionInfoBox.query {
+            equal(TransactionInfo_.objId, transactionObjId)
+        }.subscribe()
+            .onError {
+                Logger.d(it)
+            }
+            .on(AndroidScheduler.mainThread())
+            .observer { transactions ->
+                val cachedTransaction = transactions.first()
+                val transaction = Transaction.fromEnvelopeXdr(cachedTransaction.envelopXdrBase64, Network.TESTNET)
+
+                fromTv prefetchText transaction.sourceAccount
+                kotlin.runCatching {
+                    transaction.operations.firstOrNull()?.let { operation ->
+                        val transactionOperation = operation as PaymentOperation
+                        fromTv prefetchText transaction.sourceAccount
+                        toTv prefetchText transactionOperation.destination
+                        amountTv prefetchText transactionOperation.amount
+                    }
+                    memoTv prefetchText (transaction.memo.toString())
+                }
+
+                signatureAdapter = FastItemAdapter()
+                signatureList.apply {
+                    itemAnimator = DefaultItemAnimator()
+                    layoutManager = GridLayoutManager(
+                        this@TransactionDetailActivity,
+                        if (cachedTransaction.signers.size >=3) 2 else 1,
+                        RecyclerView.HORIZONTAL,
+                        false
+                    )
+                    adapter = signatureAdapter
+                }
+                Logger.d(cachedTransaction.signers.toMutableList())
+                signatureAdapter.set(cachedTransaction.signers.map { SignatureItem(it) })
+
+                Logger.d(cachedTransaction.signers.map { it.signed })
+
+
+                val availableKeys = AppBox.ed25519SignerBox.query {
+                    `in`(Ed25519Signer_.publicKey, cachedTransaction.signers.filter { !it.signed }.map { it.key }.toTypedArray())
+                }.find()
+
+                if (availableKeys.isEmpty()) signBtn.disable() else signBtn.enable()
+
+                signBtn.setOnClickListener {
+                    //startActivity<SignTransactionActivity>()
+
+                    val signatures = JSONArray()
+
+                    availableKeys.forEach { availableKey ->
+                        val signatureBase64 = Base64.encodeToString(
+                            KeyPair.fromSecretSeed(availableKey.privateKey).signDecorated(transaction.hash()).signature.signature,
+                            Base64.NO_WRAP
+                        )
+                        val signature = JSONObject().apply {
+                            put("public_key", availableKey.publicKey)
+                            put("signature", signatureBase64)
+                        }
+                        signatures.put(signature)
+                    }
+
+                    val reqBody = JSONObject().apply {
+                        put("xdr", cachedTransaction.envelopXdrBase64)
+                        put("user_id", OneSignal.getPermissionSubscriptionState().subscriptionStatus.userId)
+                        put("signatures", signatures)
+                    }
+
+                    val req = request {
+                        url(Api.SIGN_TRANSACTION)
+                        post(reqBody.toString().toRequestBody("application/json; charset=utf-8".toMediaType()))
+                    }
+
+                    OkHttpClient().newCall(req).enqueue(callback(
+                        response = { _, response ->
+                            val body = JSONObject(response.body?.string() ?: "")
+                            Logger.d("body: $body")
+                        },
+                        failure = { _, e ->
+                            e.printStackTrace()
+                        }
+                    ))
+                }
+            }
+
+        /*val cachedTransaction = AppBox.transactionInfoBox[transactionObjId]
         val transaction = Transaction.fromEnvelopeXdr(cachedTransaction.envelopXdrBase64, Network.TESTNET)
 
         fromTv prefetchText transaction.sourceAccount
@@ -81,7 +168,7 @@ class TransactionDetailActivity : BaseActivity() {
             )
             adapter = signatureAdapter
         }
-        //Logger.d(cachedTransaction.signers.toMutableList())
+        Logger.d(cachedTransaction.signers.toMutableList())
         signatureAdapter.set(cachedTransaction.signers.map { SignatureItem(it) })
 
         Logger.d(cachedTransaction.signers.map { it.signed })
@@ -114,12 +201,12 @@ class TransactionDetailActivity : BaseActivity() {
                 put("xdr", cachedTransaction.envelopXdrBase64)
                 put("user_id", OneSignal.getPermissionSubscriptionState().subscriptionStatus.userId)
                 put("signatures", signatures)
-            }.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
+            }
 
-            val req = Request.Builder()
-                .url(Api.SIGN_TRANSACTION)
-                .post(reqBody)
-                .build()
+            val req = request {
+                url(Api.SIGN_TRANSACTION)
+                post(reqBody.toString().toRequestBody("application/json; charset=utf-8".toMediaType()))
+            }
 
             OkHttpClient().newCall(req).enqueue(callback(
                 response = { _, response ->
@@ -130,7 +217,7 @@ class TransactionDetailActivity : BaseActivity() {
                     e.printStackTrace()
                 }
             ))
-        }
+        }*/
     }
 
 }

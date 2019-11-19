@@ -50,7 +50,7 @@
     },
     {
       "id": "2:8708971198039871200",
-      "lastPropertyId": "6:650040760494394655",
+      "lastPropertyId": "7:7729026500314627074",
       "name": "Ed25519Signer",
       "properties": [
         {
@@ -89,13 +89,20 @@
           "indexId": "4:8555854416494631839",
           "type": 1,
           "flags": 12
+        },
+        {
+          "id": "7:7729026500314627074",
+          "name": "deleted",
+          "indexId": "6:2309504683470889403",
+          "type": 1,
+          "flags": 12
         }
       ],
       "relations": []
     },
     {
       "id": "3:5067232086307025380",
-      "lastPropertyId": "3:6818112153160236365",
+      "lastPropertyId": "4:4729763708950594334",
       "name": "TransactionInfo",
       "properties": [
         {
@@ -121,7 +128,7 @@
     }
   ],
   "lastEntityId": "3:5067232086307025380",
-  "lastIndexId": "5:1450305638308812988",
+  "lastIndexId": "6:2309504683470889403",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
@@ -129,7 +136,8 @@
   "retiredEntityUids": [],
   "retiredIndexUids": [],
   "retiredPropertyUids": [
-    7404132647662040247
+    7404132647662040247,
+    4729763708950594334
   ],
   "retiredRelationUids": [],
   "version": 1

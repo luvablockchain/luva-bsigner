@@ -7,7 +7,8 @@ import io.objectbox.relation.ToMany
 data class TransactionInfo(
     @Index(type = IndexType.VALUE)
     var envelopXdrBase64: String = "",
-    var name: String = ""
+    var name: String = "",
+    var hostedAt: Long = 0
 ) {
     @Id
     var objId: Long = 0
@@ -18,6 +19,7 @@ data class TransactionInfo(
     companion object {
         const val XDR = "xdr"
         const val NAME = "name"
+        const val HOSTED_AT = "hosted_at"
         const val WEIGHT = "weight"
         const val SIGNATURES = "signatures"
     }

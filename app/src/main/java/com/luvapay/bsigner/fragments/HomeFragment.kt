@@ -2,7 +2,6 @@ package com.luvapay.bsigner.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -16,7 +15,6 @@ import com.luvapay.bsigner.activities.signer.RecoverSignerActivity
 import com.luvapay.bsigner.activities.signer.SignerDetailActivity
 import com.luvapay.bsigner.base.BaseFragment
 import com.luvapay.bsigner.entities.Ed25519Signer
-import com.luvapay.bsigner.entities.Ed25519Signer_
 import com.luvapay.bsigner.items.SignerItem
 import com.luvapay.bsigner.server.Api
 import com.luvapay.bsigner.unSubscribe
@@ -27,13 +25,13 @@ import com.onesignal.OneSignal
 import com.orhanobut.logger.Logger
 import io.objectbox.android.AndroidScheduler
 import io.objectbox.kotlin.query
+import io.objectbox.reactive.DataObserver
 import io.objectbox.reactive.DataSubscription
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
-import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.jetbrains.anko.startActivity
 import org.json.JSONObject
@@ -51,7 +49,7 @@ class HomeFragment : BaseFragment() {
     private val vm: HomeViewModel by sharedViewModel()
 
     private val signerAdapter by lazy { FastItemAdapter<SignerItem>() }
-    private lateinit var accountSub: DataSubscription
+    private lateinit var signerSub: DataSubscription
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -101,16 +99,16 @@ class HomeFragment : BaseFragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
-        val test = AppBox.ed25519SignerBox.all
+        /*val test = AppBox.ed25519SignerBox.all
         test.forEach { it.subscribed = false }
-        AppBox.ed25519SignerBox.put(test)
+        AppBox.ed25519SignerBox.put(test)*/
 
         //Subscription
-        accountSub = AppBox.ed25519SignerBox.query {}.subscribe().on(AndroidScheduler.mainThread()).onError {  }.observer { signers ->
+        signerSub = AppBox.ed25519SignerBox.query {}.subscribe().on(AndroidScheduler.mainThread()).onError {  }.observer { signers ->
             //Coroutine
             lifecycleScope.launch {
                 val accountItems = withContext(Dispatchers.Default) {
-                    return@withContext signers.map { SignerItem(it).apply { canModify = vm.canModify.value ?: false } }
+                    return@withContext signers.filter { !it.deleted }.map { SignerItem(it).apply { canModify = vm.canModify.value ?: false } }
                 }
                 signerAdapter.set(accountItems)
             }
@@ -123,11 +121,15 @@ class HomeFragment : BaseFragment() {
             signerAdapter.adapterItems.forEach { it.canModify = canModify }
             signerAdapter.notifyDataSetChanged()
         })
+
+        /*val signerObserver = DataObserver<Ed25519Signer> {
+
+        }*/
     }
 
     override fun onDetach() {
         super.onDetach()
-        accountSub.unSubscribe()
+        signerSub.unSubscribe()
     }
 
     private fun subscribe(ed25519Signer: Ed25519Signer) {

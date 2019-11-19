@@ -76,7 +76,7 @@ class TransactionFragment : BaseFragment() {
             lifecycleScope.launch {
                 val items = withContext(Dispatchers.Default) {
                     return@withContext transactionInfoList.map { TransactionItem(it) }
-                }
+                }//.sortedBy { it.transactionInfo.hostedAt }
                 transactionAdapter.set(items)
                 //Logger.d(transactionInfoList)
             }

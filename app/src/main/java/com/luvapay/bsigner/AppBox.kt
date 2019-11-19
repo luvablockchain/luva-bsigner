@@ -34,13 +34,13 @@ object AppBox {
                 )
             }.findFirst()
             return@runCatching if (addedAccount == null) {
-                val account = Ed25519Signer(
+                val signer = Ed25519Signer(
                     publicKey = keyPair.accountId,
                     privateKey = String(keyPair.secretSeed),
                     mnemonic = mnemonics
                 )
                 ed25519SignerBox.put(
-                    account
+                    signer
                 )
                 Result.success(true)
             } else {
@@ -60,6 +60,7 @@ object AppBox {
     fun addTransaction(transactionObj: JSONObject) {
         val xdr = transactionObj.getString(TransactionInfo.XDR)
         val name = transactionObj.getString(TransactionInfo.NAME)
+        val hostedAt = transactionObj.getLong(TransactionInfo.HOSTED_AT)
         val signatures = transactionObj.getJSONArray(TransactionInfo.SIGNATURES)
 
         //Logger.d("signatures: $signatures")
@@ -82,7 +83,7 @@ object AppBox {
         Logger.d("signers: $signers")
 
         if (cachedTransaction == null) {
-            val transaction = TransactionInfo(xdr, name)
+            val transaction = TransactionInfo(xdr, name, hostedAt)
             transaction.signers.addAll(signers)
             val objId = transactionInfoBox.put(transaction)
             Logger.d("objId: $objId")

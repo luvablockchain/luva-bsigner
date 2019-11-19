@@ -15,7 +15,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
-        <activity android:name=".activities.transaction.TransactionDetailActivity"></activity>
+
+        <meta-data android:name="com.onesignal.NotificationOpened.DEFAULT" android:value="DISABLE" />
+        
+        <activity
+            android:name=".activities.transaction.TransactionDetailActivity"
+            android:configChanges="locale"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.passcode.ChangePinActivity"
             android:configChanges="locale"

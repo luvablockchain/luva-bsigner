@@ -81,7 +81,7 @@ class TransactionFragment : BaseFragment() {
                         return@withContext transactionInfoList.map { TransactionItem(it) }
                     }.sortedByDescending { it.transactionInfo.hostedAt }
                     transactionAdapter.set(items)
-                    Logger.d(transactionInfoList)
+                    //Logger.d(transactionInfoList)
                 }
             }
     }

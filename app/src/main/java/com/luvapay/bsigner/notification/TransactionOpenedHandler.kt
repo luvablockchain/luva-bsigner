@@ -1,7 +1,9 @@
 package com.luvapay.bsigner.notification
 
 import android.content.Context
+import android.content.Intent
 import com.luvapay.bsigner.AppBox
+import com.luvapay.bsigner.activities.MainActivity
 import com.luvapay.bsigner.activities.transaction.TransactionDetailActivity
 import com.luvapay.bsigner.entities.TransactionInfo
 import com.luvapay.bsigner.entities.TransactionInfo_
@@ -11,6 +13,7 @@ import com.onesignal.OSNotificationOpenResult
 import com.onesignal.OneSignal
 import com.orhanobut.logger.Logger
 import io.objectbox.kotlin.query
+import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.startActivity
 import org.json.JSONObject
 
@@ -28,7 +31,7 @@ class TransactionOpenedHandler(val context: Context) : OneSignal.NotificationOpe
                 Logger.d(data)*/
 
                 when (type) {
-                    "sign_transaction" -> {
+                    "host_transaction", "sign_transaction" -> {
                         val xdr = data.getString(TransactionInfo.XDR)
 
                         val cachedTransaction = AppBox.transactionInfoBox.query {
@@ -38,7 +41,12 @@ class TransactionOpenedHandler(val context: Context) : OneSignal.NotificationOpe
                         Logger.d(cachedTransaction)
 
                         cachedTransaction?.let {
-                            context.startActivity<TransactionDetailActivity>("objId" to it.objId)
+                            //context.startActivity<MainActivity>("objId" to it.objId)
+                            val intent = context.intentFor<MainActivity>("objId" to it.objId).apply {
+                                flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT or Intent.FLAG_ACTIVITY_NEW_TASK
+                            }
+                            context.startActivity(intent)
+                            //context.startActivity<TransactionDetailActivity>("objId" to it.objId)
                         }
                     }
                     else -> {

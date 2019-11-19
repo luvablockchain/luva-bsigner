@@ -1,5 +1,6 @@
 package com.luvapay.bsigner.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
 import androidx.fragment.app.Fragment
@@ -7,6 +8,7 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.commitNow
 import androidx.lifecycle.lifecycleScope
 import com.luvapay.bsigner.R
+import com.luvapay.bsigner.activities.transaction.TransactionDetailActivity
 import com.luvapay.bsigner.base.BaseActivity
 import com.luvapay.bsigner.fragments.HomeFragment
 import com.luvapay.bsigner.fragments.SettingsFragment
@@ -15,6 +17,7 @@ import com.luvapay.bsigner.viewmodel.HomeViewModel
 import com.orhanobut.logger.Logger
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.jetbrains.anko.intentFor
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlinx.android.synthetic.main.activity_home_main.activityMain_nav as bottomNav
 
@@ -25,6 +28,15 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_main)
+
+        val objId = intent.getLongExtra("objId", -1)
+        Logger.d(objId)
+        if (objId > 0) {
+            val intent = intentFor<TransactionDetailActivity>("objId" to objId).apply {
+                flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+            }
+            startActivity(intent)
+        }
 
         supportFragmentManager.commitNow(allowStateLoss = false) {
             supportFragmentManager.findFragmentByTag(HomeFragment.TAG)?.let { remove(it) }

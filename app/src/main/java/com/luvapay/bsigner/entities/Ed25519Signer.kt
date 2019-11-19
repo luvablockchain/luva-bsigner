@@ -20,7 +20,9 @@ data class Ed25519Signer(
     //@Convert(converter = SecurityConverter::class, dbType = String::class)
     var mnemonic: String = "",
     @Index(type = IndexType.VALUE)
-    var subscribed: Boolean = false
+    var subscribed: Boolean = false,
+    @Index(type = IndexType.VALUE)
+    var deleted: Boolean = false
 ) {
 
     @Id

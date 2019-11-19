@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:9043026135069052449",
-      "lastPropertyId": "6:7195733797521994016",
+      "lastPropertyId": "7:2284157729065246847",
       "name": "TransactionSigner",
       "properties": [
         {
@@ -26,11 +26,6 @@
           "flags": 4
         },
         {
-          "id": "4:7404132647662040247",
-          "name": "type",
-          "type": 9
-        },
-        {
           "id": "5:7347581117549091671",
           "name": "transactionId",
           "indexId": "1:4447677441772463856",
@@ -42,6 +37,12 @@
           "id": "6:7195733797521994016",
           "name": "signed",
           "type": 1,
+          "flags": 4
+        },
+        {
+          "id": "7:2284157729065246847",
+          "name": "signedAt",
+          "type": 6,
           "flags": 4
         }
       ],
@@ -127,7 +128,9 @@
   "modelVersionParserMinimum": 5,
   "retiredEntityUids": [],
   "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredPropertyUids": [
+    7404132647662040247
+  ],
   "retiredRelationUids": [],
   "version": 1
 }

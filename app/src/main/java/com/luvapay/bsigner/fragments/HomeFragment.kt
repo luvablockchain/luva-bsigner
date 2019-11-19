@@ -2,6 +2,7 @@ package com.luvapay.bsigner.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -19,10 +20,7 @@ import com.luvapay.bsigner.entities.Ed25519Signer_
 import com.luvapay.bsigner.items.SignerItem
 import com.luvapay.bsigner.server.Api
 import com.luvapay.bsigner.unSubscribe
-import com.luvapay.bsigner.utils.callback
-import com.luvapay.bsigner.utils.getColorCompat
-import com.luvapay.bsigner.utils.gone
-import com.luvapay.bsigner.utils.visible
+import com.luvapay.bsigner.utils.*
 import com.luvapay.bsigner.viewmodel.HomeViewModel
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import com.onesignal.OneSignal
@@ -103,32 +101,22 @@ class HomeFragment : BaseFragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
+        val test = AppBox.ed25519SignerBox.all
+        test.forEach { it.subscribed = false }
+        AppBox.ed25519SignerBox.put(test)
+
         //Subscription
-        accountSub = AppBox.ed25519SignerBox.query {}.subscribe().on(AndroidScheduler.mainThread()).onError {  }.observer { accounts ->
+        accountSub = AppBox.ed25519SignerBox.query {}.subscribe().on(AndroidScheduler.mainThread()).onError {  }.observer { signers ->
             //Coroutine
             lifecycleScope.launch {
                 val accountItems = withContext(Dispatchers.Default) {
-                    return@withContext accounts.map { SignerItem(it).apply { canModify = vm.canModify.value ?: false } }
+                    return@withContext signers.map { SignerItem(it).apply { canModify = vm.canModify.value ?: false } }
                 }
                 signerAdapter.set(accountItems)
-
-                //subscribe(accounts.first())
             }
-            //Logger.d(accounts)
-        }
 
-        lifecycleScope.launch {
-            val ed25519Signer = withContext(Dispatchers.Default) {
-                //
-                val test = AppBox.ed25519SignerBox.all
-                test.forEach { it.subscribed = false }
-                AppBox.ed25519SignerBox.put(test)
-                //
-                return@withContext AppBox.ed25519SignerBox.query {
-                    equal(Ed25519Signer_.subscribed, false)
-                }.findFirst()
-            }
-            ed25519Signer?.let { subscribe(it) }
+            signers.firstOrNull { !it.subscribed }?.let { subscribe(it) }
+            signers.firstOrNull { it.deleted }?.let { unsubscribe(it) }
         }
 
         vm.canModify.observe(this, Observer { canModify ->
@@ -148,35 +136,84 @@ class HomeFragment : BaseFragment() {
             put("public_key", ed25519Signer.publicKey)
         }
 
-        Logger.d("post: $json")
+        Logger.d("subscribe: $json")
 
-        val reqBody = json.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
-
-        json.toString().toByteArray()
-
-        val req = Request.Builder()
-            .url(Api.SUBSCRIBE)
-            .post(reqBody)
-            .build()
+        val req = request {
+            url(Api.SUBSCRIBE)
+            post(json.toString().toRequestBody("application/json; charset=utf-8".toMediaType()))
+        }
 
         OkHttpClient().newCall(req).enqueue(callback(
             response = { _, response ->
                 val body = response.body?.string() ?: ""
-                Logger.d("body: $body")
-                AppBox.ed25519SignerBox.put(
-                    ed25519Signer.apply { subscribed = true }
-                )
+                val bodyJson = JSONObject(body)
+                //Logger.d("body: $body")
 
-                AppBox.ed25519SignerBox.query {
+                when (bodyJson.getInt("errorCode")) {
+                    0 -> {
+                        AppBox.ed25519SignerBox.put(
+                            ed25519Signer.apply { subscribed = true }
+                        )
+                        Logger.d("subscribe success: $ed25519Signer")
+                    }
+                    else -> {
+                        Logger.d("subscribe failed")
+                    }
+                }
+
+                /*AppBox.ed25519SignerBox.query {
                     equal(Ed25519Signer_.subscribed, false)
                 }.findFirst()?.let {
                     activity?.runOnUiThread {
                         subscribe(it)
                     }
-                }
+                }*/
             },
             failure = { _, e ->
+                e.printStackTrace()
+            }
+        ))
+    }
 
+    private fun unsubscribe(ed25519Signer: Ed25519Signer) {
+        val json = JSONObject().apply {
+            put("user_id", OneSignal.getPermissionSubscriptionState().subscriptionStatus.userId)
+            put("public_key", ed25519Signer.publicKey)
+        }
+
+        Logger.d("unsubscribe: $json")
+
+        val req = request {
+            url(Api.UNSUBSCRIBE)
+            post(json.toString().toRequestBody("application/json; charset=utf-8".toMediaType()))
+        }
+
+        OkHttpClient().newCall(req).enqueue(callback(
+            response = { _, response ->
+                val body = response.body?.string() ?: ""
+                val bodyJson = JSONObject(body)
+                //Logger.d("body: $body")
+
+                when (bodyJson.getInt("errorCode")) {
+                    0 -> {
+                        AppBox.ed25519SignerBox.remove(ed25519Signer)
+                        Logger.d("unsubscribe success: $ed25519Signer")
+                    }
+                    else -> {
+                        Logger.d("subscribe failed")
+                    }
+                }
+
+                /*AppBox.ed25519SignerBox.query {
+                    equal(Ed25519Signer_.deleted, true)
+                }.findFirst()?.let {
+                    activity?.runOnUiThread {
+                        unsubscribe(it)
+                    }
+                }*/
+            },
+            failure = { _, e ->
+                e.printStackTrace()
             }
         ))
     }

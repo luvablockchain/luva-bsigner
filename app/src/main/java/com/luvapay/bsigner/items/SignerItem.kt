@@ -70,7 +70,9 @@ data class SignerItem(val account: Ed25519Signer) : AbstractItem<SignerItem.View
                 MaterialDialog(itemView.context).show {
                     message(R.string.warning_delete)
                     positiveButton(R.string.ok) {
-                        AppBox.ed25519SignerBox.remove(item.account)
+                        AppBox.ed25519SignerBox.put(
+                            item.account.apply { deleted = true }
+                        )
                     }
                     negativeButton(R.string.cancel)
                 }

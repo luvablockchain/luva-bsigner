@@ -69,18 +69,21 @@ class TransactionFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        transactionSub = AppBox.transactionInfoBox.query {  }.subscribe().on(AndroidScheduler.mainThread()).onError {
+        transactionSub = AppBox.transactionInfoBox.query {
+
+        }.subscribe().on(AndroidScheduler.mainThread())
+            .onError {
             //Error
 
-        }.observer { transactionInfoList ->
-            lifecycleScope.launch {
-                val items = withContext(Dispatchers.Default) {
-                    return@withContext transactionInfoList.map { TransactionItem(it) }
-                }//.sortedBy { it.transactionInfo.hostedAt }
-                transactionAdapter.set(items)
-                //Logger.d(transactionInfoList)
+            }.observer { transactionInfoList ->
+                lifecycleScope.launch {
+                    val items = withContext(Dispatchers.Default) {
+                        return@withContext transactionInfoList.map { TransactionItem(it) }
+                    }.sortedByDescending { it.transactionInfo.hostedAt }
+                    transactionAdapter.set(items)
+                    Logger.d(transactionInfoList)
+                }
             }
-        }
     }
 
     override fun onPause() {

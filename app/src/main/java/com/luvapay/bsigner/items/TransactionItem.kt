@@ -4,11 +4,13 @@ import android.view.View
 import com.luvapay.bsigner.R
 import com.luvapay.bsigner.entities.TransactionInfo
 import com.luvapay.bsigner.utils.prefetchText
+import com.luvapay.bsigner.utils.toDateTimeStr
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
 import org.stellar.sdk.Network
 import org.stellar.sdk.Transaction
 import kotlinx.android.synthetic.main.item_transaction.view.itemTransaction_sourceTv as sourceTv
+import kotlinx.android.synthetic.main.item_transaction.view.itemTransaction_timeTv as timeTv
 
 data class TransactionItem(val transactionInfo: TransactionInfo) : AbstractItem<TransactionItem.ViewHolder>() {
 
@@ -22,6 +24,7 @@ data class TransactionItem(val transactionInfo: TransactionInfo) : AbstractItem<
 
         override fun bindView(item: TransactionItem, payloads: MutableList<Any>) {
             itemView.sourceTv prefetchText (Transaction.fromEnvelopeXdr(item.transactionInfo.envelopXdrBase64, Network.TESTNET).sourceAccount)
+            itemView.timeTv prefetchText item.transactionInfo.hostedAt.toDateTimeStr()
         }
 
         override fun unbindView(item: TransactionItem) {

@@ -91,10 +91,10 @@ class TransactionDetailActivity : BaseActivity() {
                     )
                     adapter = signatureAdapter
                 }
-                Logger.d(cachedTransaction.signers.toMutableList())
+                //Logger.d(cachedTransaction.signers.toMutableList())
                 signatureAdapter.set(cachedTransaction.signers.map { SignatureItem(it) })
 
-                Logger.d(cachedTransaction.signers.map { it.signed })
+                //Logger.d(cachedTransaction.signers.map { it.signed })
 
 
                 val availableKeys = AppBox.ed25519SignerBox.query {

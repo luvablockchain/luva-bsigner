@@ -13,7 +13,7 @@ object Api {
 
     //
     private const val PROTOCOL = PROTOCOL_HTTP
-    private const val ADDRESS = LOCAL_ADDRESS_1
+    private const val ADDRESS = SERVER_ADDRESS
 
     const val SUBSCRIBE = "$PROTOCOL$ADDRESS$PORT/subscribe"
     const val UNSUBSCRIBE = "$PROTOCOL$ADDRESS$PORT/unsubscribe"

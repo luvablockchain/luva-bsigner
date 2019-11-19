@@ -19,6 +19,7 @@ import com.google.zxing.common.BitMatrix
 import com.sonhvp.kryptographer.Kryptographer
 import com.sonhvp.kryptographer.key.CryptographicKey
 import org.threeten.bp.Instant
+import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.ZonedDateTime
 import org.threeten.bp.format.DateTimeFormatter
@@ -27,6 +28,17 @@ import java.lang.Exception
 fun Long.toTimeStr(): String {
     return ZonedDateTime.ofInstant(Instant.ofEpochSecond(this), ZoneId.systemDefault())
         .format(DateTimeFormatter.ofPattern("dd/MM hh:mm"))
+}
+
+fun Long.toDateTimeStr(): String {
+    val zonedDateTime = ZonedDateTime.ofInstant(Instant.ofEpochSecond(this), ZoneId.systemDefault())
+    return if (LocalDateTime.now().year == zonedDateTime.year) {
+        ZonedDateTime.ofInstant(Instant.ofEpochSecond(this), ZoneId.systemDefault())
+            .format(DateTimeFormatter.ofPattern("dd/MM hh:mm"))
+    } else {
+        ZonedDateTime.ofInstant(Instant.ofEpochSecond(this), ZoneId.systemDefault())
+            .format(DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm"))
+    }
 }
 
 infix fun AppCompatTextView.prefetchText(charSequence: CharSequence) {

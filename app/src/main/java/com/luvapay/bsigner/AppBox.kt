@@ -80,13 +80,14 @@ object AppBox {
                 )
             )
         }
-        Logger.d("signers: $signers")
+        //Logger.d("signers: $signers")
 
         if (cachedTransaction == null) {
             val transaction = TransactionInfo(xdr, name, hostedAt)
             transaction.signers.addAll(signers)
             val objId = transactionInfoBox.put(transaction)
             Logger.d("objId: $objId")
+            Logger.d("transaction: $transaction")
         } else {
             /*val oldSignatures = cachedTransaction.signers
             //Remove all current cached signature in transaction

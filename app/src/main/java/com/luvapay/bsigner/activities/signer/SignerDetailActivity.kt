@@ -7,16 +7,16 @@ import com.luvapay.bsigner.AppBox
 import com.luvapay.bsigner.R
 import com.luvapay.bsigner.base.BaseActivity
 import com.luvapay.bsigner.entities.Ed25519Signer
-import com.luvapay.bsigner.utils.prefetchText
-import com.luvapay.bsigner.utils.toQrCode
-import com.luvapay.bsigner.utils.visible
+import com.luvapay.bsigner.utils.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.android.synthetic.main.activity_signer_detail.activityAccountDetail_toolbar as toolbar
-import kotlinx.android.synthetic.main.activity_signer_detail.activityAccountDetail_publicTv as accountTv
-import kotlinx.android.synthetic.main.activity_signer_detail.activityAccountDetail_nameTv as nameTv
-import kotlinx.android.synthetic.main.activity_signer_detail.activityAccountDetail_qrCodeImg as qrCodeImg
+import org.jetbrains.anko.toast
+import kotlinx.android.synthetic.main.activity_signer_detail.activitySignerDetail_toolbar as toolbar
+import kotlinx.android.synthetic.main.activity_signer_detail.activitySignerDetail_publicTv as accountTv
+import kotlinx.android.synthetic.main.activity_signer_detail.activitySignerDetail_nameTv as nameTv
+import kotlinx.android.synthetic.main.activity_signer_detail.activitySignerDetail_qrCodeImg as qrCodeImg
+import kotlinx.android.synthetic.main.activity_signer_detail.activitySignerDetail_container as signerContainer
 
 class SignerDetailActivity : BaseActivity() {
 
@@ -36,16 +36,27 @@ class SignerDetailActivity : BaseActivity() {
         toolbar.init()
 
         lifecycleScope.launch {
-            val account = withContext(Dispatchers.Default) { return@withContext AppBox.ed25519SignerBox[objId] }
-            account.name.takeIf { it.isNotBlank() }?.let { name ->
+            val signer = withContext(Dispatchers.Default) { return@withContext AppBox.ed25519SignerBox[objId] }
+            signer.name.takeIf { it.isNotBlank() }?.let { name ->
                 nameTv.visible()
                 nameTv prefetchText name
             }
-            accountTv prefetchText account.publicKey
+            accountTv prefetchText signer.publicKey
 
-            account.publicKey.toQrCode(512)?.let { bitmap ->
+            signer.publicKey.toQrCode(512)?.let { bitmap ->
                 qrCode = bitmap
                 qrCodeImg.setImageBitmap(bitmap)
+            }
+
+            signerContainer.setOnClickListener { view ->
+                showPopupMenu(view, R.menu.signer_detail) { menuItem ->
+                    when (menuItem.itemId) {
+                        R.id.signer_copy_public_key -> {
+                            copyToClipBoard("public key", signer.publicKey)
+                            toast(R.string.copied_to_clipboard)
+                        }
+                    }
+                }
             }
         }
 

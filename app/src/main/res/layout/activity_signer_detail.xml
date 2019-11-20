@@ -9,18 +9,19 @@
     tools:context=".activities.signer.SignerDetailActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/activityAccountDetail_toolbar"
+        android:id="@+id/activitySignerDetail_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
         app:title=" "/>
 
     <ImageView
-        android:id="@+id/activityAccountDetail_qrCodeImg"
+        android:id="@+id/activitySignerDetail_qrCodeImg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"/>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/activitySignerDetail_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -33,7 +34,7 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/activityAccountDetail_nameTv"
+                android:id="@+id/activitySignerDetail_nameTv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
@@ -42,7 +43,7 @@
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/activityAccountDetail_publicTv"
+                android:id="@+id/activitySignerDetail_publicTv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"

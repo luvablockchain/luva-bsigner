@@ -32,8 +32,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.jetbrains.anko.startActivity
+import org.json.JSONArray
 import org.json.JSONObject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import kotlinx.android.synthetic.main.fragment_home_signer.view.fragmentHomeAccount_accountList as accountList
@@ -115,6 +117,7 @@ class HomeFragment : BaseFragment() {
 
             signers.firstOrNull { !it.subscribed }?.let { subscribe(it) }
             signers.firstOrNull { it.deleted }?.let { unsubscribe(it) }
+            getTransaction(signers)
         }
 
         vm.canModify.observe(this, Observer { canModify ->
@@ -213,6 +216,49 @@ class HomeFragment : BaseFragment() {
                         unsubscribe(it)
                     }
                 }*/
+            },
+            failure = { _, e ->
+                e.printStackTrace()
+            }
+        ))
+    }
+
+    private fun getTransaction(signers: MutableList<Ed25519Signer>) {
+        if (signers.isEmpty()) return
+
+        val publicKeys = JSONArray()
+        signers.forEach { publicKeys.put(it.publicKey) }
+
+        val json = JSONObject().apply {
+            put("public_keys", publicKeys)
+        }
+
+        //Logger.d("post: $json")
+
+        val reqBody = json.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
+
+        val req = Request.Builder()
+            .url(Api.GET_TRANSACTIONS)
+            .post(reqBody)
+            .build()
+
+        OkHttpClient().newCall(req).enqueue(callback(
+            response = { _, response ->
+                val responseString = response.body?.string() ?: ""
+                val body = JSONObject(responseString)
+                //Logger.d("body: $body")
+                val transactions = body.getJSONObject("data").getJSONArray("transactions")
+                Logger.d("transactions: $transactions")
+
+                activity?.runOnUiThread {
+                    lifecycleScope.launch {
+                        withContext(Dispatchers.Default) {
+                            for (i in 0 until transactions.length()) {
+                                AppBox.addTransaction(transactions.getJSONObject(i))
+                            }
+                        }
+                    }
+                }
             },
             failure = { _, e ->
                 e.printStackTrace()

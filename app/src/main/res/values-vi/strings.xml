@@ -79,6 +79,7 @@
 
     <string name="transaction_list">Danh sách giao dịch</string>
     <string name="transaction_owner">Người tạo giao dịch</string>
+    <string name="transaction_name">Tên giao dịch</string>
 
     <string name="transaction_signature_signed">Đã ký</string>
     <string name="transaction_signature_waiting">Đang chờ</string>

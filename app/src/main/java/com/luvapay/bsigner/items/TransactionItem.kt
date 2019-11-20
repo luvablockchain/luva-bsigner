@@ -23,7 +23,7 @@ data class TransactionItem(val transactionInfo: TransactionInfo) : AbstractItem<
     class ViewHolder(itemView: View) : FastAdapter.ViewHolder<TransactionItem>(itemView) {
 
         override fun bindView(item: TransactionItem, payloads: MutableList<Any>) {
-            itemView.sourceTv prefetchText (Transaction.fromEnvelopeXdr(item.transactionInfo.envelopXdrBase64, Network.TESTNET).sourceAccount)
+            itemView.sourceTv prefetchText item.transactionInfo.name //(Transaction.fromEnvelopeXdr(item.transactionInfo.envelopXdrBase64, Network.TESTNET).sourceAccount)
             itemView.timeTv prefetchText item.transactionInfo.hostedAt.toDateTimeStr()
         }
 

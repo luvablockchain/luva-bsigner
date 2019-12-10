@@ -102,7 +102,7 @@
     },
     {
       "id": "3:5067232086307025380",
-      "lastPropertyId": "4:4729763708950594334",
+      "lastPropertyId": "5:915035700459684226",
       "name": "TransactionInfo",
       "properties": [
         {
@@ -122,6 +122,12 @@
           "id": "3:6818112153160236365",
           "name": "name",
           "type": 9
+        },
+        {
+          "id": "5:915035700459684226",
+          "name": "hostedAt",
+          "type": 6,
+          "flags": 4
         }
       ],
       "relations": []

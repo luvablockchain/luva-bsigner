@@ -102,7 +102,7 @@
     },
     {
       "id": "3:5067232086307025380",
-      "lastPropertyId": "5:915035700459684226",
+      "lastPropertyId": "8:3185733218174474927",
       "name": "TransactionInfo",
       "properties": [
         {
@@ -127,6 +127,24 @@
           "id": "5:915035700459684226",
           "name": "hostedAt",
           "type": 6,
+          "flags": 4
+        },
+        {
+          "id": "6:7496882870474004552",
+          "name": "lowThreshold",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "7:7845973130516154880",
+          "name": "medThreshold",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "8:3185733218174474927",
+          "name": "highThreshold",
+          "type": 5,
           "flags": 4
         }
       ],

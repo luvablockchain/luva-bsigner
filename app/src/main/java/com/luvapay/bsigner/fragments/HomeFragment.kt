@@ -101,9 +101,9 @@ class HomeFragment : BaseFragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
-        /*val test = AppBox.ed25519SignerBox.all
+        val test = AppBox.ed25519SignerBox.all
         test.forEach { it.subscribed = false }
-        AppBox.ed25519SignerBox.put(test)*/
+        AppBox.ed25519SignerBox.put(test)
 
         //Subscription
         signerSub = AppBox.ed25519SignerBox.query {}.subscribe().on(AndroidScheduler.mainThread()).onError {  }.observer { signers ->
@@ -246,7 +246,7 @@ class HomeFragment : BaseFragment() {
             response = { _, response ->
                 val responseString = response.body?.string() ?: ""
                 val body = JSONObject(responseString)
-                //Logger.d("body: $body")
+                Logger.d("body: $body")
                 val transactions = body.getJSONObject("data").getJSONArray("transactions")
                 Logger.d("transactions: $transactions")
 

@@ -61,6 +61,9 @@ object AppBox {
         val xdr = transactionObj.getString(TransactionInfo.XDR)
         val name = transactionObj.getString(TransactionInfo.NAME)
         val hostedAt = transactionObj.getLong(TransactionInfo.HOSTED_AT)
+        val lowThreshold = transactionObj.getInt(TransactionInfo.LOW_THRESHOLD)
+        val medThreshold = transactionObj.getInt(TransactionInfo.MED_THRESHOLD)
+        val highThreshold = transactionObj.getInt(TransactionInfo.HIGH_THRESHOLD)
         val signatures = transactionObj.getJSONArray(TransactionInfo.SIGNATURES)
 
         //Logger.d("signatures: $signatures")
@@ -83,7 +86,7 @@ object AppBox {
         //Logger.d("signers: $signers")
 
         if (cachedTransaction == null) {
-            val transaction = TransactionInfo(xdr, name, hostedAt)
+            val transaction = TransactionInfo(xdr, name, hostedAt, lowThreshold, medThreshold, highThreshold)
             transaction.signers.addAll(signers)
             val objId = transactionInfoBox.put(transaction)
             Logger.d("objId: $objId")
@@ -97,7 +100,13 @@ object AppBox {
             transactionSignerBox.remove(cachedTransaction.signers)
             //Add new update signature to transaction
             cachedTransaction.signers.addAll(signers)
-            transactionInfoBox.put(cachedTransaction)
+            transactionInfoBox.put(
+                cachedTransaction.apply {
+                    this.lowThreshold = lowThreshold
+                    this.medThreshold = medThreshold
+                    this.highThreshold = highThreshold
+                }
+            )
             //Logger.d("objId: $objId")
         }
     }

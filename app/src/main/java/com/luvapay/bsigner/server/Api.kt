@@ -12,13 +12,15 @@ object Api {
     private const val LOCAL_ADDRESS_2 = "192.168.1.96"
 
     //
-    private const val PROTOCOL = PROTOCOL_HTTP
+    private const val PROTOCOL = PROTOCOL_HTTPS
     private const val ADDRESS = SERVER_ADDRESS
+    private const val URL = "$PROTOCOL$ADDRESS"
 
-    const val SUBSCRIBE = "$PROTOCOL$ADDRESS$PORT/subscribe"
-    const val UNSUBSCRIBE = "$PROTOCOL$ADDRESS$PORT/unsubscribe"
-    const val GET_TRANSACTIONS = "$PROTOCOL$ADDRESS$PORT/transaction/list"
-    const val SIGN_TRANSACTION = "$PROTOCOL$ADDRESS$PORT/transaction/sign"
+    const val SUBSCRIBE = "$URL/subscribe"
+    const val UNSUBSCRIBE = "$URL/unsubscribe"
+    const val GET_TRANSACTIONS = "$URL/transaction/list"
+    const val SIGN_TRANSACTION = "$URL/transaction/sign"
+
 }
 
 //10.10.9.57
